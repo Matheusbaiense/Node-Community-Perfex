@@ -1,7 +1,7 @@
 // /home/ubuntu/n8n-nodes-perfex/credentials/PerfexApi.credentials.ts
 import { ICredentialType, INodeProperties } from 'n8n-workflow';
 
-export class PerfexApi implements ICredentialType {
+class PerfexApi implements ICredentialType {
     name = 'perfexApi';
     displayName = 'Perfex API';
     // documentationUrl = 'https://link-to-perfex-api-docs'; // TODO: Add Perfex API documentation link
@@ -28,4 +28,6 @@ export class PerfexApi implements ICredentialType {
         },
     ];
 }
+
+module.exports = { credentials: new PerfexApi() };
 

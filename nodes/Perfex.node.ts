@@ -1,6 +1,6 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import { IExecuteFunctions } from 'n8n-workflow';
 import {
+    IExecuteFunctions,
     INodeType,
     INodeTypeDescription,
     INodeExecutionData,
@@ -257,4 +257,4 @@ class Perfex implements INodeType {
     }
 }
 
-export = { perfexNode: new Perfex() };
+module.exports = { perfexNode: new Perfex() };

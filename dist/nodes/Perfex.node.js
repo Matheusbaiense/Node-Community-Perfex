@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const n8n_workflow_1 = require("n8n-workflow");
 // Import descriptions for operations and fields
 const LeadDescription_1 = require("./LeadDescription");
@@ -245,5 +244,5 @@ class Perfex {
         return [returnData];
     }
 }
-exports.Perfex = Perfex;
+module.exports = { perfexNode: new Perfex() };
 //# sourceMappingURL=Perfex.node.js.map
