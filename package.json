@@ -2,25 +2,29 @@
   "name": "n8n-nodes-perfex-api",
   "version": "0.1.0",
   "description": "n8n community node for Perfex CRM API",
+  "type": "module",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "n8n",
+    "perfex",
+    "crm"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/baien/n8n-nodes-perfex-api",
   "author": {
-    "name": "Seu Nome ou Empresa",
-    "email": "seu-email@exemplo.com"
+    "name": "Baien",
+    "email": "baien@example.com"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/baien/n8n-nodes-perfex-api.git"
   },
   "engines": {
     "node": ">=18.10",
     "pnpm": ">=9.1"
   },
   "packageManager": "pnpm@9.1.4",
-  "main": "index.js",
+  "main": "dist/nodes/Perfex/Perfex.node.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "tsc && gulp build:icons",
@@ -28,7 +32,7 @@
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "pnpm build && pnpm lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "prepublishOnly": "pnpm build && pnpm lint nodes credentials package.json"
   },
   "files": [
     "dist"
@@ -43,12 +47,17 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^7.15.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
     "eslint": "^8.56.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.1",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "eslint-config-eslint": "^11.0.0",
     "gulp": "^4.0.2",
     "prettier": "^3.3.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.8.3",
+    "@eslint/js": "^8.56.0",
+    "globals": "^16.0.0"
   },
   "peerDependencies": {
     "n8n-workflow": "*"

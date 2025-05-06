@@ -3,7 +3,7 @@ import { INodeProperties } from 'n8n-workflow';
 
 // Define os campos para as operações de Customer (Cliente)
 export const customerOperations: INodeProperties[] = [
-	{
+    {
 		 displayName: 'Operation',
 		 name: 'operation',
 		 type: 'options',
@@ -48,16 +48,16 @@ export const customerOperations: INodeProperties[] = [
 
 // Define os campos específicos para cada operação de Customer
 export const customerFields: INodeProperties[] = [
-	/* -------------------------------------------------------------------------- */
-	/*                                customer:list                               */
-	/* -------------------------------------------------------------------------- */
-	// Perfex API for listing clients doesn't seem to have specific filters in basic docs
-	// Add if specific filters are found
+    /* -------------------------------------------------------------------------- */
+    /*                                customer:list                               */
+    /* -------------------------------------------------------------------------- */
+    // Perfex API for listing clients doesn't seem to have specific filters in basic docs
+    // Add if specific filters are found
 
-	/* -------------------------------------------------------------------------- */
-	/*                                customer:get                                */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                customer:get                                */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Customer ID',
 		 name: 'customerId',
 		 type: 'number',
@@ -72,10 +72,10 @@ export const customerFields: INodeProperties[] = [
 		 description: 'The ID of the customer (User ID)',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                customer:create                             */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                customer:create                             */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Company Name',
 		 name: 'company',
 		 type: 'string',
@@ -214,9 +214,9 @@ export const customerFields: INodeProperties[] = [
 	 },
 	 // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
 
-	/* -------------------------------------------------------------------------- */
-	/*                                customer:delete                             */
-	/* -------------------------------------------------------------------------- */
-	// Uses Customer ID (defined above)
+    /* -------------------------------------------------------------------------- */
+    /*                                customer:delete                             */
+    /* -------------------------------------------------------------------------- */
+    // Uses Customer ID (defined above)
 ];
 

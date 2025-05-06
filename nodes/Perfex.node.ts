@@ -1,11 +1,12 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
 import { IExecuteFunctions } from 'n8n-workflow';
 import {
-	INodeType,
-	INodeTypeDescription,
-	INodeExecutionData,
-	IDataObject,
-	NodeOperationError,
+    INodeType,
+    INodeTypeDescription,
+    INodeExecutionData,
+    IDataObject,
+    NodeOperationError,
+    NodeConnectionType,
 } from 'n8n-workflow';
 
 // Import descriptions for operations and fields
@@ -25,8 +26,8 @@ export class Perfex implements INodeType {
 		 defaults: {
 			 name: 'Perfex CRM',
 		 },
-		 inputs: ['main'],
-		 outputs: ['main'],
+		 inputs: ['main' as NodeConnectionType],
+		 outputs: ['main' as NodeConnectionType],
 		 credentials: [
 			 {
 				 name: 'perfexApi',
@@ -259,13 +260,17 @@ export class Perfex implements INodeType {
 			 } catch (error) {
 				 // Handle errors
 				 if (this.continueOnFail()) {
-					 returnData.push({ json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex });
+					 returnData.push({
+						 json: this.getInputData(itemIndex)[0].json,
+						 error: error as NodeOperationError,
+						 pairedItem: itemIndex,
+					 });
 				 } else {
-					 if (error.context) {
-						 error.context.itemIndex = itemIndex;
+					 if (typeof error === 'object' && error !== null && 'context' in error) {
+						 (error as any).context.itemIndex = itemIndex;
 						 throw error;
 					 }
-					 throw new NodeOperationError(this.getNode(), error, { itemIndex });
+					 throw new NodeOperationError(this.getNode(), error as string, { itemIndex });
 				 }
 			 }
 		 }

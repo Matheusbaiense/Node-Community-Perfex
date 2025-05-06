@@ -3,7 +3,7 @@ import { INodeProperties } from 'n8n-workflow';
 
 // Define os campos para as operações de Contact
 export const contactOperations: INodeProperties[] = [
-	{
+    {
 		 displayName: 'Operation',
 		 name: 'operation',
 		 type: 'options',
@@ -51,10 +51,10 @@ export const contactOperations: INodeProperties[] = [
 
 // Define os campos específicos para cada operação de Contact
 export const contactFields: INodeProperties[] = [
-	/* -------------------------------------------------------------------------- */
-	/*                                contact:list                                */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                contact:list                                */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Customer ID',
 		 name: 'customerId',
 		 type: 'number',
@@ -69,10 +69,10 @@ export const contactFields: INodeProperties[] = [
 		 description: 'The ID of the customer to list/add contacts for',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                contact:get                                 */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                contact:get                                 */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Contact ID',
 		 name: 'contactId',
 		 type: 'number',
@@ -87,11 +87,11 @@ export const contactFields: INodeProperties[] = [
 		 description: 'The ID of the contact',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                contact:create                              */
-	/* -------------------------------------------------------------------------- */
-	// Uses Customer ID (defined above)
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                contact:create                              */
+    /* -------------------------------------------------------------------------- */
+    // Uses Customer ID (defined above)
+    {
 		 displayName: 'First Name',
 		 name: 'firstname',
 		 type: 'string',
@@ -256,13 +256,13 @@ export const contactFields: INodeProperties[] = [
 		 ],
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                contact:update                              */
-	/* -------------------------------------------------------------------------- */
-	// Uses Contact ID (defined above)
-	// Uses Password (defined above, optional for update)
-	// Uses Additional Fields (defined above)
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                contact:update                              */
+    /* -------------------------------------------------------------------------- */
+    // Uses Contact ID (defined above)
+    // Uses Password (defined above, optional for update)
+    // Uses Additional Fields (defined above)
+    {
 		 displayName: 'First Name',
 		 name: 'firstname',
 		 type: 'string',
@@ -302,9 +302,9 @@ export const contactFields: INodeProperties[] = [
 		 description: 'Update the contact email address (must be unique)',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                contact:delete                              */
-	/* -------------------------------------------------------------------------- */
-	// Uses Contact ID (defined above)
+    /* -------------------------------------------------------------------------- */
+    /*                                contact:delete                              */
+    /* -------------------------------------------------------------------------- */
+    // Uses Contact ID (defined above)
 ];
 

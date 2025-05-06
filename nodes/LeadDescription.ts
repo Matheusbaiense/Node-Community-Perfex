@@ -3,7 +3,7 @@ import { INodeProperties } from 'n8n-workflow';
 
 // Define os campos para as operações de Lead
 export const leadOperations: INodeProperties[] = [
-	{
+    {
 		 displayName: 'Operation',
 		 name: 'operation',
 		 type: 'options',
@@ -51,10 +51,10 @@ export const leadOperations: INodeProperties[] = [
 
 // Define os campos específicos para cada operação de Lead
 export const leadFields: INodeProperties[] = [
-	/* -------------------------------------------------------------------------- */
-	/*                                lead:list                                   */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                lead:list                                   */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Filters',
 		 name: 'filters',
 		 type: 'collection',
@@ -84,10 +84,10 @@ export const leadFields: INodeProperties[] = [
 		 ],
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                lead:get                                    */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                lead:get                                    */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Lead ID',
 		 name: 'leadId',
 		 type: 'number',
@@ -102,10 +102,10 @@ export const leadFields: INodeProperties[] = [
 		 description: 'The ID of the lead',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                lead:create                                 */
-	/* -------------------------------------------------------------------------- */
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                lead:create                                 */
+    /* -------------------------------------------------------------------------- */
+    {
 		 displayName: 'Name',
 		 name: 'name',
 		 type: 'string',
@@ -261,12 +261,12 @@ export const leadFields: INodeProperties[] = [
 		 ],
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                lead:update                                 */
-	/* -------------------------------------------------------------------------- */
-	// Uses Lead ID (defined above)
-	// Uses Additional Fields (defined above)
-	{
+    /* -------------------------------------------------------------------------- */
+    /*                                lead:update                                 */
+    /* -------------------------------------------------------------------------- */
+    // Uses Lead ID (defined above)
+    // Uses Additional Fields (defined above)
+    {
 		 displayName: 'Source ID',
 		 name: 'source',
 		 type: 'number',
@@ -293,9 +293,9 @@ export const leadFields: INodeProperties[] = [
 		 description: 'Update the lead status ID',
 	 },
 
-	/* -------------------------------------------------------------------------- */
-	/*                                lead:delete                                 */
-	/* -------------------------------------------------------------------------- */
-	// Uses Lead ID (defined above)
+    /* -------------------------------------------------------------------------- */
+    /*                                lead:delete                                 */
+    /* -------------------------------------------------------------------------- */
+    // Uses Lead ID (defined above)
 ];
 
