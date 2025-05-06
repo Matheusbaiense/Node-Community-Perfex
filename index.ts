@@ -1,5 +1,5 @@
-const { perfexNode } = require('./nodes/Perfex/Perfex.node.js');
-const { credentials: perfexApi } = require('./credentials/PerfexApi.credentials.js');
+const { perfexNode } = require('./nodes/Perfex/Perfex.node');
+const { credentials: perfexApi } = require('./credentials/PerfexApi.credentials');
 
 module.exports = {
     nodeTypes: [perfexNode],

@@ -1,19 +1,41 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const {
-    IExecuteFunctions,
-    INodeExecutionData,
-    IDataObject,
-    IHttpRequestMethods,
-    NodeOperationError,
-} = require('n8n-workflow');
+import type { IExecuteFunctions, INodeExecutionData, IDataObject, IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
+const { NodeOperationError } = require('n8n-workflow');
 
 // Import descriptions for operations and fields
 const leadDesc = require('./LeadDescription');
 const customerDesc = require('./CustomerDescription');
 const contactDesc = require('./ContactDescription');
 
-class Perfex {
-    description = {
+interface IPerfexRequestBody extends IDataObject {
+    name?: string;
+    source?: number;
+    status?: number;
+    company?: string;
+    vat?: string;
+    phonenumber?: string;
+    website?: string;
+    default_currency?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+    default_language?: string;
+    customer_id?: number;
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+    password?: string;
+}
+
+interface IPerfexQueryString extends IDataObject {
+    status?: number;
+    source?: number;
+}
+
+class Perfex implements INodeType {
+    description: INodeTypeDescription = {
         displayName: 'Perfex CRM',
         name: 'perfex',
         icon: 'file:perfex.svg',
@@ -63,27 +85,27 @@ class Perfex {
         ],
     };
 
-    async execute(this: typeof IExecuteFunctions): Promise<Array<Array<typeof INodeExecutionData>>> {
+    async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         const items = this.getInputData();
-        const returnData: Array<typeof INodeExecutionData> = [];
-        let responseData: typeof IDataObject;
+        const returnData: INodeExecutionData[] = [];
+        let responseData: IDataObject;
 
         const resource = this.getNodeParameter('resource', 0) as string;
         const operation = this.getNodeParameter('operation', 0) as string;
 
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             try {
-                let method: typeof IHttpRequestMethods = 'GET';
+                let method: IHttpRequestMethods = 'GET';
                 let endpoint = '';
-                const body: typeof IDataObject = {};
-                const qs: typeof IDataObject = {};
+                const body: IPerfexRequestBody = {};
+                const qs: IPerfexQueryString = {};
 
                 if (resource === 'lead') {
                     endpoint = '/leads';
 
                     if (operation === 'list') {
                         method = 'GET';
-                        const filters = this.getNodeParameter('filters', itemIndex, {}) as typeof IDataObject;
+                        const filters = this.getNodeParameter('filters', itemIndex, {}) as IPerfexQueryString;
                         if (filters.status) qs.status = filters.status;
                         if (filters.source) qs.source = filters.source;
                     }
@@ -98,7 +120,7 @@ class Perfex {
                         body.source = this.getNodeParameter('source', itemIndex) as number;
                         body.status = this.getNodeParameter('status', itemIndex) as number;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
@@ -111,7 +133,7 @@ class Perfex {
                         if (source !== null) body.source = source;
                         if (status !== null) body.status = status;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
@@ -183,7 +205,7 @@ class Perfex {
                         body.email = this.getNodeParameter('email', itemIndex) as string;
                         body.password = this.getNodeParameter('password', itemIndex) as string;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
@@ -201,7 +223,7 @@ class Perfex {
                         if (email) body.email = email;
                         if (password) body.password = password;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
@@ -226,7 +248,7 @@ class Perfex {
                     );
                 }
 
-                responseData = response as typeof IDataObject;
+                responseData = response as IDataObject;
 
                 if (responseData.error || (responseData.success === false)) {
                     throw new NodeOperationError(

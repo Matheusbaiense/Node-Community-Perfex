@@ -1,6 +1,6 @@
 "use strict";
-// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const { IExecuteFunctions, INodeExecutionData, IDataObject, IHttpRequestMethods, NodeOperationError, } = require('n8n-workflow');
+Object.defineProperty(exports, "__esModule", { value: true });
+const { NodeOperationError } = require('n8n-workflow');
 // Import descriptions for operations and fields
 const leadDesc = require('./LeadDescription');
 const customerDesc = require('./CustomerDescription');
