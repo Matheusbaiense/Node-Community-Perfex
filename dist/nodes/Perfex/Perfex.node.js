@@ -1,11 +1,10 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Perfex = void 0;
-const n8n_workflow_1 = require("n8n-workflow");
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
+const { IExecuteFunctions, INodeType, INodeTypeDescription, INodeExecutionData, IDataObject, NodeOperationError, NodeConnectionType, } = require('n8n-workflow');
 // Import descriptions for operations and fields
-const LeadDescription_1 = require("./LeadDescription");
-const CustomerDescription_1 = require("./CustomerDescription");
-const ContactDescription_1 = require("./ContactDescription");
+const { leadOperations, leadFields } = require('./LeadDescription');
+const { customerOperations, customerFields } = require('./CustomerDescription');
+const { contactOperations, contactFields } = require('./ContactDescription');
 class Perfex {
     constructor() {
         this.description = {
@@ -19,8 +18,8 @@ class Perfex {
             defaults: {
                 name: 'Perfex CRM',
             },
-            inputs: ["main" /* NodeConnectionType.Main */],
-            outputs: ["main" /* NodeConnectionType.Main */],
+            inputs: [NodeConnectionType.Main],
+            outputs: [NodeConnectionType.Main],
             credentials: [
                 {
                     name: 'perfexApi',
@@ -56,12 +55,12 @@ class Perfex {
                     ],
                     default: 'lead',
                 },
-                ...LeadDescription_1.leadOperations,
-                ...LeadDescription_1.leadFields,
-                ...CustomerDescription_1.customerOperations,
-                ...CustomerDescription_1.customerFields,
-                ...ContactDescription_1.contactOperations,
-                ...ContactDescription_1.contactFields,
+                ...leadOperations,
+                ...leadFields,
+                ...customerOperations,
+                ...customerFields,
+                ...contactOperations,
+                ...contactFields,
             ],
         };
     }
@@ -208,11 +207,11 @@ class Perfex {
                     returnData.push({ error: error instanceof Error ? error.message : 'Unknown error occurred' });
                     continue;
                 }
-                throw new n8n_workflow_1.NodeOperationError(this.getNode(), error);
+                throw new NodeOperationError(this.getNode(), error);
             }
         }
         return [this.helpers.returnJsonArray(returnData)];
     }
 }
-exports.Perfex = Perfex;
+module.exports = { nodeClass: Perfex };
 //# sourceMappingURL=Perfex.node.js.map

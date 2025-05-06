@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "n8n community node for Perfex CRM API",
   "keywords": [
     "n8n-community-node-package",
@@ -25,8 +25,7 @@
     "format": "prettier nodes credentials package.json --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json",
-    "clean": "rimraf dist node_modules package-lock.json"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"

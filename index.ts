@@ -1,4 +1,7 @@
-import { Perfex } from './nodes/Perfex/Perfex.node';
+const { Perfex } = require('./dist/nodes/Perfex/Perfex.node');
 
-export { Perfex as nodeClass };
-export default { Perfex }; 
+module.exports = {
+    nodeTypes: {
+        Perfex,
+    },
+}; 
