@@ -1,5 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import {
+const {
     IExecuteFunctions,
     INodeType,
     INodeTypeDescription,
@@ -7,127 +7,129 @@ import {
     IDataObject,
     NodeOperationError,
     NodeConnectionType,
-} from 'n8n-workflow';
+} = require('n8n-workflow');
 
 // Import descriptions for operations and fields
-import { leadOperations, leadFields } from './LeadDescription';
-import { customerOperations, customerFields } from './CustomerDescription';
-import { contactOperations, contactFields } from './ContactDescription';
+const { leadOperations, leadFields } = require('./LeadDescription');
+const { customerOperations, customerFields } = require('./CustomerDescription');
+const { contactOperations, contactFields } = require('./ContactDescription');
 
-class Perfex implements INodeType {
-    description: INodeTypeDescription = {
-        displayName: 'Perfex CRM',
-        name: 'perfex',
-        icon: 'file:perfex.svg',
-        group: ['output'],
-        version: 1,
-        subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-        description: 'Interact with the Perfex CRM API',
-        defaults: {
-            name: 'Perfex CRM',
-        },
-        inputs: ['main' as NodeConnectionType],
-        outputs: ['main' as NodeConnectionType],
-        credentials: [
-            {
-                name: 'perfexApi',
-                required: true,
+class Perfex {
+    constructor() {
+        this.description = {
+            displayName: 'Perfex CRM',
+            name: 'perfex',
+            icon: 'file:perfex.svg',
+            group: ['output'],
+            version: 1,
+            subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+            description: 'Interact with the Perfex CRM API',
+            defaults: {
+                name: 'Perfex CRM',
             },
-        ],
-        requestDefaults: {
-            baseURL: '={{$credentials.baseUrl.replace(/\/+$/, "") + "/api"}}',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                authtoken: '={{$credentials.apiToken}}',
+            inputs: ['main'],
+            outputs: ['main'],
+            credentials: [
+                {
+                    name: 'perfexApi',
+                    required: true,
+                },
+            ],
+            requestDefaults: {
+                baseURL: '={{$credentials.baseUrl.replace(/\/+$/, "") + "/api"}}',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    authtoken: '={{$credentials.apiToken}}',
+                },
             },
-        },
-        properties: [
-            {
-                displayName: 'Resource',
-                name: 'resource',
-                type: 'options',
-                noDataExpression: true,
-                options: [
-                    {
-                        name: 'Lead',
-                        value: 'lead',
-                    },
-                    {
-                        name: 'Customer',
-                        value: 'customer',
-                    },
-                    {
-                        name: 'Contact',
-                        value: 'contact',
-                    },
-                ],
-                default: 'lead',
-                description: 'The resource to operate on',
-            },
-            ...leadOperations,
-            ...leadFields,
-            ...customerOperations,
-            ...customerFields,
-            ...contactOperations,
-            ...contactFields,
-        ],
-    };
+            properties: [
+                {
+                    displayName: 'Resource',
+                    name: 'resource',
+                    type: 'options',
+                    noDataExpression: true,
+                    options: [
+                        {
+                            name: 'Lead',
+                            value: 'lead',
+                        },
+                        {
+                            name: 'Customer',
+                            value: 'customer',
+                        },
+                        {
+                            name: 'Contact',
+                            value: 'contact',
+                        },
+                    ],
+                    default: 'lead',
+                    description: 'The resource to operate on',
+                },
+                ...leadOperations,
+                ...leadFields,
+                ...customerOperations,
+                ...customerFields,
+                ...contactOperations,
+                ...contactFields,
+            ],
+        };
+    }
 
-    async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-        const items = this.getInputData();
-        const returnData: INodeExecutionData[] = [];
+    async execute(context) {
+        const items = context.getInputData();
+        const returnData = [];
         let responseData;
 
-        const resource = this.getNodeParameter('resource', 0) as string;
-        const operation = this.getNodeParameter('operation', 0) as string;
+        const resource = context.getNodeParameter('resource', 0);
+        const operation = context.getNodeParameter('operation', 0);
 
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             try {
-                let method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET';
+                let method = 'GET';
                 let endpoint = '';
-                const body: IDataObject = {};
-                const qs: IDataObject = {};
+                const body = {};
+                const qs = {};
 
                 if (resource === 'lead') {
                     endpoint = '/leads';
 
                     if (operation === 'list') {
                         method = 'GET';
-                        const filters = this.getNodeParameter('filters', itemIndex, {}) as IDataObject;
+                        const filters = context.getNodeParameter('filters', itemIndex, {});
                         if (filters.status) qs.status = filters.status;
                         if (filters.source) qs.source = filters.source;
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
+                        const leadId = context.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.name = this.getNodeParameter('name', itemIndex) as string;
-                        body.source = this.getNodeParameter('source', itemIndex) as number;
-                        body.status = this.getNodeParameter('status', itemIndex) as number;
+                        body.name = context.getNodeParameter('name', itemIndex);
+                        body.source = context.getNodeParameter('source', itemIndex);
+                        body.status = context.getNodeParameter('status', itemIndex);
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
                         method = 'PUT';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
+                        const leadId = context.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
 
-                        const source = this.getNodeParameter('source', itemIndex, null) as number | null;
-                        const status = this.getNodeParameter('status', itemIndex, null) as number | null;
+                        const source = context.getNodeParameter('source', itemIndex, null);
+                        const status = context.getNodeParameter('status', itemIndex, null);
                         if (source !== null) body.source = source;
                         if (status !== null) body.status = status;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
+                        const leadId = context.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
                     }
                 }
@@ -139,22 +141,22 @@ class Perfex implements INodeType {
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
+                        const customerId = context.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.company = this.getNodeParameter('company', itemIndex) as string;
-                        const vat = this.getNodeParameter('vat', itemIndex, '') as string;
-                        const phonenumber = this.getNodeParameter('phonenumber', itemIndex, '') as string;
-                        const website = this.getNodeParameter('website', itemIndex, '') as string;
-                        const default_currency = this.getNodeParameter('default_currency', itemIndex, '') as number | '';
-                        const address = this.getNodeParameter('address', itemIndex, '') as string;
-                        const city = this.getNodeParameter('city', itemIndex, '') as string;
-                        const state = this.getNodeParameter('state', itemIndex, '') as string;
-                        const zip = this.getNodeParameter('zip', itemIndex, '') as string;
-                        const country = this.getNodeParameter('country', itemIndex, '') as number | '';
-                        const default_language = this.getNodeParameter('default_language', itemIndex, '') as string;
+                        body.company = context.getNodeParameter('company', itemIndex);
+                        const vat = context.getNodeParameter('vat', itemIndex, '');
+                        const phonenumber = context.getNodeParameter('phonenumber', itemIndex, '');
+                        const website = context.getNodeParameter('website', itemIndex, '');
+                        const default_currency = context.getNodeParameter('default_currency', itemIndex, '');
+                        const address = context.getNodeParameter('address', itemIndex, '');
+                        const city = context.getNodeParameter('city', itemIndex, '');
+                        const state = context.getNodeParameter('state', itemIndex, '');
+                        const zip = context.getNodeParameter('zip', itemIndex, '');
+                        const country = context.getNodeParameter('country', itemIndex, '');
+                        const default_language = context.getNodeParameter('default_language', itemIndex, '');
 
                         if (vat) body.vat = vat;
                         if (phonenumber) body.phonenumber = phonenumber;
@@ -169,7 +171,7 @@ class Perfex implements INodeType {
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
+                        const customerId = context.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}`;
                     }
                 }
@@ -178,51 +180,51 @@ class Perfex implements INodeType {
 
                     if (operation === 'list') {
                         method = 'GET';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
+                        const customerId = context.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}/contacts`;
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
+                        const contactId = context.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.customer_id = this.getNodeParameter('customerId', itemIndex) as number;
-                        body.firstname = this.getNodeParameter('firstname', itemIndex) as string;
-                        body.lastname = this.getNodeParameter('lastname', itemIndex) as string;
-                        body.email = this.getNodeParameter('email', itemIndex) as string;
-                        body.password = this.getNodeParameter('password', itemIndex) as string;
+                        body.customer_id = context.getNodeParameter('customerId', itemIndex);
+                        body.firstname = context.getNodeParameter('firstname', itemIndex);
+                        body.lastname = context.getNodeParameter('lastname', itemIndex);
+                        body.email = context.getNodeParameter('email', itemIndex);
+                        body.password = context.getNodeParameter('password', itemIndex);
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
                         method = 'PUT';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
+                        const contactId = context.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
 
-                        const firstname = this.getNodeParameter('firstname', itemIndex, null) as string | null;
-                        const lastname = this.getNodeParameter('lastname', itemIndex, null) as string | null;
-                        const email = this.getNodeParameter('email', itemIndex, null) as string | null;
-                        const password = this.getNodeParameter('password', itemIndex, null) as string | null;
+                        const firstname = context.getNodeParameter('firstname', itemIndex, null);
+                        const lastname = context.getNodeParameter('lastname', itemIndex, null);
+                        const email = context.getNodeParameter('email', itemIndex, null);
+                        const password = context.getNodeParameter('password', itemIndex, null);
 
                         if (firstname) body.firstname = firstname;
                         if (lastname) body.lastname = lastname;
                         if (email) body.email = email;
                         if (password) body.password = password;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
+                        const contactId = context.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
                     }
                 }
 
-                responseData = await this.helpers.httpRequest({
+                responseData = await context.helpers.httpRequest({
                     method,
                     url: endpoint,
                     body,
@@ -230,17 +232,17 @@ class Perfex implements INodeType {
                 });
 
                 if (responseData.error || (responseData.success === false)) {
-                    throw new NodeOperationError(this.getNode(), responseData.message || 'Perfex API Error', { itemIndex });
+                    throw new NodeOperationError(context.getNode(), responseData.message || 'Perfex API Error', { itemIndex });
                 }
 
-                const executionData = this.helpers.constructExecutionMetaData(
-                    this.helpers.returnJsonArray(responseData),
+                const executionData = context.helpers.constructExecutionMetaData(
+                    context.helpers.returnJsonArray(responseData),
                     { itemData: { item: itemIndex } },
                 );
                 returnData.push(...executionData);
             }
             catch (error) {
-                if (this.continueOnFail()) {
+                if (context.continueOnFail()) {
                     returnData.push({
                         json: {
                             error: error instanceof Error ? error.message : 'Unknown error occurred',

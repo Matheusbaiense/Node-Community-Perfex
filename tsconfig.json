@@ -14,7 +14,11 @@
       "allowJs": true,
       "checkJs": false,
       "forceConsistentCasingInFileNames": true,
-      "isolatedModules": true
+      "isolatedModules": true,
+      "allowSyntheticDefaultImports": true,
+      "noImplicitAny": false,
+      "noImplicitThis": false,
+      "alwaysStrict": true
     },
     "include": [
       "**/*.ts"

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PerfexApi = void 0;
 class PerfexApi {
     constructor() {
         this.name = 'perfexApi';
@@ -30,5 +29,5 @@ class PerfexApi {
         ];
     }
 }
-exports.PerfexApi = PerfexApi;
+module.exports = { credentials: new PerfexApi() };
 //# sourceMappingURL=PerfexApi.credentials.js.map

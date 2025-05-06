@@ -1,53 +1,46 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
-import { INodeProperties } from 'n8n-workflow';
-
-// Define os campos para as operações de Customer (Cliente)
-export const customerOperations: INodeProperties[] = [
+const customerOperations = [
     {
-		 displayName: 'Operation',
-		 name: 'operation',
-		 type: 'options',
-		 noDataExpression: true,
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-			 },
-		 },
-		 options: [
-			 {
-				 name: 'Create',
-				 value: 'create',
-				 description: 'Create a new customer',
-				 action: 'Create a customer',
-			 },
-			 {
-				 name: 'Delete',
-				 value: 'delete',
-				 description: 'Delete a customer',
-				 action: 'Delete a customer',
-			 },
-			 {
-				 name: 'Get',
-				 value: 'get',
-				 description: 'Get a customer by ID',
-				 action: 'Get a customer',
-			 },
-			 {
-				 name: 'List',
-				 value: 'list',
-				 description: 'List customers',
-				 action: 'List customers',
-			 },
-			 // Update might not be directly available via simple PUT/POST, often handled via GET + specific fields?
-			 // Perfex API might handle updates differently for customers.
-			 // Let's omit Update for now unless API docs confirm a simple endpoint.
-		 ],
-		 default: 'list',
-	 },
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+            },
+        },
+        options: [
+            {
+                name: 'List',
+                value: 'list',
+                description: 'List all customers',
+                action: 'List all customers',
+            },
+            {
+                name: 'Get',
+                value: 'get',
+                description: 'Get a customer by ID',
+                action: 'Get a customer by ID',
+            },
+            {
+                name: 'Create',
+                value: 'create',
+                description: 'Create a new customer',
+                action: 'Create a new customer',
+            },
+            {
+                name: 'Delete',
+                value: 'delete',
+                description: 'Delete a customer',
+                action: 'Delete a customer',
+            },
+        ],
+        default: 'list',
+    },
 ];
 
-// Define os campos específicos para cada operação de Customer
-export const customerFields: INodeProperties[] = [
+const customerFields = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */
@@ -58,165 +51,174 @@ export const customerFields: INodeProperties[] = [
     /*                                customer:get                                */
     /* -------------------------------------------------------------------------- */
     {
-		 displayName: 'Customer ID',
-		 name: 'customerId',
-		 type: 'number',
-		 required: true,
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['get', 'delete'], // Assuming delete uses ID
-			 },
-		 },
-		 default: '',
-		 description: 'The ID of the customer (User ID)',
-	 },
+        displayName: 'Customer ID',
+        name: 'customerId',
+        type: 'number',
+        required: true,
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['get', 'delete'],
+            },
+        },
+        default: '',
+        description: 'The ID of the customer',
+    },
 
     /* -------------------------------------------------------------------------- */
     /*                                customer:create                             */
     /* -------------------------------------------------------------------------- */
     {
-		 displayName: 'Company Name',
-		 name: 'company',
-		 type: 'string',
-		 required: true,
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-		 description: 'Name of the company/customer',
-	 },
-	 {
-		 displayName: 'VAT Number',
-		 name: 'vat',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'Phone Number',
-		 name: 'phonenumber',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'Website',
-		 name: 'website',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'Default Currency ID',
-		 name: 'default_currency',
-		 type: 'number',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-		 description: 'Numeric ID of the default currency (get from Perfex)',
-	 },
-	 {
-		 displayName: 'Address',
-		 name: 'address',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'City',
-		 name: 'city',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'State',
-		 name: 'state',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'Zip Code',
-		 name: 'zip',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-	 },
-	 {
-		 displayName: 'Country ID',
-		 name: 'country',
-		 type: 'number',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-		 description: 'Numeric ID of the country (get from Perfex)',
-	 },
-	 {
-		 displayName: 'Default Language',
-		 name: 'default_language',
-		 type: 'string',
-		 displayOptions: {
-			 show: {
-				 resource: ['customer'],
-				 operation: ['create'],
-			 },
-		 },
-		 default: '',
-		 description: 'Customer default language (e.g., portuguese)',
-	 },
-	 // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
+        displayName: 'Company',
+        name: 'company',
+        type: 'string',
+        required: true,
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The company name',
+    },
+    {
+        displayName: 'VAT',
+        name: 'vat',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The VAT number',
+    },
+    {
+        displayName: 'Phone Number',
+        name: 'phonenumber',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The phone number',
+    },
+    {
+        displayName: 'Website',
+        name: 'website',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The website URL',
+    },
+    {
+        displayName: 'Default Currency',
+        name: 'default_currency',
+        type: 'number',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The default currency ID',
+    },
+    {
+        displayName: 'Address',
+        name: 'address',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The address',
+    },
+    {
+        displayName: 'City',
+        name: 'city',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The city',
+    },
+    {
+        displayName: 'State',
+        name: 'state',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The state',
+    },
+    {
+        displayName: 'Zip',
+        name: 'zip',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The zip code',
+    },
+    {
+        displayName: 'Country',
+        name: 'country',
+        type: 'number',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The country ID',
+    },
+    {
+        displayName: 'Default Language',
+        name: 'default_language',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        description: 'The default language',
+    },
+    // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
 
     /* -------------------------------------------------------------------------- */
     /*                                customer:delete                             */
     /* -------------------------------------------------------------------------- */
     // Uses Customer ID (defined above)
 ];
+
+module.exports = { customerOperations, customerFields };
 

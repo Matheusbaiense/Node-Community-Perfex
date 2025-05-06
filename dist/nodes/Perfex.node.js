@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
 const n8n_workflow_1 = require("n8n-workflow");
 // Import descriptions for operations and fields
 const LeadDescription_1 = require("./LeadDescription");
