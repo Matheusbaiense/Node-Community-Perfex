@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "n8n community node for Perfex CRM API",
   "keywords": [
     "n8n-community-node-package",
@@ -24,6 +24,12 @@
   },
   "packageManager": "pnpm@9.1.4",
   "main": "dist/nodes/Perfex.node.js",
+  "exports": {
+    ".": {
+      "require": "./dist/nodes/Perfex.node.js",
+      "import": "./dist/nodes/Perfex.node.js"
+    }
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "tsc && gulp build:icons",
