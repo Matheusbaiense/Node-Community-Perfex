@@ -1,11 +1,18 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import type { IExecuteFunctions, INodeExecutionData, IDataObject, IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
-const { NodeOperationError } = require('n8n-workflow');
+import {
+    IExecuteFunctions,
+    INodeExecutionData,
+    IDataObject,
+    IHttpRequestMethods,
+    INodeType,
+    INodeTypeDescription,
+    NodeOperationError,
+} from 'n8n-workflow';
 
 // Import descriptions for operations and fields
-const leadDesc = require('./LeadDescription');
-const customerDesc = require('./CustomerDescription');
-const contactDesc = require('./ContactDescription');
+import * as leadDesc from './LeadDescription';
+import * as customerDesc from './CustomerDescription';
+import * as contactDesc from './ContactDescription';
 
 interface IPerfexRequestBody extends IDataObject {
     name?: string;
@@ -34,7 +41,7 @@ interface IPerfexQueryString extends IDataObject {
     source?: number;
 }
 
-class Perfex implements INodeType {
+export class Perfex implements INodeType {
     description: INodeTypeDescription = {
         displayName: 'Perfex CRM',
         name: 'perfex',
@@ -282,4 +289,4 @@ class Perfex implements INodeType {
     }
 }
 
-module.exports = { perfexNode: new Perfex() };
+export const perfexNode = new Perfex();
