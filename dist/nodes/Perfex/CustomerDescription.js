@@ -2,6 +2,10 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.customerFields = exports.customerOperations = void 0;
+/**
+ * Customer operations for Perfex CRM
+ * @description Available operations for managing customers in Perfex CRM
+ */
 exports.customerOperations = [
     {
         displayName: 'Operation',
@@ -48,6 +52,10 @@ exports.customerOperations = [
         default: 'list',
     },
 ];
+/**
+ * Customer fields for Perfex CRM
+ * @description Field definitions for customer operations in Perfex CRM
+ */
 exports.customerFields = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */

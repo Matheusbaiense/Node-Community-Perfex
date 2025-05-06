@@ -2,6 +2,10 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.leadFields = exports.leadOperations = void 0;
+/**
+ * Lead operations for Perfex CRM
+ * @description Available operations for managing leads in Perfex CRM
+ */
 exports.leadOperations = [
     {
         displayName: 'Operation',
@@ -48,6 +52,10 @@ exports.leadOperations = [
         default: 'list',
     },
 ];
+/**
+ * Lead fields for Perfex CRM
+ * @description Field definitions for lead operations in Perfex CRM
+ */
 exports.leadFields = [
     {
         displayName: 'Lead ID',

@@ -19,8 +19,8 @@ class Perfex {
             defaults: {
                 name: 'Perfex CRM',
             },
-            inputs: ['main'],
-            outputs: ['main'],
+            inputs: ["main" /* NodeConnectionType.Main */],
+            outputs: ["main" /* NodeConnectionType.Main */],
             credentials: [
                 {
                     name: 'perfexApi',

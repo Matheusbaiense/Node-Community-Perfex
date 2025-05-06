@@ -1,10 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Credentials for Perfex CRM API
+ * @description Credentials for authenticating with the Perfex CRM API
+ */
 class PerfexApi {
     constructor() {
         this.name = 'perfexApi';
         this.displayName = 'Perfex API';
-        // documentationUrl = 'https://link-to-perfex-api-docs'; // TODO: Add Perfex API documentation link
+        this.documentationUrl = 'https://docs.perfexcrm.com/api/';
         this.properties = [
             {
                 displayName: 'Perfex Base URL',
