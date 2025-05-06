@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.customerFields = exports.customerOperations = void 0;
-// Define os campos para as operações de Customer (Cliente)
-exports.customerOperations = [
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
+const customerOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -15,10 +13,22 @@ exports.customerOperations = [
         },
         options: [
             {
+                name: 'List',
+                value: 'list',
+                description: 'List all customers',
+                action: 'List all customers',
+            },
+            {
+                name: 'Get',
+                value: 'get',
+                description: 'Get a customer by ID',
+                action: 'Get a customer by ID',
+            },
+            {
                 name: 'Create',
                 value: 'create',
                 description: 'Create a new customer',
-                action: 'Create a customer',
+                action: 'Create a new customer',
             },
             {
                 name: 'Delete',
@@ -26,27 +36,11 @@ exports.customerOperations = [
                 description: 'Delete a customer',
                 action: 'Delete a customer',
             },
-            {
-                name: 'Get',
-                value: 'get',
-                description: 'Get a customer by ID',
-                action: 'Get a customer',
-            },
-            {
-                name: 'List',
-                value: 'list',
-                description: 'List customers',
-                action: 'List customers',
-            },
-            // Update might not be directly available via simple PUT/POST, often handled via GET + specific fields?
-            // Perfex API might handle updates differently for customers.
-            // Let's omit Update for now unless API docs confirm a simple endpoint.
         ],
         default: 'list',
     },
 ];
-// Define os campos específicos para cada operação de Customer
-exports.customerFields = [
+const customerFields = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */
@@ -63,17 +57,17 @@ exports.customerFields = [
         displayOptions: {
             show: {
                 resource: ['customer'],
-                operation: ['get', 'delete'], // Assuming delete uses ID
+                operation: ['get', 'delete'],
             },
         },
         default: '',
-        description: 'The ID of the customer (User ID)',
+        description: 'The ID of the customer',
     },
     /* -------------------------------------------------------------------------- */
     /*                                customer:create                             */
     /* -------------------------------------------------------------------------- */
     {
-        displayName: 'Company Name',
+        displayName: 'Company',
         name: 'company',
         type: 'string',
         required: true,
@@ -84,10 +78,10 @@ exports.customerFields = [
             },
         },
         default: '',
-        description: 'Name of the company/customer',
+        description: 'The company name',
     },
     {
-        displayName: 'VAT Number',
+        displayName: 'VAT',
         name: 'vat',
         type: 'string',
         displayOptions: {
@@ -97,6 +91,7 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The VAT number',
     },
     {
         displayName: 'Phone Number',
@@ -109,6 +104,7 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The phone number',
     },
     {
         displayName: 'Website',
@@ -121,9 +117,10 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The website URL',
     },
     {
-        displayName: 'Default Currency ID',
+        displayName: 'Default Currency',
         name: 'default_currency',
         type: 'number',
         displayOptions: {
@@ -133,7 +130,7 @@ exports.customerFields = [
             },
         },
         default: '',
-        description: 'Numeric ID of the default currency (get from Perfex)',
+        description: 'The default currency ID',
     },
     {
         displayName: 'Address',
@@ -146,6 +143,7 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The address',
     },
     {
         displayName: 'City',
@@ -158,6 +156,7 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The city',
     },
     {
         displayName: 'State',
@@ -170,9 +169,10 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The state',
     },
     {
-        displayName: 'Zip Code',
+        displayName: 'Zip',
         name: 'zip',
         type: 'string',
         displayOptions: {
@@ -182,9 +182,10 @@ exports.customerFields = [
             },
         },
         default: '',
+        description: 'The zip code',
     },
     {
-        displayName: 'Country ID',
+        displayName: 'Country',
         name: 'country',
         type: 'number',
         displayOptions: {
@@ -194,7 +195,7 @@ exports.customerFields = [
             },
         },
         default: '',
-        description: 'Numeric ID of the country (get from Perfex)',
+        description: 'The country ID',
     },
     {
         displayName: 'Default Language',
@@ -207,7 +208,7 @@ exports.customerFields = [
             },
         },
         default: '',
-        description: 'Customer default language (e.g., portuguese)',
+        description: 'The default language',
     },
     // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
     /* -------------------------------------------------------------------------- */
@@ -215,4 +216,5 @@ exports.customerFields = [
     /* -------------------------------------------------------------------------- */
     // Uses Customer ID (defined above)
 ];
+module.exports = { customerOperations, customerFields };
 //# sourceMappingURL=CustomerDescription.js.map

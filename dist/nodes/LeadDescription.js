@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.leadFields = exports.leadOperations = void 0;
-// Define os campos para as operações de Lead
-exports.leadOperations = [
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
+const leadOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -15,28 +13,22 @@ exports.leadOperations = [
         },
         options: [
             {
-                name: 'Create',
-                value: 'create',
-                description: 'Create a new lead',
-                action: 'Create a lead',
-            },
-            {
-                name: 'Delete',
-                value: 'delete',
-                description: 'Delete a lead',
-                action: 'Delete a lead',
+                name: 'List',
+                value: 'list',
+                description: 'List all leads',
+                action: 'List all leads',
             },
             {
                 name: 'Get',
                 value: 'get',
                 description: 'Get a lead by ID',
-                action: 'Get a lead',
+                action: 'Get a lead by ID',
             },
             {
-                name: 'List',
-                value: 'list',
-                description: 'List leads',
-                action: 'List leads',
+                name: 'Create',
+                value: 'create',
+                description: 'Create a new lead',
+                action: 'Create a new lead',
             },
             {
                 name: 'Update',
@@ -44,47 +36,17 @@ exports.leadOperations = [
                 description: 'Update a lead',
                 action: 'Update a lead',
             },
+            {
+                name: 'Delete',
+                value: 'delete',
+                description: 'Delete a lead',
+                action: 'Delete a lead',
+            },
         ],
         default: 'list',
     },
 ];
-// Define os campos específicos para cada operação de Lead
-exports.leadFields = [
-    /* -------------------------------------------------------------------------- */
-    /*                                lead:list                                   */
-    /* -------------------------------------------------------------------------- */
-    {
-        displayName: 'Filters',
-        name: 'filters',
-        type: 'collection',
-        placeholder: 'Add Filter',
-        default: {},
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['list'],
-            },
-        },
-        options: [
-            {
-                displayName: 'Status ID',
-                name: 'status',
-                type: 'number',
-                default: '',
-                description: 'Filter leads by status ID',
-            },
-            {
-                displayName: 'Source ID',
-                name: 'source',
-                type: 'number',
-                default: '',
-                description: 'Filter leads by source ID',
-            },
-        ],
-    },
-    /* -------------------------------------------------------------------------- */
-    /*                                lead:get                                    */
-    /* -------------------------------------------------------------------------- */
+const leadFields = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
@@ -99,9 +61,6 @@ exports.leadFields = [
         default: '',
         description: 'The ID of the lead',
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                lead:create                                 */
-    /* -------------------------------------------------------------------------- */
     {
         displayName: 'Name',
         name: 'name',
@@ -114,10 +73,10 @@ exports.leadFields = [
             },
         },
         default: '',
-        description: 'Name of the lead',
+        description: 'The name of the lead',
     },
     {
-        displayName: 'Source ID',
+        displayName: 'Source',
         name: 'source',
         type: 'number',
         required: true,
@@ -128,10 +87,10 @@ exports.leadFields = [
             },
         },
         default: '',
-        description: 'ID of the lead source (get from Perfex)',
+        description: 'The source of the lead',
     },
     {
-        displayName: 'Status ID',
+        displayName: 'Status',
         name: 'status',
         type: 'number',
         required: true,
@@ -142,7 +101,36 @@ exports.leadFields = [
             },
         },
         default: '',
-        description: 'ID of the lead status (get from Perfex)',
+        description: 'The status of the lead',
+    },
+    {
+        displayName: 'Filters',
+        name: 'filters',
+        type: 'collection',
+        placeholder: 'Add Filter',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['list'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Status',
+                name: 'status',
+                type: 'number',
+                default: '',
+                description: 'Filter by status',
+            },
+            {
+                displayName: 'Source',
+                name: 'source',
+                type: 'number',
+                default: '',
+                description: 'Filter by source',
+            },
+        ],
     },
     {
         displayName: 'Additional Fields',
@@ -157,140 +145,71 @@ exports.leadFields = [
             },
         },
         options: [
-            // Common optional fields for create/update
             {
-                displayName: 'Title',
-                name: 'title',
+                displayName: 'Email',
+                name: 'email',
                 type: 'string',
                 default: '',
+                description: 'The email of the lead',
+            },
+            {
+                displayName: 'Phone',
+                name: 'phonenumber',
+                type: 'string',
+                default: '',
+                description: 'The phone number of the lead',
             },
             {
                 displayName: 'Company',
                 name: 'company',
                 type: 'string',
                 default: '',
-            },
-            {
-                displayName: 'Description',
-                name: 'description',
-                type: 'string',
-                typeOptions: { multiline: true },
-                default: '',
-            },
-            {
-                displayName: 'Country ID',
-                name: 'country',
-                type: 'number',
-                default: '',
-                description: 'Numeric ID of the country (get from Perfex)',
-            },
-            {
-                displayName: 'Zip Code',
-                name: 'zip',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'City',
-                name: 'city',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'State',
-                name: 'state',
-                type: 'string',
-                default: '',
+                description: 'The company of the lead',
             },
             {
                 displayName: 'Address',
                 name: 'address',
                 type: 'string',
                 default: '',
+                description: 'The address of the lead',
             },
             {
-                displayName: 'Assigned Staff ID',
-                name: 'assigned',
+                displayName: 'City',
+                name: 'city',
+                type: 'string',
+                default: '',
+                description: 'The city of the lead',
+            },
+            {
+                displayName: 'State',
+                name: 'state',
+                type: 'string',
+                default: '',
+                description: 'The state of the lead',
+            },
+            {
+                displayName: 'Zip',
+                name: 'zip',
+                type: 'string',
+                default: '',
+                description: 'The zip code of the lead',
+            },
+            {
+                displayName: 'Country',
+                name: 'country',
                 type: 'number',
                 default: '',
-                description: 'ID of the staff member assigned to the lead',
+                description: 'The country of the lead',
             },
             {
-                displayName: 'Email',
-                name: 'email',
+                displayName: 'Description',
+                name: 'description',
                 type: 'string',
                 default: '',
-                description: 'Lead email address',
+                description: 'The description of the lead',
             },
-            {
-                displayName: 'Website',
-                name: 'website',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Phone Number',
-                name: 'phonenumber',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Default Language',
-                name: 'default_language',
-                type: 'string',
-                default: '',
-                description: 'e.g., portuguese, english',
-            },
-            {
-                displayName: 'Tags',
-                name: 'tags',
-                type: 'string',
-                default: '',
-                description: 'Comma-separated list of tags',
-            },
-            {
-                displayName: 'Is Public',
-                name: 'is_public',
-                type: 'boolean',
-                default: false,
-            },
-            // Add other optional fields as needed based on Perfex API docs
         ],
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                lead:update                                 */
-    /* -------------------------------------------------------------------------- */
-    // Uses Lead ID (defined above)
-    // Uses Additional Fields (defined above)
-    {
-        displayName: 'Source ID',
-        name: 'source',
-        type: 'number',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['update'],
-            },
-        },
-        default: '',
-        description: 'Update the lead source ID',
-    },
-    {
-        displayName: 'Status ID',
-        name: 'status',
-        type: 'number',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['update'],
-            },
-        },
-        default: '',
-        description: 'Update the lead status ID',
-    },
-    /* -------------------------------------------------------------------------- */
-    /*                                lead:delete                                 */
-    /* -------------------------------------------------------------------------- */
-    // Uses Lead ID (defined above)
 ];
+module.exports = { leadOperations, leadFields };
 //# sourceMappingURL=LeadDescription.js.map

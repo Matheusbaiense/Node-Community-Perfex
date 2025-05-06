@@ -1,4 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
+
 const leadOperations = [
     {
         displayName: 'Operation',
@@ -14,8 +15,8 @@ const leadOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List all leads',
-                action: 'List all leads',
+                description: 'Get all leads',
+                action: 'Get all leads',
             },
             {
                 name: 'Get',
@@ -86,7 +87,7 @@ const leadFields = [
                 operation: ['create'],
             },
         },
-        default: '',
+        default: 1,
         description: 'The source of the lead',
     },
     {
@@ -100,7 +101,35 @@ const leadFields = [
                 operation: ['create'],
             },
         },
-        default: '',
+        default: 1,
+        description: 'The status of the lead',
+    },
+    {
+        displayName: 'Source',
+        name: 'source',
+        type: 'number',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['update'],
+            },
+        },
+        default: null,
+        description: 'The source of the lead',
+    },
+    {
+        displayName: 'Status',
+        name: 'status',
+        type: 'number',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['update'],
+            },
+        },
+        default: null,
         description: 'The status of the lead',
     },
     {
@@ -167,6 +196,20 @@ const leadFields = [
                 description: 'The company of the lead',
             },
             {
+                displayName: 'Website',
+                name: 'website',
+                type: 'string',
+                default: '',
+                description: 'The website of the lead',
+            },
+            {
+                displayName: 'Description',
+                name: 'description',
+                type: 'string',
+                default: '',
+                description: 'The description of the lead',
+            },
+            {
                 displayName: 'Address',
                 name: 'address',
                 type: 'string',
@@ -188,13 +231,6 @@ const leadFields = [
                 description: 'The state of the lead',
             },
             {
-                displayName: 'Zip',
-                name: 'zip',
-                type: 'string',
-                default: '',
-                description: 'The zip code of the lead',
-            },
-            {
                 displayName: 'Country',
                 name: 'country',
                 type: 'number',
@@ -202,11 +238,11 @@ const leadFields = [
                 description: 'The country of the lead',
             },
             {
-                displayName: 'Description',
-                name: 'description',
+                displayName: 'Zip',
+                name: 'zip',
                 type: 'string',
                 default: '',
-                description: 'The description of the lead',
+                description: 'The zip code of the lead',
             },
         ],
     },

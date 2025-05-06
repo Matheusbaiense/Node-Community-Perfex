@@ -1,4 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
+
 const customerOperations = [
     {
         displayName: 'Operation',
@@ -14,8 +15,8 @@ const customerOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List all customers',
-                action: 'List all customers',
+                description: 'Get all customers',
+                action: 'Get all customers',
             },
             {
                 name: 'Get',
@@ -86,6 +87,7 @@ const customerFields = [
         displayName: 'VAT',
         name: 'vat',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -99,6 +101,7 @@ const customerFields = [
         displayName: 'Phone Number',
         name: 'phonenumber',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -112,6 +115,7 @@ const customerFields = [
         displayName: 'Website',
         name: 'website',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -125,6 +129,7 @@ const customerFields = [
         displayName: 'Default Currency',
         name: 'default_currency',
         type: 'number',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -138,6 +143,7 @@ const customerFields = [
         displayName: 'Address',
         name: 'address',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -151,6 +157,7 @@ const customerFields = [
         displayName: 'City',
         name: 'city',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -164,6 +171,7 @@ const customerFields = [
         displayName: 'State',
         name: 'state',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -177,6 +185,7 @@ const customerFields = [
         displayName: 'Zip',
         name: 'zip',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -190,6 +199,7 @@ const customerFields = [
         displayName: 'Country',
         name: 'country',
         type: 'number',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -203,6 +213,7 @@ const customerFields = [
         displayName: 'Default Language',
         name: 'default_language',
         type: 'string',
+        required: false,
         displayOptions: {
             show: {
                 resource: ['customer'],

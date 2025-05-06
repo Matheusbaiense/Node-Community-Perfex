@@ -1,4 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
+
 const contactOperations = [
     {
         displayName: 'Operation',
@@ -14,8 +15,8 @@ const contactOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List all contacts',
-                action: 'List all contacts',
+                description: 'Get all contacts',
+                action: 'Get all contacts',
             },
             {
                 name: 'Get',
@@ -132,6 +133,62 @@ const contactFields = [
         description: 'The password for the contact',
     },
     {
+        displayName: 'First Name',
+        name: 'firstname',
+        type: 'string',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['update'],
+            },
+        },
+        default: null,
+        description: 'The first name of the contact',
+    },
+    {
+        displayName: 'Last Name',
+        name: 'lastname',
+        type: 'string',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['update'],
+            },
+        },
+        default: null,
+        description: 'The last name of the contact',
+    },
+    {
+        displayName: 'Email',
+        name: 'email',
+        type: 'string',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['update'],
+            },
+        },
+        default: null,
+        description: 'The email of the contact',
+    },
+    {
+        displayName: 'Password',
+        name: 'password',
+        type: 'string',
+        required: false,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['update'],
+            },
+        },
+        default: null,
+        description: 'The password for the contact',
+    },
+    {
         displayName: 'Additional Fields',
         name: 'additionalFields',
         type: 'collection',
@@ -145,13 +202,6 @@ const contactFields = [
         },
         options: [
             {
-                displayName: 'Title',
-                name: 'title',
-                type: 'string',
-                default: '',
-                description: 'The title of the contact',
-            },
-            {
                 displayName: 'Phone',
                 name: 'phonenumber',
                 type: 'string',
@@ -160,24 +210,24 @@ const contactFields = [
             },
             {
                 displayName: 'Position',
-                name: 'position',
+                name: 'title',
                 type: 'string',
                 default: '',
                 description: 'The position of the contact',
             },
             {
-                displayName: 'Is Primary',
-                name: 'is_primary',
-                type: 'boolean',
-                default: false,
-                description: 'Whether this is the primary contact',
+                displayName: 'Direction',
+                name: 'direction',
+                type: 'string',
+                default: '',
+                description: 'The direction of the contact',
             },
             {
-                displayName: 'Active',
-                name: 'active',
-                type: 'boolean',
-                default: true,
-                description: 'Whether the contact is active',
+                displayName: 'Profile Image',
+                name: 'profile_image',
+                type: 'string',
+                default: '',
+                description: 'The profile image URL of the contact',
             },
         ],
     },

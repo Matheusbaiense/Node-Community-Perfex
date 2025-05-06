@@ -10,9 +10,9 @@ const {
 } = require('n8n-workflow');
 
 // Import descriptions for operations and fields
-const { leadOperations, leadFields } = require('./LeadDescription');
-const { customerOperations, customerFields } = require('./CustomerDescription');
-const { contactOperations, contactFields } = require('./ContactDescription');
+const leadDesc = require('./LeadDescription');
+const customerDesc = require('./CustomerDescription');
+const contactDesc = require('./ContactDescription');
 
 class Perfex {
     constructor() {
@@ -66,12 +66,12 @@ class Perfex {
                     default: 'lead',
                     description: 'The resource to operate on',
                 },
-                ...leadOperations,
-                ...leadFields,
-                ...customerOperations,
-                ...customerFields,
-                ...contactOperations,
-                ...contactFields,
+                ...leadDesc.leadOperations,
+                ...leadDesc.leadFields,
+                ...customerDesc.customerOperations,
+                ...customerDesc.customerFields,
+                ...contactDesc.contactOperations,
+                ...contactDesc.contactFields,
             ],
         };
     }

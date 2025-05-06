@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.contactFields = exports.contactOperations = void 0;
-// Define os campos para as operações de Contact
-exports.contactOperations = [
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
+const contactOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -15,28 +13,22 @@ exports.contactOperations = [
         },
         options: [
             {
-                name: 'Create',
-                value: 'create',
-                description: 'Create a new contact',
-                action: 'Create a contact',
-            },
-            {
-                name: 'Delete',
-                value: 'delete',
-                description: 'Delete a contact',
-                action: 'Delete a contact',
+                name: 'List',
+                value: 'list',
+                description: 'List all contacts',
+                action: 'List all contacts',
             },
             {
                 name: 'Get',
                 value: 'get',
                 description: 'Get a contact by ID',
-                action: 'Get a contact',
+                action: 'Get a contact by ID',
             },
             {
-                name: 'List',
-                value: 'list',
-                description: 'List contacts for a customer',
-                action: 'List contacts',
+                name: 'Create',
+                value: 'create',
+                description: 'Create a new contact',
+                action: 'Create a new contact',
             },
             {
                 name: 'Update',
@@ -44,15 +36,17 @@ exports.contactOperations = [
                 description: 'Update a contact',
                 action: 'Update a contact',
             },
+            {
+                name: 'Delete',
+                value: 'delete',
+                description: 'Delete a contact',
+                action: 'Delete a contact',
+            },
         ],
         default: 'list',
     },
 ];
-// Define os campos específicos para cada operação de Contact
-exports.contactFields = [
-    /* -------------------------------------------------------------------------- */
-    /*                                contact:list                                */
-    /* -------------------------------------------------------------------------- */
+const contactFields = [
     {
         displayName: 'Customer ID',
         name: 'customerId',
@@ -61,15 +55,12 @@ exports.contactFields = [
         displayOptions: {
             show: {
                 resource: ['contact'],
-                operation: ['list', 'create'], // List and Create require customer ID
+                operation: ['list', 'create'],
             },
         },
         default: '',
-        description: 'The ID of the customer to list/add contacts for',
+        description: 'The ID of the customer',
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                contact:get                                 */
-    /* -------------------------------------------------------------------------- */
     {
         displayName: 'Contact ID',
         name: 'contactId',
@@ -84,10 +75,6 @@ exports.contactFields = [
         default: '',
         description: 'The ID of the contact',
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                contact:create                              */
-    /* -------------------------------------------------------------------------- */
-    // Uses Customer ID (defined above)
     {
         displayName: 'First Name',
         name: 'firstname',
@@ -100,6 +87,7 @@ exports.contactFields = [
             },
         },
         default: '',
+        description: 'The first name of the contact',
     },
     {
         displayName: 'Last Name',
@@ -113,6 +101,7 @@ exports.contactFields = [
             },
         },
         default: '',
+        description: 'The last name of the contact',
     },
     {
         displayName: 'Email',
@@ -126,21 +115,21 @@ exports.contactFields = [
             },
         },
         default: '',
-        description: 'Contact email address (must be unique)',
+        description: 'The email of the contact',
     },
     {
         displayName: 'Password',
         name: 'password',
         type: 'string',
-        typeOptions: { password: true },
+        required: true,
         displayOptions: {
             show: {
                 resource: ['contact'],
-                operation: ['create', 'update'], // Needed for create, optional for update
+                operation: ['create'],
             },
         },
         default: '',
-        description: 'Contact password (required for create, optional to change on update)',
+        description: 'The password for the contact',
     },
     {
         displayName: 'Additional Fields',
@@ -155,151 +144,43 @@ exports.contactFields = [
             },
         },
         options: [
-            // Common optional fields for create/update
             {
                 displayName: 'Title',
                 name: 'title',
                 type: 'string',
                 default: '',
+                description: 'The title of the contact',
             },
             {
-                displayName: 'Phone Number',
+                displayName: 'Phone',
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
+                description: 'The phone number of the contact',
             },
             {
-                displayName: 'Send Welcome Email',
-                name: 'send_set_password_email',
-                type: 'boolean',
-                default: false,
-                description: 'Whether to send the set new password email after creation',
-            },
-            {
-                displayName: 'Do Not Send Welcome Email',
-                name: 'donotsendwelcomeemail',
-                type: 'boolean',
-                default: false,
-                description: 'Set to true to not send welcome email to contact',
-            },
-            {
-                displayName: 'Permissions',
-                name: 'permissions',
-                type: 'multiOptions',
-                description: 'Select permissions for the contact',
-                options: [
-                    // Perfex permissions IDs (1-6 usually)
-                    { name: 'Invoices', value: 1 },
-                    { name: 'Contracts', value: 2 },
-                    { name: 'Estimates', value: 3 },
-                    { name: 'Projects', value: 4 },
-                    { name: 'Proposals', value: 5 },
-                    { name: 'Support', value: 6 },
-                ],
-                default: [],
-            },
-            {
-                displayName: 'Direction (LTR/RTL)',
-                name: 'direction',
-                type: 'options',
-                options: [
-                    { name: 'LTR', value: 'ltr' },
-                    { name: 'RTL', value: 'rtl' },
-                ],
+                displayName: 'Position',
+                name: 'position',
+                type: 'string',
                 default: '',
+                description: 'The position of the contact',
             },
             {
-                displayName: 'Invoice Emails',
-                name: 'invoice_emails',
+                displayName: 'Is Primary',
+                name: 'is_primary',
                 type: 'boolean',
                 default: false,
+                description: 'Whether this is the primary contact',
             },
             {
-                displayName: 'Estimate Emails',
-                name: 'estimate_emails',
+                displayName: 'Active',
+                name: 'active',
                 type: 'boolean',
-                default: false,
-            },
-            {
-                displayName: 'Credit Note Emails',
-                name: 'credit_note_emails',
-                type: 'boolean',
-                default: false,
-            },
-            {
-                displayName: 'Contract Emails',
-                name: 'contract_emails',
-                type: 'boolean',
-                default: false,
-            },
-            {
-                displayName: 'Task Emails',
-                name: 'task_emails',
-                type: 'boolean',
-                default: false,
-            },
-            {
-                displayName: 'Project Emails',
-                name: 'project_emails',
-                type: 'boolean',
-                default: false,
-            },
-            {
-                displayName: 'Ticket Emails',
-                name: 'ticket_emails',
-                type: 'boolean',
-                default: false,
+                default: true,
+                description: 'Whether the contact is active',
             },
         ],
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                contact:update                              */
-    /* -------------------------------------------------------------------------- */
-    // Uses Contact ID (defined above)
-    // Uses Password (defined above, optional for update)
-    // Uses Additional Fields (defined above)
-    {
-        displayName: 'First Name',
-        name: 'firstname',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: '',
-        description: 'Update the contact first name',
-    },
-    {
-        displayName: 'Last Name',
-        name: 'lastname',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: '',
-        description: 'Update the contact last name',
-    },
-    {
-        displayName: 'Email',
-        name: 'email',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: '',
-        description: 'Update the contact email address (must be unique)',
-    },
-    /* -------------------------------------------------------------------------- */
-    /*                                contact:delete                              */
-    /* -------------------------------------------------------------------------- */
-    // Uses Contact ID (defined above)
 ];
+module.exports = { contactOperations, contactFields };
 //# sourceMappingURL=ContactDescription.js.map
