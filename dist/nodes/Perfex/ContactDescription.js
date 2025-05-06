@@ -117,6 +117,7 @@ exports.contactFields = [
         displayName: 'Email',
         name: 'email',
         type: 'string',
+        placeholder: 'name@email.com',
         required: true,
         displayOptions: {
             show: {
@@ -131,6 +132,7 @@ exports.contactFields = [
         displayName: 'Password',
         name: 'password',
         type: 'string',
+        typeOptions: { password: true },
         required: true,
         displayOptions: {
             show: {
@@ -166,7 +168,6 @@ exports.contactFields = [
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
-                description: 'The phone number',
             },
             {
                 displayName: 'Position',
@@ -215,6 +216,7 @@ exports.contactFields = [
                 displayName: 'Email',
                 name: 'email',
                 type: 'string',
+                placeholder: 'name@email.com',
                 default: '',
                 description: 'Filter by email',
             },

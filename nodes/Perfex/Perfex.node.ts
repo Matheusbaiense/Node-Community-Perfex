@@ -1,14 +1,9 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import type {
+const {
     IExecuteFunctions,
-    INodeType,
-    INodeTypeDescription,
     INodeExecutionData,
     IDataObject,
     IHttpRequestMethods,
-} from 'n8n-workflow';
-
-const {
     NodeOperationError,
 } = require('n8n-workflow');
 
@@ -17,82 +12,78 @@ const leadDesc = require('./LeadDescription');
 const customerDesc = require('./CustomerDescription');
 const contactDesc = require('./ContactDescription');
 
-class Perfex implements INodeType {
-    description: INodeTypeDescription;
-
-    constructor() {
-        this.description = {
-            displayName: 'Perfex CRM',
-            name: 'perfex',
-            icon: 'file:perfex.svg',
-            group: ['output'],
-            version: 1,
-            subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-            description: 'Interact with the Perfex CRM API',
-            defaults: {
-                name: 'Perfex CRM',
+class Perfex {
+    description = {
+        displayName: 'Perfex CRM',
+        name: 'perfex',
+        icon: 'file:perfex.svg',
+        group: ['output'],
+        version: 1,
+        subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+        description: 'Interact with the Perfex CRM API to manage leads, customers and contacts',
+        defaults: {
+            name: 'Perfex CRM',
+        },
+        inputs: ['main'],
+        outputs: ['main'],
+        credentials: [
+            {
+                name: 'perfexApi',
+                required: true,
             },
-            inputs: ['main'],
-            outputs: ['main'],
-            credentials: [
-                {
-                    name: 'perfexApi',
-                    required: true,
-                },
-            ],
-            properties: [
-                {
-                    displayName: 'Resource',
-                    name: 'resource',
-                    type: 'options',
-                    noDataExpression: true,
-                    options: [
-                        {
-                            name: 'Lead',
-                            value: 'lead',
-                        },
-                        {
-                            name: 'Customer',
-                            value: 'customer',
-                        },
-                        {
-                            name: 'Contact',
-                            value: 'contact',
-                        },
-                    ],
-                    default: 'lead',
-                },
-                ...leadDesc.leadOperations,
-                ...leadDesc.leadFields,
-                ...customerDesc.customerOperations,
-                ...customerDesc.customerFields,
-                ...contactDesc.contactOperations,
-                ...contactDesc.contactFields,
-            ],
-        };
-    }
+        ],
+        properties: [
+            {
+                displayName: 'Resource',
+                name: 'resource',
+                type: 'options',
+                noDataExpression: true,
+                options: [
+                    {
+                        name: 'Lead',
+                        value: 'lead',
+                    },
+                    {
+                        name: 'Customer',
+                        value: 'customer',
+                    },
+                    {
+                        name: 'Contact',
+                        value: 'contact',
+                    },
+                ],
+                default: 'lead',
+            },
+            ...leadDesc.leadOperations,
+            ...leadDesc.leadFields,
+            ...customerDesc.customerOperations,
+            ...customerDesc.customerFields,
+            ...contactDesc.contactOperations,
+            ...contactDesc.contactFields,
+        ],
+    };
 
-    async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    async execute(this: typeof IExecuteFunctions): Promise<Array<Array<typeof INodeExecutionData>>> {
         const items = this.getInputData();
-        const returnData: INodeExecutionData[] = [];
-        let responseData: IDataObject;
+        const returnData: Array<typeof INodeExecutionData> = [];
+        let responseData: typeof IDataObject;
 
         const resource = this.getNodeParameter('resource', 0) as string;
         const operation = this.getNodeParameter('operation', 0) as string;
 
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             try {
-                let method: IHttpRequestMethods = 'GET';
+                let method: typeof IHttpRequestMethods = 'GET';
                 let endpoint = '';
-                const body: IDataObject = {};
-                const qs: IDataObject = {};
+                const body: typeof IDataObject = {};
+                const qs: typeof IDataObject = {};
 
                 if (resource === 'lead') {
                     endpoint = '/leads';
 
                     if (operation === 'list') {
                         method = 'GET';
-                        const filters = this.getNodeParameter('filters', itemIndex, {}) as IDataObject;
+                        const filters = this.getNodeParameter('filters', itemIndex, {}) as typeof IDataObject;
                         if (filters.status) qs.status = filters.status;
                         if (filters.source) qs.source = filters.source;
                     }
@@ -107,7 +98,7 @@ class Perfex implements INodeType {
                         body.source = this.getNodeParameter('source', itemIndex) as number;
                         body.status = this.getNodeParameter('status', itemIndex) as number;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
@@ -120,7 +111,7 @@ class Perfex implements INodeType {
                         if (source !== null) body.source = source;
                         if (status !== null) body.status = status;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
@@ -192,7 +183,7 @@ class Perfex implements INodeType {
                         body.email = this.getNodeParameter('email', itemIndex) as string;
                         body.password = this.getNodeParameter('password', itemIndex) as string;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
@@ -210,7 +201,7 @@ class Perfex implements INodeType {
                         if (email) body.email = email;
                         if (password) body.password = password;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IDataObject;
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as typeof IDataObject;
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
@@ -235,7 +226,7 @@ class Perfex implements INodeType {
                     );
                 }
 
-                responseData = response as IDataObject;
+                responseData = response as typeof IDataObject;
 
                 if (responseData.error || (responseData.success === false)) {
                     throw new NodeOperationError(
@@ -269,4 +260,4 @@ class Perfex implements INodeType {
     }
 }
 
-export { Perfex };
+module.exports = { perfexNode: new Perfex() };

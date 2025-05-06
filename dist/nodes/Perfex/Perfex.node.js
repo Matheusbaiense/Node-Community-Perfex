@@ -1,7 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Perfex = void 0;
-const { NodeOperationError, } = require('n8n-workflow');
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
+const { IExecuteFunctions, INodeExecutionData, IDataObject, IHttpRequestMethods, NodeOperationError, } = require('n8n-workflow');
 // Import descriptions for operations and fields
 const leadDesc = require('./LeadDescription');
 const customerDesc = require('./CustomerDescription');
@@ -15,7 +14,7 @@ class Perfex {
             group: ['output'],
             version: 1,
             subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-            description: 'Interact with the Perfex CRM API',
+            description: 'Interact with the Perfex CRM API to manage leads, customers and contacts',
             defaults: {
                 name: 'Perfex CRM',
             },
@@ -48,7 +47,6 @@ class Perfex {
                         },
                     ],
                     default: 'lead',
-                    description: 'The resource to operate on',
                 },
                 ...leadDesc.leadOperations,
                 ...leadDesc.leadFields,
@@ -242,5 +240,5 @@ class Perfex {
         return [returnData];
     }
 }
-exports.Perfex = Perfex;
+module.exports = { perfexNode: new Perfex() };
 //# sourceMappingURL=Perfex.node.js.map
