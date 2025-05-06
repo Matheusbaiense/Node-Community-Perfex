@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Perfex = void 0;
 const n8n_workflow_1 = require("n8n-workflow");
 // Import descriptions for operations and fields
 const LeadDescription_1 = require("./LeadDescription");
@@ -11,7 +10,7 @@ class Perfex {
         this.description = {
             displayName: 'Perfex CRM',
             name: 'perfex',
-            icon: 'file:perfex.svg', // Placeholder icon name
+            icon: 'file:perfex.svg',
             group: ['output'],
             version: 1,
             subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
@@ -31,13 +30,9 @@ class Perfex {
                 baseURL: '={{$credentials.baseUrl.replace(/\/+$/, "") + "/api"}}',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json', // Default, might change for POST/PUT
+                    'Content-Type': 'application/json',
                     authtoken: '={{$credentials.apiToken}}',
                 },
-                // Automatically throw errors for non-2xx responses
-                // Perfex API might return errors with 200 OK, so manual checking might be needed
-                // Let's keep default (false) for now and check response body
-                // ignoreHttpStatusErrors: true,
             },
             properties: [
                 {
@@ -62,7 +57,6 @@ class Perfex {
                     default: 'lead',
                     description: 'The resource to operate on',
                 },
-                // Load operations and fields based on resource
                 ...LeadDescription_1.leadOperations,
                 ...LeadDescription_1.leadFields,
                 ...CustomerDescription_1.customerOperations,
@@ -76,18 +70,14 @@ class Perfex {
         const items = this.getInputData();
         const returnData = [];
         let responseData;
-        // Get the selected resource and operation
         const resource = this.getNodeParameter('resource', 0);
         const operation = this.getNodeParameter('operation', 0);
-        // Loop through each input item (although many operations might run only once)
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             try {
-                // Default request options for this execution
                 let method = 'GET';
                 let endpoint = '';
                 const body = {};
                 const qs = {};
-                // Route based on resource
                 if (resource === 'lead') {
                     endpoint = '/leads';
                     if (operation === 'list') {
@@ -97,7 +87,6 @@ class Perfex {
                             qs.status = filters.status;
                         if (filters.source)
                             qs.source = filters.source;
-                        // TODO: Add pagination if needed/supported by API
                     }
                     else if (operation === 'get') {
                         method = 'GET';
@@ -113,7 +102,7 @@ class Perfex {
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
-                        method = 'PUT'; // Perfex uses PUT for lead update
+                        method = 'PUT';
                         const leadId = this.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
                         const source = this.getNodeParameter('source', itemIndex, null);
@@ -132,10 +121,9 @@ class Perfex {
                     }
                 }
                 else if (resource === 'customer') {
-                    endpoint = '/clients'; // Perfex uses /clients for customers
+                    endpoint = '/clients';
                     if (operation === 'list') {
                         method = 'GET';
-                        // No specific filters mentioned in basic docs
                     }
                     else if (operation === 'get') {
                         method = 'GET';
@@ -145,7 +133,6 @@ class Perfex {
                     else if (operation === 'create') {
                         method = 'POST';
                         body.company = this.getNodeParameter('company', itemIndex);
-                        // Add other required/optional fields from customerFields
                         const vat = this.getNodeParameter('vat', itemIndex, '');
                         const phonenumber = this.getNodeParameter('phonenumber', itemIndex, '');
                         const website = this.getNodeParameter('website', itemIndex, '');
@@ -188,7 +175,6 @@ class Perfex {
                     if (operation === 'list') {
                         method = 'GET';
                         const customerId = this.getNodeParameter('customerId', itemIndex);
-                        // Perfex API lists contacts under a customer
                         endpoint = `/clients/${customerId}/contacts`;
                     }
                     else if (operation === 'get') {
@@ -202,12 +188,12 @@ class Perfex {
                         body.firstname = this.getNodeParameter('firstname', itemIndex);
                         body.lastname = this.getNodeParameter('lastname', itemIndex);
                         body.email = this.getNodeParameter('email', itemIndex);
-                        body.password = this.getNodeParameter('password', itemIndex); // Required for create
+                        body.password = this.getNodeParameter('password', itemIndex);
                         const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
-                        method = 'PUT'; // Perfex uses PUT for contact update
+                        method = 'PUT';
                         const contactId = this.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
                         const firstname = this.getNodeParameter('firstname', itemIndex, null);
@@ -221,7 +207,7 @@ class Perfex {
                         if (email)
                             body.email = email;
                         if (password)
-                            body.password = password; // Optional for update
+                            body.password = password;
                         const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
@@ -231,42 +217,33 @@ class Perfex {
                         endpoint = `/contacts/${contactId}`;
                     }
                 }
-                // Make the API request
                 responseData = await this.helpers.httpRequest({
                     method,
                     url: endpoint,
                     body,
                     qs,
-                    // requestDefaults should handle baseURL and headers
                 });
-                // Perfex API often returns success/error messages directly in the body, even with 200 OK
-                // Check for common error patterns if necessary
                 if (responseData.error || (responseData.success === false)) {
                     throw new n8n_workflow_1.NodeOperationError(this.getNode(), responseData.message || 'Perfex API Error', { itemIndex });
                 }
-                // Prepare the output data
                 const executionData = this.helpers.constructExecutionMetaData(this.helpers.returnJsonArray(responseData), { itemData: { item: itemIndex } });
                 returnData.push(...executionData);
             }
             catch (error) {
-                // Handle errors
                 if (this.continueOnFail()) {
                     returnData.push({
-                        json: this.getInputData(itemIndex)[0].json,
-                        error: error,
-                        pairedItem: itemIndex,
+                        json: {
+                            error: error instanceof Error ? error.message : 'Unknown error occurred',
+                        },
+                        pairedItem: { item: itemIndex },
                     });
+                    continue;
                 }
-                else {
-                    if (typeof error === 'object' && error !== null && 'context' in error) {
-                        error.context.itemIndex = itemIndex;
-                        throw error;
-                    }
-                    throw new n8n_workflow_1.NodeOperationError(this.getNode(), error, { itemIndex });
-                }
+                throw error;
             }
         }
         return [returnData];
     }
 }
-exports.Perfex = Perfex;
+module.exports = { perfexNode: new Perfex() };
+//# sourceMappingURL=Perfex.node.js.map

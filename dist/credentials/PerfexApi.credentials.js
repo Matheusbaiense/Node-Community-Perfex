@@ -31,3 +31,4 @@ class PerfexApi {
     }
 }
 exports.PerfexApi = PerfexApi;
+//# sourceMappingURL=PerfexApi.credentials.js.map

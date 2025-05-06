@@ -302,3 +302,4 @@ exports.contactFields = [
     /* -------------------------------------------------------------------------- */
     // Uses Contact ID (defined above)
 ];
+//# sourceMappingURL=ContactDescription.js.map

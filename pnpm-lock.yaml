@@ -8,16 +8,16 @@ importers:
 
   .:
     dependencies:
-      n8n-nodes-perfex-api:
-        specifier: ^0.1.5
-        version: 0.1.5(n8n-workflow@1.82.0)
       n8n-workflow:
-        specifier: '*'
+        specifier: ^1.0.0
         version: 1.82.0
     devDependencies:
       '@eslint/js':
         specifier: ^8.56.0
         version: 8.57.1
+      '@types/node':
+        specifier: ^22.15.12
+        version: 22.15.12
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.32.0
         version: 8.32.0(@typescript-eslint/parser@8.32.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
@@ -136,6 +136,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/node@22.15.12':
+    resolution: {integrity: sha512-K0fpC/ZVeb8G9rm7bH7vI0KAec4XHEhBam616nVJCV51bKzJ6oA3luG4WdKoaztxe70QaNjS/xBmcDLmr4PiGw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -1535,12 +1538,6 @@ packages:
     resolution: {integrity: sha512-kDcwXR4PS7caBpuRYYBUz9iVixUk3anO3f5OYFiIPwK/20vCzKCHyKoulbiDY1S53zD2bxUpxN/IJ+TnXjfvxg==}
     engines: {node: '>= 0.10'}
 
-  n8n-nodes-perfex-api@0.1.5:
-    resolution: {integrity: sha512-/RjCaP9qP6qgKVjv5EuXOf5UMv+VZVX5VfsI/I2bkjtyCfoKlv2XU6svASySL4uiiqiCWFr6fCVCwSF9T9fsWQ==}
-    engines: {node: '>=18.10', pnpm: '>=9.1'}
-    peerDependencies:
-      n8n-workflow: '*'
-
   n8n-workflow@1.82.0:
     resolution: {integrity: sha512-KScpufwmC7NtYhUbjQxfKUKrRq11qQH/yJScM3MsFCj2GCqNFQdlmZAmrWj30DeRlwgEdRzNW1LnGIKMGFEVqA==}
 
@@ -2218,6 +2215,9 @@ packages:
     resolution: {integrity: sha512-/RXwi5m/Mu3H6IHQGww3GNt1PNXlbeCuclF2QYR14L/2CHPz3DFZkvB5hZ0N/QUkiXWCACML2jXViIQEQc2MLg==}
     engines: {node: '>= 0.10'}
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==}
     engines: {node: '>=0.10.0'}
@@ -2456,6 +2456,10 @@ snapshots:
   '@pkgr/core@0.1.2': {}
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/node@22.15.12':
+    dependencies:
+      undici-types: 6.21.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -4108,10 +4112,6 @@ snapshots:
 
   mute-stdout@1.0.1: {}
 
-  n8n-nodes-perfex-api@0.1.5(n8n-workflow@1.82.0):
-    dependencies:
-      n8n-workflow: 1.82.0
-
   n8n-workflow@1.82.0:
     dependencies:
       '@n8n/tournament': 1.0.6
@@ -4846,6 +4846,8 @@ snapshots:
       object.defaults: 1.1.0
       object.reduce: 1.0.1
       undertaker-registry: 1.0.1
+
+  undici-types@6.21.0: {}
 
   union-value@1.0.1:
     dependencies:

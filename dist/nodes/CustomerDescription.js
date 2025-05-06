@@ -215,3 +215,4 @@ exports.customerFields = [
     /* -------------------------------------------------------------------------- */
     // Uses Customer ID (defined above)
 ];
+//# sourceMappingURL=CustomerDescription.js.map

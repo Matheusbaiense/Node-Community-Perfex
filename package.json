@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "description": "n8n community node for Perfex CRM API",
   "keywords": [
     "n8n-community-node-package",
@@ -24,20 +24,15 @@
   },
   "packageManager": "pnpm@9.1.4",
   "main": "dist/nodes/Perfex.node.js",
-  "exports": {
-    ".": {
-      "require": "./dist/nodes/Perfex.node.js",
-      "import": "./dist/nodes/Perfex.node.js"
-    }
-  },
+  "type": "commonjs",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "tsc && gulp build:icons",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "pnpm build && pnpm lint nodes credentials package.json"
+    "lint": "eslint nodes credentials",
+    "lintfix": "eslint nodes credentials --fix",
+    "prepublishOnly": "pnpm build && pnpm lint"
   },
   "files": [
     "dist"
@@ -53,6 +48,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.56.0",
+    "@types/node": "^22.15.12",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
     "eslint": "^8.56.0",
@@ -63,6 +59,9 @@
     "gulp": "^4.0.2",
     "prettier": "^3.3.2",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "n8n-workflow": "^1.0.0"
   },
   "peerDependencies": {
     "n8n-workflow": "*"
