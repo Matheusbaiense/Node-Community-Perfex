@@ -2,7 +2,6 @@
   "name": "n8n-nodes-perfex-api",
   "version": "0.1.2",
   "description": "n8n community node for Perfex CRM API",
-  "type": "module",
   "keywords": [
     "n8n-community-node-package",
     "n8n",
