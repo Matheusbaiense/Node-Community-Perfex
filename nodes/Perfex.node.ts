@@ -257,4 +257,4 @@ class Perfex implements INodeType {
     }
 }
 
-exports.Perfex = Perfex;
+export = { perfexNode: new Perfex() };
