@@ -1,13 +1,12 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import { IExecuteFunctions } from 'n8n-core';
-import {
+import type { IExecuteFunctions } from 'n8n-workflow';
+import type {
     INodeType,
     INodeTypeDescription,
     INodeExecutionData,
     IDataObject,
-    NodeOperationError,
-    NodeConnectionType,
 } from 'n8n-workflow';
+import { NodeOperationError } from 'n8n-workflow';
 
 // Import descriptions for operations and fields
 import { leadOperations, leadFields } from './LeadDescription';
@@ -26,8 +25,8 @@ export class Perfex implements INodeType {
         defaults: {
             name: 'Perfex CRM',
         },
-        inputs: [NodeConnectionType.Main],
-        outputs: [NodeConnectionType.Main],
+        inputs: ['main'],
+        outputs: ['main'],
         credentials: [
             {
                 name: 'perfexApi',

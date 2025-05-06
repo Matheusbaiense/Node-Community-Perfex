@@ -205,7 +205,7 @@ class Perfex {
             }
             catch (error) {
                 if (this.continueOnFail()) {
-                    returnData.push({ error: error.message });
+                    returnData.push({ error: error instanceof Error ? error.message : 'Unknown error occurred' });
                     continue;
                 }
                 throw new n8n_workflow_1.NodeOperationError(this.getNode(), error);

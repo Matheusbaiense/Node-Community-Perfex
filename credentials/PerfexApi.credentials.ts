@@ -1,10 +1,14 @@
 // /home/ubuntu/n8n-nodes-perfex/credentials/PerfexApi.credentials.ts
 import { ICredentialType, INodeProperties } from 'n8n-workflow';
 
+/**
+ * Credentials for Perfex CRM API
+ * @description Credentials for authenticating with the Perfex CRM API
+ */
 class PerfexApi implements ICredentialType {
     name = 'perfexApi';
     displayName = 'Perfex API';
-    // documentationUrl = 'https://link-to-perfex-api-docs'; // TODO: Add Perfex API documentation link
+    documentationUrl = 'https://docs.perfexcrm.com/api/';
     properties: INodeProperties[] = [
         {
             displayName: 'Perfex Base URL',

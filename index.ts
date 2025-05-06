@@ -1,5 +1,3 @@
-const { Perfex } = require('./dist/nodes/Perfex.node');
+import { Perfex } from './nodes/Perfex/Perfex.node';
 
-module.exports = {
-    nodeClass: Perfex,
-}; 
+export { Perfex as nodeClass }; 

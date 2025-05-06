@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 
-gulp.task('build:icons', function (done) {
-  // Tarefa vazia, só para evitar erro no build
-  done();
+gulp.task('build:icons', function () {
+    return gulp.src('nodes/**/*.svg')
+        .pipe(gulp.dest('dist/nodes'));
 });
