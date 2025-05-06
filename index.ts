@@ -1,4 +1,4 @@
 import { Perfex } from './nodes/Perfex/Perfex.node';
 
-export { Perfex };
+export { Perfex as nodeClass };
 export default { Perfex }; 
