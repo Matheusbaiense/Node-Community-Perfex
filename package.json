@@ -60,8 +60,5 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
-  },
-  "dependencies": {
-    "n8n-nodes-perfex-api": "^0.1.5"
   }
 }
