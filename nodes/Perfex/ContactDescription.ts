@@ -118,6 +118,7 @@ export const contactFields: INodeProperties[] = [
         displayName: 'Email',
         name: 'email',
         type: 'string',
+								placeholder: 'name@email.com',
         required: true,
         displayOptions: {
             show: {
@@ -132,6 +133,7 @@ export const contactFields: INodeProperties[] = [
         displayName: 'Password',
         name: 'password',
         type: 'string',
+								typeOptions: { password: true },
         required: true,
         displayOptions: {
             show: {
@@ -167,7 +169,6 @@ export const contactFields: INodeProperties[] = [
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
-                description: 'The phone number',
             },
             {
                 displayName: 'Position',
@@ -216,6 +217,7 @@ export const contactFields: INodeProperties[] = [
                 displayName: 'Email',
                 name: 'email',
                 type: 'string',
+																placeholder: 'name@email.com',
                 default: '',
                 description: 'Filter by email',
             },

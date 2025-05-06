@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.25",
+  "version": "0.1.34",
   "description": "n8n community node for Perfex CRM API",
   "keywords": [
     "n8n-community-node-package",
@@ -9,20 +9,20 @@
     "crm"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Matheusbaiense/Node-Community-Perfex",
+  "homepage": "https://n8n.io",
   "author": {
-    "name": "Matheus Baiense",
-    "email": "baiensem@gmail.com"
+    "name": "Your Name",
+    "email": "your.email@example.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Matheusbaiense/Node-Community-Perfex.git"
+    "url": "git+https://github.com/yourusername/n8n-nodes-perfex-api.git"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "tsc && gulp build:icons",
     "dev": "tsc --watch",
-    "format": "prettier nodes credentials package.json --write",
+    "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
     "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
@@ -40,33 +40,22 @@
     ]
   },
   "devDependencies": {
-    "@eslint/js": "^8.0.0",
-    "@types/express": "^5.0.1",
-    "@types/request-promise-native": "^1.0.21",
-    "@typescript-eslint/eslint-plugin": "^8.32.0",
-    "@typescript-eslint/parser": "^8.32.0",
+    "@types/express": "^4.17.21",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.57.0",
-    "gulp": "^5.0.0",
-    "n8n-core": "^1.14.1",
-    "n8n-workflow": "^1.82.0",
-    "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
-    "typescript": "^5.4.5"
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-n8n-nodes-base": "^1.11.0",
+    "gulp": "^4.0.2",
+    "n8n-core": "~0.125.0",
+    "n8n-workflow": "~0.107.0",
+    "prettier": "^2.8.8",
+    "typescript": "~4.9.5"
   },
   "peerDependencies": {
-    "n8n-workflow": "^1.7.0"
+    "n8n-workflow": "^0.107.0"
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "overrides": {
-    "braces": "^3.0.3",
-    "axios": "^1.6.0",
-    "semver": "^7.5.2",
-    "xlsx": "^0.18.5",
-    "mysql2": "^3.9.8",
-    "pdfjs-dist": "^4.1.393",
-    "@azure/identity": "^4.2.1",
-    "snowflake-sdk": "^2.0.4"
   }
 }

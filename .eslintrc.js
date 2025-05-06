@@ -1,22 +1,25 @@
 module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
+    parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+        extraFileExtensions: ['.json'],
+    },
     plugins: ['@typescript-eslint'],
     extends: [
-        'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:n8n-nodes-base/nodes',
+        'prettier',
     ],
-    env: {
-        node: true,
-        es6: true,
-    },
-    parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
-    },
     rules: {
         '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/explicit-module-boundary-types': 'off'
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+        '@typescript-eslint/no-var-requires': 'off',
+        'n8n-nodes-base/node-param-operation-option-action-verb': 'off',
+        'n8n-nodes-base/node-param-operation-option-description': 'off',
+        'n8n-nodes-base/node-param-collection-type-unsorted-items': 'off',
     },
-    ignorePatterns: ['dist/**', 'node_modules/**', 'package.json']
+    ignorePatterns: ['dist/**/*', 'node_modules/**/*'],
 }; 

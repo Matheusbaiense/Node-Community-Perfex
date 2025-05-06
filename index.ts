@@ -1,7 +1,11 @@
-const { nodeClass } = require('./nodes/Perfex/Perfex.node');
+import { Perfex } from './nodes/Perfex/Perfex.node.js';
+import { PerfexApi } from './credentials/PerfexApi.credentials.js';
+import type { INodeType, ICredentialType } from 'n8n-workflow';
 
-module.exports = {
-    nodeTypes: {
-        Perfex: nodeClass,
-    },
-}; 
+export const nodeTypes: INodeType[] = [
+    new Perfex(),
+];
+
+export const credentialTypes: ICredentialType[] = [
+    new PerfexApi(),
+]; 

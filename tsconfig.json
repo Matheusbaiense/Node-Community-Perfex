@@ -20,7 +20,8 @@
     "include": [
         "nodes/**/*",
         "credentials/**/*",
-        "index.ts"
+        "index.ts",
+        "package.json"
     ],
     "exclude": [
         "node_modules/**/*",
