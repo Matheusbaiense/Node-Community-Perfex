@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "n8n community node for Perfex CRM API",
   "keywords": [
     "n8n-community-node-package",
@@ -46,19 +46,22 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.32.0",
+    "@eslint/js": "^8.56.0",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
     "eslint": "^8.56.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.1",
-    "eslint-plugin-jsdoc": "^50.6.11",
     "eslint-config-eslint": "^11.0.0",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "eslint-plugin-n8n-nodes-base": "^1.16.1",
+    "globals": "^16.0.0",
     "gulp": "^4.0.2",
     "prettier": "^3.3.2",
-    "typescript": "^5.8.3",
-    "@eslint/js": "^8.56.0",
-    "globals": "^16.0.0"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "n8n-nodes-perfex-api": "^0.1.5"
   }
 }
