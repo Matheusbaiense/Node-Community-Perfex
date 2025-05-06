@@ -1,21 +1,20 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const {
+import type {
     IExecuteFunctions,
     INodeType,
     INodeTypeDescription,
     INodeExecutionData,
     IDataObject,
-    NodeOperationError,
-    NodeConnectionType,
-} = require('n8n-workflow');
+} from 'n8n-workflow';
+import { NodeOperationError, NodeConnectionType } from 'n8n-workflow';
 
 // Import descriptions for operations and fields
-const { leadOperations, leadFields } = require('./LeadDescription');
-const { customerOperations, customerFields } = require('./CustomerDescription');
-const { contactOperations, contactFields } = require('./ContactDescription');
+import { leadOperations, leadFields } from './LeadDescription';
+import { customerOperations, customerFields } from './CustomerDescription';
+import { contactOperations, contactFields } from './ContactDescription';
 
-class Perfex {
-    description = {
+class Perfex implements INodeType {
+    description: INodeTypeDescription = {
         displayName: 'Perfex CRM',
         name: 'perfex',
         icon: 'file:perfex.svg',
@@ -72,46 +71,46 @@ class Perfex {
         ],
     };
 
-    async execute(this: typeof IExecuteFunctions) {
+    async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         const items = this.getInputData();
-        const returnData = [];
-        const resource = this.getNodeParameter('resource', 0);
-        const operation = this.getNodeParameter('operation', 0);
+        const returnData: IDataObject[] = [];
+        const resource = this.getNodeParameter('resource', 0) as string;
+        const operation = this.getNodeParameter('operation', 0) as string;
         let responseData;
 
         for (let i = 0; i < items.length; i++) {
             try {
                 if (resource === 'lead') {
                     if (operation === 'list') {
-                        const filters = this.getNodeParameter('filters', i);
+                        const filters = this.getNodeParameter('filters', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: '/api/leads',
                             qs: filters,
                         });
                     } else if (operation === 'get') {
-                        const leadId = this.getNodeParameter('leadId', i);
+                        const leadId = this.getNodeParameter('leadId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: `/api/leads/${leadId}`,
                         });
                     } else if (operation === 'create') {
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'POST',
                             url: '/api/leads',
                             body,
                         });
                     } else if (operation === 'update') {
-                        const leadId = this.getNodeParameter('leadId', i);
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const leadId = this.getNodeParameter('leadId', i) as string;
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'PUT',
                             url: `/api/leads/${leadId}`,
                             body,
                         });
                     } else if (operation === 'delete') {
-                        const leadId = this.getNodeParameter('leadId', i);
+                        const leadId = this.getNodeParameter('leadId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'DELETE',
                             url: `/api/leads/${leadId}`,
@@ -119,35 +118,35 @@ class Perfex {
                     }
                 } else if (resource === 'customer') {
                     if (operation === 'list') {
-                        const filters = this.getNodeParameter('filters', i);
+                        const filters = this.getNodeParameter('filters', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: '/api/clients',
                             qs: filters,
                         });
                     } else if (operation === 'get') {
-                        const customerId = this.getNodeParameter('customerId', i);
+                        const customerId = this.getNodeParameter('customerId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: `/api/clients/${customerId}`,
                         });
                     } else if (operation === 'create') {
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'POST',
                             url: '/api/clients',
                             body,
                         });
                     } else if (operation === 'update') {
-                        const customerId = this.getNodeParameter('customerId', i);
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const customerId = this.getNodeParameter('customerId', i) as string;
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'PUT',
                             url: `/api/clients/${customerId}`,
                             body,
                         });
                     } else if (operation === 'delete') {
-                        const customerId = this.getNodeParameter('customerId', i);
+                        const customerId = this.getNodeParameter('customerId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'DELETE',
                             url: `/api/clients/${customerId}`,
@@ -155,35 +154,35 @@ class Perfex {
                     }
                 } else if (resource === 'contact') {
                     if (operation === 'list') {
-                        const filters = this.getNodeParameter('filters', i);
+                        const filters = this.getNodeParameter('filters', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: '/api/contacts',
                             qs: filters,
                         });
                     } else if (operation === 'get') {
-                        const contactId = this.getNodeParameter('contactId', i);
+                        const contactId = this.getNodeParameter('contactId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: `/api/contacts/${contactId}`,
                         });
                     } else if (operation === 'create') {
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'POST',
                             url: '/api/contacts',
                             body,
                         });
                     } else if (operation === 'update') {
-                        const contactId = this.getNodeParameter('contactId', i);
-                        const body = this.getNodeParameter('additionalFields', i);
+                        const contactId = this.getNodeParameter('contactId', i) as string;
+                        const body = this.getNodeParameter('additionalFields', i) as IDataObject;
                         responseData = await this.helpers.request({
                             method: 'PUT',
                             url: `/api/contacts/${contactId}`,
                             body,
                         });
                     } else if (operation === 'delete') {
-                        const contactId = this.getNodeParameter('contactId', i);
+                        const contactId = this.getNodeParameter('contactId', i) as string;
                         responseData = await this.helpers.request({
                             method: 'DELETE',
                             url: `/api/contacts/${contactId}`,
@@ -196,12 +195,12 @@ class Perfex {
                 } else {
                     returnData.push(responseData);
                 }
-            } catch (error) {
+            } catch (error: unknown) {
                 if (this.continueOnFail()) {
                     returnData.push({ error: error instanceof Error ? error.message : 'Unknown error occurred' });
                     continue;
                 }
-                throw new NodeOperationError(this.getNode(), error);
+                throw new NodeOperationError(this.getNode(), error as Error);
             }
         }
 
