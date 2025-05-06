@@ -1,19 +1,28 @@
 {
     "compilerOptions": {
+        "outDir": "dist",
         "module": "commonjs",
-        "moduleResolution": "node",
         "target": "es2019",
-        "outDir": "./dist",
-        "rootDir": "./",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
         "declaration": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
         "sourceMap": true,
-        "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"]
+        "lib": [
+            "es2019",
+            "es2020.promise",
+            "es2020.bigint",
+            "es2020.string"
+        ]
     },
-    "include": ["nodes/**/*", "credentials/**/*"],
-    "exclude": ["node_modules/**/*", "dist/**/*"]
+    "include": [
+        "nodes/**/*",
+        "credentials/**/*"
+    ],
+    "exclude": [
+        "node_modules/**/*",
+        "dist/**/*"
+    ]
 }

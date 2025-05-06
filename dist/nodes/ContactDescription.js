@@ -17,7 +17,7 @@ exports.contactOperations = [
             {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a contact',
+                description: 'Create a new contact',
                 action: 'Create a contact',
             },
             {
@@ -35,8 +35,8 @@ exports.contactOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List contacts',
-                action: 'List contacts',
+                description: 'List all contacts',
+                action: 'List all contacts',
             },
             {
                 name: 'Update',
@@ -52,7 +52,7 @@ exports.contactFields = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
-        type: 'number',
+        type: 'string',
         required: true,
         displayOptions: {
             show: {
@@ -66,12 +66,12 @@ exports.contactFields = [
     {
         displayName: 'Customer ID',
         name: 'customerId',
-        type: 'number',
+        type: 'string',
         required: true,
         displayOptions: {
             show: {
                 resource: ['contact'],
-                operation: ['create', 'list'],
+                operation: ['create'],
             },
         },
         default: '',
@@ -117,7 +117,7 @@ exports.contactFields = [
             },
         },
         default: '',
-        description: 'The email of the contact',
+        description: 'The email address of the contact',
     },
     {
         displayName: 'Password',
@@ -131,7 +131,7 @@ exports.contactFields = [
             },
         },
         default: '',
-        description: 'The password of the contact',
+        description: 'The password for the contact',
     },
     {
         displayName: 'Additional Fields',
@@ -158,21 +158,21 @@ exports.contactFields = [
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
-                description: 'The phone number of the contact',
+                description: 'The phone number',
             },
             {
                 displayName: 'Position',
                 name: 'position',
                 type: 'string',
                 default: '',
-                description: 'The position of the contact',
+                description: 'The position in the company',
             },
             {
                 displayName: 'Is Primary',
                 name: 'is_primary',
                 type: 'boolean',
                 default: false,
-                description: 'Whether the contact is primary',
+                description: 'Whether this is the primary contact',
             },
             {
                 displayName: 'Active',
@@ -180,6 +180,42 @@ exports.contactFields = [
                 type: 'boolean',
                 default: true,
                 description: 'Whether the contact is active',
+            },
+        ],
+    },
+    {
+        displayName: 'Filters',
+        name: 'filters',
+        type: 'collection',
+        placeholder: 'Add Filter',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['list'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Customer ID',
+                name: 'customer_id',
+                type: 'string',
+                default: '',
+                description: 'Filter by customer ID',
+            },
+            {
+                displayName: 'Email',
+                name: 'email',
+                type: 'string',
+                default: '',
+                description: 'Filter by email',
+            },
+            {
+                displayName: 'Phone',
+                name: 'phonenumber',
+                type: 'string',
+                default: '',
+                description: 'Filter by phone number',
             },
         ],
     },

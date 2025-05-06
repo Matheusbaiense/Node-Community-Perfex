@@ -1,5 +1,5 @@
-const { nodeClass } = require('./dist/nodes/Perfex/Perfex.node');
+const { Perfex } = require('./dist/nodes/Perfex.node');
 
 module.exports = {
-    nodeClass,
+    nodeClass: Perfex,
 }; 

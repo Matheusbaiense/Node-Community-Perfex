@@ -1,6 +1,8 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 
-export const customerOperations = [
+import { INodeProperties } from 'n8n-workflow';
+
+export const customerOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -15,7 +17,7 @@ export const customerOperations = [
             {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a customer',
+                description: 'Create a new customer',
                 action: 'Create a customer',
             },
             {
@@ -33,15 +35,21 @@ export const customerOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List customers',
-                action: 'List customers',
+                description: 'List all customers',
+                action: 'List all customers',
+            },
+            {
+                name: 'Update',
+                value: 'update',
+                description: 'Update a customer',
+                action: 'Update a customer',
             },
         ],
         default: 'list',
     },
 ];
 
-export const customerFields = [
+export const customerFields: INodeProperties[] = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */
@@ -54,12 +62,12 @@ export const customerFields = [
     {
         displayName: 'Customer ID',
         name: 'customerId',
-        type: 'number',
+        type: 'string',
         required: true,
         displayOptions: {
             show: {
                 resource: ['customer'],
-                operation: ['get', 'delete'],
+                operation: ['get', 'update', 'delete'],
             },
         },
         default: '',
@@ -81,63 +89,7 @@ export const customerFields = [
             },
         },
         default: '',
-        description: 'The company name of the customer',
-    },
-    {
-        displayName: 'VAT Number',
-        name: 'vat',
-        type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['customer'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The VAT number of the customer',
-    },
-    {
-        displayName: 'Phone Number',
-        name: 'phonenumber',
-        type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['customer'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The phone number of the customer',
-    },
-    {
-        displayName: 'Website',
-        name: 'website',
-        type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['customer'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The website of the customer',
-    },
-    {
-        displayName: 'Default Currency',
-        name: 'default_currency',
-        type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['customer'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The default currency of the customer',
+        description: 'The company name',
     },
     {
         displayName: 'Additional Fields',
@@ -148,86 +100,150 @@ export const customerFields = [
         displayOptions: {
             show: {
                 resource: ['customer'],
-                operation: ['create'],
+                operation: ['create', 'update'],
             },
         },
         options: [
+            {
+                displayName: 'VAT',
+                name: 'vat',
+                type: 'string',
+                default: '',
+                description: 'The VAT number',
+            },
+            {
+                displayName: 'Phone Number',
+                name: 'phonenumber',
+                type: 'string',
+                default: '',
+                description: 'The phone number',
+            },
+            {
+                displayName: 'Website',
+                name: 'website',
+                type: 'string',
+                default: '',
+                description: 'The website URL',
+            },
+            {
+                displayName: 'Default Currency',
+                name: 'default_currency',
+                type: 'string',
+                default: '',
+                description: 'The default currency',
+            },
             {
                 displayName: 'Address',
                 name: 'address',
                 type: 'string',
                 default: '',
-                description: 'The address of the customer',
+                description: 'The address',
             },
             {
                 displayName: 'City',
                 name: 'city',
                 type: 'string',
                 default: '',
-                description: 'The city of the customer',
+                description: 'The city',
             },
             {
                 displayName: 'State',
                 name: 'state',
                 type: 'string',
                 default: '',
-                description: 'The state of the customer',
+                description: 'The state',
             },
             {
                 displayName: 'Zip',
                 name: 'zip',
                 type: 'string',
                 default: '',
-                description: 'The zip code of the customer',
+                description: 'The zip code',
             },
             {
                 displayName: 'Country',
                 name: 'country',
                 type: 'string',
                 default: '',
-                description: 'The country of the customer',
+                description: 'The country',
             },
             {
                 displayName: 'Default Language',
                 name: 'default_language',
                 type: 'string',
                 default: '',
-                description: 'The default language of the customer',
+                description: 'The default language',
             },
             {
                 displayName: 'Billing Street',
                 name: 'billing_street',
                 type: 'string',
                 default: '',
-                description: 'The billing street of the customer',
+                description: 'The billing street address',
             },
             {
                 displayName: 'Billing City',
                 name: 'billing_city',
                 type: 'string',
                 default: '',
-                description: 'The billing city of the customer',
+                description: 'The billing city',
             },
             {
                 displayName: 'Billing State',
                 name: 'billing_state',
                 type: 'string',
                 default: '',
-                description: 'The billing state of the customer',
+                description: 'The billing state',
             },
             {
                 displayName: 'Billing Zip',
                 name: 'billing_zip',
                 type: 'string',
                 default: '',
-                description: 'The billing zip code of the customer',
+                description: 'The billing zip code',
             },
             {
                 displayName: 'Billing Country',
                 name: 'billing_country',
                 type: 'string',
                 default: '',
-                description: 'The billing country of the customer',
+                description: 'The billing country',
+            },
+        ],
+    },
+    {
+        displayName: 'Filters',
+        name: 'filters',
+        type: 'collection',
+        placeholder: 'Add Filter',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['list'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Company',
+                name: 'company',
+                type: 'string',
+                default: '',
+                description: 'Filter by company name',
+            },
+            {
+                displayName: 'Email',
+                name: 'email',
+                type: 'string',
+                default: '',
+                description: 'Filter by email',
+            },
+            {
+                displayName: 'Phone',
+                name: 'phonenumber',
+                type: 'string',
+                default: '',
+                description: 'Filter by phone number',
             },
         ],
     },

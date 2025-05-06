@@ -1,6 +1,8 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
 
-export const leadOperations = [
+import { INodeProperties } from 'n8n-workflow';
+
+export const leadOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -15,7 +17,7 @@ export const leadOperations = [
             {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a lead',
+                description: 'Create a new lead',
                 action: 'Create a lead',
             },
             {
@@ -33,8 +35,8 @@ export const leadOperations = [
             {
                 name: 'List',
                 value: 'list',
-                description: 'List leads',
-                action: 'List leads',
+                description: 'List all leads',
+                action: 'List all leads',
             },
             {
                 name: 'Update',
@@ -47,11 +49,11 @@ export const leadOperations = [
     },
 ];
 
-export const leadFields = [
+export const leadFields: INodeProperties[] = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
-        type: 'number',
+        type: 'string',
         required: true,
         displayOptions: {
             show: {
@@ -87,7 +89,7 @@ export const leadFields = [
                 operation: ['create'],
             },
         },
-        default: '',
+        default: 0,
         description: 'The source of the lead',
     },
     {
@@ -101,7 +103,7 @@ export const leadFields = [
                 operation: ['create'],
             },
         },
-        default: '',
+        default: 0,
         description: 'The status of the lead',
     },
     {
@@ -122,70 +124,70 @@ export const leadFields = [
                 name: 'company',
                 type: 'string',
                 default: '',
-                description: 'The company of the lead',
+                description: 'The company name',
             },
             {
                 displayName: 'Email',
                 name: 'email',
                 type: 'string',
                 default: '',
-                description: 'The email of the lead',
+                description: 'The email address',
             },
             {
                 displayName: 'Phone',
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
-                description: 'The phone number of the lead',
+                description: 'The phone number',
             },
             {
                 displayName: 'Website',
                 name: 'website',
                 type: 'string',
                 default: '',
-                description: 'The website of the lead',
+                description: 'The website URL',
             },
             {
                 displayName: 'Address',
                 name: 'address',
                 type: 'string',
                 default: '',
-                description: 'The address of the lead',
+                description: 'The address',
             },
             {
                 displayName: 'City',
                 name: 'city',
                 type: 'string',
                 default: '',
-                description: 'The city of the lead',
+                description: 'The city',
             },
             {
                 displayName: 'State',
                 name: 'state',
                 type: 'string',
                 default: '',
-                description: 'The state of the lead',
+                description: 'The state',
             },
             {
                 displayName: 'Zip',
                 name: 'zip',
                 type: 'string',
                 default: '',
-                description: 'The zip code of the lead',
+                description: 'The zip code',
             },
             {
                 displayName: 'Country',
                 name: 'country',
                 type: 'string',
                 default: '',
-                description: 'The country of the lead',
+                description: 'The country',
             },
             {
                 displayName: 'Description',
                 name: 'description',
                 type: 'string',
                 default: '',
-                description: 'The description of the lead',
+                description: 'The description',
             },
         ],
     },
@@ -207,14 +209,14 @@ export const leadFields = [
                 name: 'status',
                 type: 'number',
                 default: '',
-                description: 'Filter leads by status',
+                description: 'Filter by status',
             },
             {
                 displayName: 'Source',
                 name: 'source',
                 type: 'number',
                 default: '',
-                description: 'Filter leads by source',
+                description: 'Filter by source',
             },
         ],
     },
