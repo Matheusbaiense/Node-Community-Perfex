@@ -1,6 +1,6 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 
-import { INodeProperties } from 'n8n-workflow';
+import type { INodeProperties } from 'n8n-workflow';
 
 /**
  * Customer operations for Perfex CRM

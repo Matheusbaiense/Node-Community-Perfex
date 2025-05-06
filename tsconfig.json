@@ -12,6 +12,10 @@
         "resolveJsonModule": true,
         "declaration": true,
         "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "nodes/*": ["nodes/*"]
+        },
         "lib": [
             "es2019"
         ],

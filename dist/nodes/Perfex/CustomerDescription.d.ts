@@ -1,4 +1,4 @@
-import { INodeProperties } from 'n8n-workflow';
+import type { INodeProperties } from 'n8n-workflow';
 /**
  * Customer operations for Perfex CRM
  * @description Available operations for managing customers in Perfex CRM

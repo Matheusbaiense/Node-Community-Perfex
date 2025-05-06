@@ -3,4 +3,3 @@ export declare class Perfex implements INodeType {
     description: INodeTypeDescription;
     execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]>;
 }
-export declare const perfexNode: Perfex;

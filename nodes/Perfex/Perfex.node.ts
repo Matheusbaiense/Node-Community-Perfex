@@ -1,292 +1,299 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
 import {
-    IExecuteFunctions,
-    INodeExecutionData,
-    IDataObject,
-    IHttpRequestMethods,
-    INodeType,
-    INodeTypeDescription,
-    NodeOperationError,
+	IExecuteFunctions,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription,
+	JsonObject,
 } from 'n8n-workflow';
-
-// Import descriptions for operations and fields
-import * as leadDesc from './LeadDescription';
-import * as customerDesc from './CustomerDescription';
-import * as contactDesc from './ContactDescription';
-
-interface IPerfexRequestBody extends IDataObject {
-    name?: string;
-    source?: number;
-    status?: number;
-    company?: string;
-    vat?: string;
-    phonenumber?: string;
-    website?: string;
-    default_currency?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    zip?: string;
-    country?: string;
-    default_language?: string;
-    customer_id?: number;
-    firstname?: string;
-    lastname?: string;
-    email?: string;
-    password?: string;
-}
-
-interface IPerfexQueryString extends IDataObject {
-    status?: number;
-    source?: number;
-}
+import { leadOperations, leadFields } from './LeadDescription';
+import { customerOperations, customerFields } from './CustomerDescription';
+import { contactOperations, contactFields } from './ContactDescription';
 
 export class Perfex implements INodeType {
-    description: INodeTypeDescription = {
-        displayName: 'Perfex CRM',
-        name: 'perfex',
-        icon: 'file:perfex.svg',
-        group: ['output'],
-        version: 1,
-        subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-        description: 'Interact with the Perfex CRM API to manage leads, customers and contacts',
-        defaults: {
-            name: 'Perfex CRM',
-        },
-        inputs: ['main'],
-        outputs: ['main'],
-        credentials: [
-            {
-                name: 'perfexApi',
-                required: true,
-            },
-        ],
-        properties: [
-            {
-                displayName: 'Resource',
-                name: 'resource',
-                type: 'options',
-                noDataExpression: true,
-                options: [
-                    {
-                        name: 'Lead',
-                        value: 'lead',
-                    },
-                    {
-                        name: 'Customer',
-                        value: 'customer',
-                    },
-                    {
-                        name: 'Contact',
-                        value: 'contact',
-                    },
-                ],
-                default: 'lead',
-            },
-            ...leadDesc.leadOperations,
-            ...leadDesc.leadFields,
-            ...customerDesc.customerOperations,
-            ...customerDesc.customerFields,
-            ...contactDesc.contactOperations,
-            ...contactDesc.contactFields,
-        ],
-    };
+	description: INodeTypeDescription = {
+		displayName: 'Perfex',
+		name: 'perfex',
+		icon: 'file:perfex.svg',
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Consume Perfex API',
+		defaults: {
+			name: 'Perfex',
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{
+				name: 'perfexApi',
+				required: true,
+			},
+		],
+		requestDefaults: {
+			baseURL: '={{$credentials.domain}}',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		},
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
+						name: 'Lead',
+						value: 'lead',
+					},
+					{
+						name: 'Customer',
+						value: 'customer',
+					},
+					{
+						name: 'Contact',
+						value: 'contact',
+					},
+				],
+				default: 'lead',
+			},
+			...leadOperations,
+			...leadFields,
+			...customerOperations,
+			...customerFields,
+			...contactOperations,
+			...contactFields,
+		],
+	};
 
-    async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-        const items = this.getInputData();
-        const returnData: INodeExecutionData[] = [];
-        let responseData: IDataObject;
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: INodeExecutionData[] = [];
+		const resource = this.getNodeParameter('resource', 0) as string;
+		const operation = this.getNodeParameter('operation', 0) as string;
+		let responseData;
 
-        const resource = this.getNodeParameter('resource', 0) as string;
-        const operation = this.getNodeParameter('operation', 0) as string;
+		for (let i = 0; i < items.length; i++) {
+			try {
+				if (resource === 'lead') {
+					if (operation === 'create') {
+						const body: JsonObject = {};
+						const additionalFields = this.getNodeParameter('additionalFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-        for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-            try {
-                let method: IHttpRequestMethods = 'GET';
-                let endpoint = '';
-                const body: IPerfexRequestBody = {};
-                const qs: IPerfexQueryString = {};
+						Object.assign(body, additionalFields, customFields);
 
-                if (resource === 'lead') {
-                    endpoint = '/leads';
+						responseData = await this.helpers.request({
+							method: 'POST',
+							url: '/api/leads',
+							body,
+						});
+					}
+					if (operation === 'get') {
+						const leadId = this.getNodeParameter('leadId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'GET',
+							url: `/api/leads/${leadId}`,
+						});
+					}
+					if (operation === 'getAll') {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+						const options = this.getNodeParameter('options', i) as JsonObject;
+						const qs: JsonObject = {};
 
-                    if (operation === 'list') {
-                        method = 'GET';
-                        const filters = this.getNodeParameter('filters', itemIndex, {}) as IPerfexQueryString;
-                        if (filters.status) qs.status = filters.status;
-                        if (filters.source) qs.source = filters.source;
-                    }
-                    else if (operation === 'get') {
-                        method = 'GET';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
-                        endpoint = `/leads/${leadId}`;
-                    }
-                    else if (operation === 'create') {
-                        method = 'POST';
-                        body.name = this.getNodeParameter('name', itemIndex) as string;
-                        body.source = this.getNodeParameter('source', itemIndex) as number;
-                        body.status = this.getNodeParameter('status', itemIndex) as number;
+						Object.assign(qs, options);
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
-                        Object.assign(body, additionalFields);
-                    }
-                    else if (operation === 'update') {
-                        method = 'PUT';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
-                        endpoint = `/leads/${leadId}`;
+						if (returnAll) {
+							responseData = await this.helpers.requestAll({
+								method: 'GET',
+								url: '/api/leads',
+								qs,
+							});
+						} else {
+							const limit = this.getNodeParameter('limit', i) as number;
+							qs.limit = limit;
+							responseData = await this.helpers.request({
+								method: 'GET',
+								url: '/api/leads',
+								qs,
+							});
+						}
+					}
+					if (operation === 'update') {
+						const leadId = this.getNodeParameter('leadId', i) as string;
+						const body: JsonObject = {};
+						const updateFields = this.getNodeParameter('updateFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-                        const source = this.getNodeParameter('source', itemIndex, null) as number | null;
-                        const status = this.getNodeParameter('status', itemIndex, null) as number | null;
-                        if (source !== null) body.source = source;
-                        if (status !== null) body.status = status;
+						Object.assign(body, updateFields, customFields);
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
-                        Object.assign(body, additionalFields);
-                    }
-                    else if (operation === 'delete') {
-                        method = 'DELETE';
-                        const leadId = this.getNodeParameter('leadId', itemIndex) as number;
-                        endpoint = `/leads/${leadId}`;
-                    }
-                }
-                else if (resource === 'customer') {
-                    endpoint = '/clients';
+						responseData = await this.helpers.request({
+							method: 'PUT',
+							url: `/api/leads/${leadId}`,
+							body,
+						});
+					}
+					if (operation === 'delete') {
+						const leadId = this.getNodeParameter('leadId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'DELETE',
+							url: `/api/leads/${leadId}`,
+						});
+					}
+				}
+				if (resource === 'customer') {
+					if (operation === 'create') {
+						const body: JsonObject = {};
+						const additionalFields = this.getNodeParameter('additionalFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-                    if (operation === 'list') {
-                        method = 'GET';
-                    }
-                    else if (operation === 'get') {
-                        method = 'GET';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
-                        endpoint = `/clients/${customerId}`;
-                    }
-                    else if (operation === 'create') {
-                        method = 'POST';
-                        body.company = this.getNodeParameter('company', itemIndex) as string;
-                        const vat = this.getNodeParameter('vat', itemIndex, '') as string;
-                        const phonenumber = this.getNodeParameter('phonenumber', itemIndex, '') as string;
-                        const website = this.getNodeParameter('website', itemIndex, '') as string;
-                        const default_currency = this.getNodeParameter('default_currency', itemIndex, '') as string;
-                        const address = this.getNodeParameter('address', itemIndex, '') as string;
-                        const city = this.getNodeParameter('city', itemIndex, '') as string;
-                        const state = this.getNodeParameter('state', itemIndex, '') as string;
-                        const zip = this.getNodeParameter('zip', itemIndex, '') as string;
-                        const country = this.getNodeParameter('country', itemIndex, '') as string;
-                        const default_language = this.getNodeParameter('default_language', itemIndex, '') as string;
+						Object.assign(body, additionalFields, customFields);
 
-                        if (vat) body.vat = vat;
-                        if (phonenumber) body.phonenumber = phonenumber;
-                        if (website) body.website = website;
-                        if (default_currency) body.default_currency = default_currency;
-                        if (address) body.address = address;
-                        if (city) body.city = city;
-                        if (state) body.state = state;
-                        if (zip) body.zip = zip;
-                        if (country) body.country = country;
-                        if (default_language) body.default_language = default_language;
-                    }
-                    else if (operation === 'delete') {
-                        method = 'DELETE';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
-                        endpoint = `/clients/${customerId}`;
-                    }
-                }
-                else if (resource === 'contact') {
-                    endpoint = '/contacts';
+						responseData = await this.helpers.request({
+							method: 'POST',
+							url: '/api/clients',
+							body,
+						});
+					}
+					if (operation === 'get') {
+						const customerId = this.getNodeParameter('customerId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'GET',
+							url: `/api/clients/${customerId}`,
+						});
+					}
+					if (operation === 'getAll') {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+						const options = this.getNodeParameter('options', i) as JsonObject;
+						const qs: JsonObject = {};
 
-                    if (operation === 'list') {
-                        method = 'GET';
-                        const customerId = this.getNodeParameter('customerId', itemIndex) as number;
-                        endpoint = `/clients/${customerId}/contacts`;
-                    }
-                    else if (operation === 'get') {
-                        method = 'GET';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
-                        endpoint = `/contacts/${contactId}`;
-                    }
-                    else if (operation === 'create') {
-                        method = 'POST';
-                        body.customer_id = this.getNodeParameter('customerId', itemIndex) as number;
-                        body.firstname = this.getNodeParameter('firstname', itemIndex) as string;
-                        body.lastname = this.getNodeParameter('lastname', itemIndex) as string;
-                        body.email = this.getNodeParameter('email', itemIndex) as string;
-                        body.password = this.getNodeParameter('password', itemIndex) as string;
+						Object.assign(qs, options);
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
-                        Object.assign(body, additionalFields);
-                    }
-                    else if (operation === 'update') {
-                        method = 'PUT';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
-                        endpoint = `/contacts/${contactId}`;
+						if (returnAll) {
+							responseData = await this.helpers.requestAll({
+								method: 'GET',
+								url: '/api/clients',
+								qs,
+							});
+						} else {
+							const limit = this.getNodeParameter('limit', i) as number;
+							qs.limit = limit;
+							responseData = await this.helpers.request({
+								method: 'GET',
+								url: '/api/clients',
+								qs,
+							});
+						}
+					}
+					if (operation === 'update') {
+						const customerId = this.getNodeParameter('customerId', i) as string;
+						const body: JsonObject = {};
+						const updateFields = this.getNodeParameter('updateFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-                        const firstname = this.getNodeParameter('firstname', itemIndex, null) as string | null;
-                        const lastname = this.getNodeParameter('lastname', itemIndex, null) as string | null;
-                        const email = this.getNodeParameter('email', itemIndex, null) as string | null;
-                        const password = this.getNodeParameter('password', itemIndex, null) as string | null;
+						Object.assign(body, updateFields, customFields);
 
-                        if (firstname) body.firstname = firstname;
-                        if (lastname) body.lastname = lastname;
-                        if (email) body.email = email;
-                        if (password) body.password = password;
+						responseData = await this.helpers.request({
+							method: 'PUT',
+							url: `/api/clients/${customerId}`,
+							body,
+						});
+					}
+					if (operation === 'delete') {
+						const customerId = this.getNodeParameter('customerId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'DELETE',
+							url: `/api/clients/${customerId}`,
+						});
+					}
+				}
+				if (resource === 'contact') {
+					if (operation === 'create') {
+						const body: JsonObject = {};
+						const additionalFields = this.getNodeParameter('additionalFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {}) as IPerfexRequestBody;
-                        Object.assign(body, additionalFields);
-                    }
-                    else if (operation === 'delete') {
-                        method = 'DELETE';
-                        const contactId = this.getNodeParameter('contactId', itemIndex) as number;
-                        endpoint = `/contacts/${contactId}`;
-                    }
-                }
+						Object.assign(body, additionalFields, customFields);
 
-                const response = await this.helpers.httpRequest({
-                    method,
-                    url: endpoint,
-                    body,
-                    qs,
-                });
+						responseData = await this.helpers.request({
+							method: 'POST',
+							url: '/api/contacts',
+							body,
+						});
+					}
+					if (operation === 'get') {
+						const contactId = this.getNodeParameter('contactId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'GET',
+							url: `/api/contacts/${contactId}`,
+						});
+					}
+					if (operation === 'getAll') {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+						const options = this.getNodeParameter('options', i) as JsonObject;
+						const qs: JsonObject = {};
 
-                if (!response || typeof response !== 'object') {
-                    throw new NodeOperationError(
-                        this.getNode(),
-                        'Invalid response from Perfex API',
-                        { itemIndex }
-                    );
-                }
+						Object.assign(qs, options);
 
-                responseData = response as IDataObject;
+						if (returnAll) {
+							responseData = await this.helpers.requestAll({
+								method: 'GET',
+								url: '/api/contacts',
+								qs,
+							});
+						} else {
+							const limit = this.getNodeParameter('limit', i) as number;
+							qs.limit = limit;
+							responseData = await this.helpers.request({
+								method: 'GET',
+								url: '/api/contacts',
+								qs,
+							});
+						}
+					}
+					if (operation === 'update') {
+						const contactId = this.getNodeParameter('contactId', i) as string;
+						const body: JsonObject = {};
+						const updateFields = this.getNodeParameter('updateFields', i) as JsonObject;
+						const customFields = this.getNodeParameter('customFields', i) as JsonObject;
 
-                if (responseData.error || (responseData.success === false)) {
-                    throw new NodeOperationError(
-                        this.getNode(), 
-                        responseData.message ? responseData.message.toString() : 'Perfex API Error', 
-                        { itemIndex }
-                    );
-                }
+						Object.assign(body, updateFields, customFields);
 
-                const executionData = this.helpers.constructExecutionMetaData(
-                    this.helpers.returnJsonArray(responseData),
-                    { itemData: { item: itemIndex } },
-                );
-                returnData.push(...executionData);
-            }
-            catch (error) {
-                if (this.continueOnFail()) {
-                    returnData.push({
-                        json: {
-                            error: error instanceof Error ? error.message : 'Unknown error occurred',
-                        },
-                        pairedItem: { item: itemIndex },
-                    });
-                    continue;
-                }
-                throw error;
-            }
-        }
+						responseData = await this.helpers.request({
+							method: 'PUT',
+							url: `/api/contacts/${contactId}`,
+							body,
+						});
+					}
+					if (operation === 'delete') {
+						const contactId = this.getNodeParameter('contactId', i) as string;
+						responseData = await this.helpers.request({
+							method: 'DELETE',
+							url: `/api/contacts/${contactId}`,
+						});
+					}
+				}
 
-        return [returnData];
-    }
+				if (Array.isArray(responseData)) {
+					returnData.push(...responseData);
+				} else {
+					returnData.push(responseData);
+				}
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({
+						json: {
+							error: error instanceof Error ? error.message : 'Unknown error occurred',
+						},
+					});
+					continue;
+				}
+				throw error;
+			}
+		}
+
+		return [returnData];
+	}
 }
-
-export const perfexNode = new Perfex();
