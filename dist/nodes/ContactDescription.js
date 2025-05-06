@@ -1,6 +1,8 @@
 "use strict";
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
-const contactOperations = [
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.contactFields = exports.contactOperations = void 0;
+exports.contactOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -13,28 +15,10 @@ const contactOperations = [
         },
         options: [
             {
-                name: 'List',
-                value: 'list',
-                description: 'List all contacts',
-                action: 'List all contacts',
-            },
-            {
-                name: 'Get',
-                value: 'get',
-                description: 'Get a contact by ID',
-                action: 'Get a contact by ID',
-            },
-            {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a new contact',
-                action: 'Create a new contact',
-            },
-            {
-                name: 'Update',
-                value: 'update',
-                description: 'Update a contact',
-                action: 'Update a contact',
+                description: 'Create a contact',
+                action: 'Create a contact',
             },
             {
                 name: 'Delete',
@@ -42,25 +26,29 @@ const contactOperations = [
                 description: 'Delete a contact',
                 action: 'Delete a contact',
             },
+            {
+                name: 'Get',
+                value: 'get',
+                description: 'Get a contact',
+                action: 'Get a contact',
+            },
+            {
+                name: 'List',
+                value: 'list',
+                description: 'List contacts',
+                action: 'List contacts',
+            },
+            {
+                name: 'Update',
+                value: 'update',
+                description: 'Update a contact',
+                action: 'Update a contact',
+            },
         ],
         default: 'list',
     },
 ];
-const contactFields = [
-    {
-        displayName: 'Customer ID',
-        name: 'customerId',
-        type: 'number',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['list', 'create'],
-            },
-        },
-        default: '',
-        description: 'The ID of the customer',
-    },
+exports.contactFields = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
@@ -74,6 +62,20 @@ const contactFields = [
         },
         default: '',
         description: 'The ID of the contact',
+    },
+    {
+        displayName: 'Customer ID',
+        name: 'customerId',
+        type: 'number',
+        required: true,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['create', 'list'],
+            },
+        },
+        default: '',
+        description: 'The ID of the customer',
     },
     {
         displayName: 'First Name',
@@ -129,7 +131,7 @@ const contactFields = [
             },
         },
         default: '',
-        description: 'The password for the contact',
+        description: 'The password of the contact',
     },
     {
         displayName: 'Additional Fields',
@@ -152,7 +154,7 @@ const contactFields = [
                 description: 'The title of the contact',
             },
             {
-                displayName: 'Phone',
+                displayName: 'Phone Number',
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
@@ -170,7 +172,7 @@ const contactFields = [
                 name: 'is_primary',
                 type: 'boolean',
                 default: false,
-                description: 'Whether this is the primary contact',
+                description: 'Whether the contact is primary',
             },
             {
                 displayName: 'Active',
@@ -182,5 +184,4 @@ const contactFields = [
         ],
     },
 ];
-module.exports = { contactOperations, contactFields };
 //# sourceMappingURL=ContactDescription.js.map

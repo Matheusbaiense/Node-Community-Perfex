@@ -1,4 +1,4 @@
-declare const contactOperations: {
+export declare const contactOperations: {
     displayName: string;
     name: string;
     type: string;
@@ -16,7 +16,7 @@ declare const contactOperations: {
     }[];
     default: string;
 }[];
-declare const contactFields: ({
+export declare const contactFields: ({
     displayName: string;
     name: string;
     type: string;

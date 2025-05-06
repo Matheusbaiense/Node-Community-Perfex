@@ -1,4 +1,4 @@
-declare const customerOperations: {
+export declare const customerOperations: {
     displayName: string;
     name: string;
     type: string;
@@ -16,7 +16,7 @@ declare const customerOperations: {
     }[];
     default: string;
 }[];
-declare const customerFields: ({
+export declare const customerFields: ({
     displayName: string;
     name: string;
     type: string;
@@ -29,17 +29,27 @@ declare const customerFields: ({
     };
     default: string;
     description: string;
+    placeholder?: undefined;
+    options?: undefined;
 } | {
     displayName: string;
     name: string;
     type: string;
+    placeholder: string;
+    default: {};
     displayOptions: {
         show: {
             resource: string[];
             operation: string[];
         };
     };
-    default: string;
-    description: string;
+    options: {
+        displayName: string;
+        name: string;
+        type: string;
+        default: string;
+        description: string;
+    }[];
     required?: undefined;
+    description?: undefined;
 })[];

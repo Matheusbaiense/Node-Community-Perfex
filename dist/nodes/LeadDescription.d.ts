@@ -1,4 +1,4 @@
-declare const leadOperations: {
+export declare const leadOperations: {
     displayName: string;
     name: string;
     type: string;
@@ -16,7 +16,7 @@ declare const leadOperations: {
     }[];
     default: string;
 }[];
-declare const leadFields: ({
+export declare const leadFields: ({
     displayName: string;
     name: string;
     type: string;

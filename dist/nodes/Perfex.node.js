@@ -1,10 +1,45 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.nodeClass = void 0;
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const { IExecuteFunctions, INodeType, INodeTypeDescription, INodeExecutionData, IDataObject, NodeOperationError, NodeConnectionType, } = require('n8n-workflow');
+const n8n_workflow_1 = require("n8n-workflow");
 // Import descriptions for operations and fields
-const { leadOperations, leadFields } = require('./LeadDescription');
-const { customerOperations, customerFields } = require('./CustomerDescription');
-const { contactOperations, contactFields } = require('./ContactDescription');
+const leadDesc = __importStar(require("./LeadDescription"));
+const customerDesc = __importStar(require("./CustomerDescription"));
+const contactDesc = __importStar(require("./ContactDescription"));
 class Perfex {
     constructor() {
         this.description = {
@@ -26,14 +61,6 @@ class Perfex {
                     required: true,
                 },
             ],
-            requestDefaults: {
-                baseURL: '={{$credentials.baseUrl.replace(/\/+$/, "") + "/api"}}',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    authtoken: '={{$credentials.apiToken}}',
-                },
-            },
             properties: [
                 {
                     displayName: 'Resource',
@@ -57,21 +84,22 @@ class Perfex {
                     default: 'lead',
                     description: 'The resource to operate on',
                 },
-                ...leadOperations,
-                ...leadFields,
-                ...customerOperations,
-                ...customerFields,
-                ...contactOperations,
-                ...contactFields,
+                ...leadDesc.leadOperations,
+                ...leadDesc.leadFields,
+                ...customerDesc.customerOperations,
+                ...customerDesc.customerFields,
+                ...contactDesc.contactOperations,
+                ...contactDesc.contactFields,
             ],
         };
     }
-    async execute(context) {
-        const items = context.getInputData();
+    async execute() {
+        var _a;
+        const items = this.getInputData();
         const returnData = [];
         let responseData;
-        const resource = context.getNodeParameter('resource', 0);
-        const operation = context.getNodeParameter('operation', 0);
+        const resource = this.getNodeParameter('resource', 0);
+        const operation = this.getNodeParameter('operation', 0);
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             try {
                 let method = 'GET';
@@ -82,7 +110,7 @@ class Perfex {
                     endpoint = '/leads';
                     if (operation === 'list') {
                         method = 'GET';
-                        const filters = context.getNodeParameter('filters', itemIndex, {});
+                        const filters = this.getNodeParameter('filters', itemIndex, {});
                         if (filters.status)
                             qs.status = filters.status;
                         if (filters.source)
@@ -90,33 +118,33 @@ class Perfex {
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const leadId = context.getNodeParameter('leadId', itemIndex);
+                        const leadId = this.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.name = context.getNodeParameter('name', itemIndex);
-                        body.source = context.getNodeParameter('source', itemIndex);
-                        body.status = context.getNodeParameter('status', itemIndex);
-                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
+                        body.name = this.getNodeParameter('name', itemIndex);
+                        body.source = this.getNodeParameter('source', itemIndex);
+                        body.status = this.getNodeParameter('status', itemIndex);
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
                         method = 'PUT';
-                        const leadId = context.getNodeParameter('leadId', itemIndex);
+                        const leadId = this.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
-                        const source = context.getNodeParameter('source', itemIndex, null);
-                        const status = context.getNodeParameter('status', itemIndex, null);
+                        const source = this.getNodeParameter('source', itemIndex, null);
+                        const status = this.getNodeParameter('status', itemIndex, null);
                         if (source !== null)
                             body.source = source;
                         if (status !== null)
                             body.status = status;
-                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const leadId = context.getNodeParameter('leadId', itemIndex);
+                        const leadId = this.getNodeParameter('leadId', itemIndex);
                         endpoint = `/leads/${leadId}`;
                     }
                 }
@@ -127,22 +155,22 @@ class Perfex {
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const customerId = context.getNodeParameter('customerId', itemIndex);
+                        const customerId = this.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.company = context.getNodeParameter('company', itemIndex);
-                        const vat = context.getNodeParameter('vat', itemIndex, '');
-                        const phonenumber = context.getNodeParameter('phonenumber', itemIndex, '');
-                        const website = context.getNodeParameter('website', itemIndex, '');
-                        const default_currency = context.getNodeParameter('default_currency', itemIndex, '');
-                        const address = context.getNodeParameter('address', itemIndex, '');
-                        const city = context.getNodeParameter('city', itemIndex, '');
-                        const state = context.getNodeParameter('state', itemIndex, '');
-                        const zip = context.getNodeParameter('zip', itemIndex, '');
-                        const country = context.getNodeParameter('country', itemIndex, '');
-                        const default_language = context.getNodeParameter('default_language', itemIndex, '');
+                        body.company = this.getNodeParameter('company', itemIndex);
+                        const vat = this.getNodeParameter('vat', itemIndex, '');
+                        const phonenumber = this.getNodeParameter('phonenumber', itemIndex, '');
+                        const website = this.getNodeParameter('website', itemIndex, '');
+                        const default_currency = this.getNodeParameter('default_currency', itemIndex, '');
+                        const address = this.getNodeParameter('address', itemIndex, '');
+                        const city = this.getNodeParameter('city', itemIndex, '');
+                        const state = this.getNodeParameter('state', itemIndex, '');
+                        const zip = this.getNodeParameter('zip', itemIndex, '');
+                        const country = this.getNodeParameter('country', itemIndex, '');
+                        const default_language = this.getNodeParameter('default_language', itemIndex, '');
                         if (vat)
                             body.vat = vat;
                         if (phonenumber)
@@ -166,7 +194,7 @@ class Perfex {
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const customerId = context.getNodeParameter('customerId', itemIndex);
+                        const customerId = this.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}`;
                     }
                 }
@@ -174,32 +202,32 @@ class Perfex {
                     endpoint = '/contacts';
                     if (operation === 'list') {
                         method = 'GET';
-                        const customerId = context.getNodeParameter('customerId', itemIndex);
+                        const customerId = this.getNodeParameter('customerId', itemIndex);
                         endpoint = `/clients/${customerId}/contacts`;
                     }
                     else if (operation === 'get') {
                         method = 'GET';
-                        const contactId = context.getNodeParameter('contactId', itemIndex);
+                        const contactId = this.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
                     }
                     else if (operation === 'create') {
                         method = 'POST';
-                        body.customer_id = context.getNodeParameter('customerId', itemIndex);
-                        body.firstname = context.getNodeParameter('firstname', itemIndex);
-                        body.lastname = context.getNodeParameter('lastname', itemIndex);
-                        body.email = context.getNodeParameter('email', itemIndex);
-                        body.password = context.getNodeParameter('password', itemIndex);
-                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
+                        body.customer_id = this.getNodeParameter('customerId', itemIndex);
+                        body.firstname = this.getNodeParameter('firstname', itemIndex);
+                        body.lastname = this.getNodeParameter('lastname', itemIndex);
+                        body.email = this.getNodeParameter('email', itemIndex);
+                        body.password = this.getNodeParameter('password', itemIndex);
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'update') {
                         method = 'PUT';
-                        const contactId = context.getNodeParameter('contactId', itemIndex);
+                        const contactId = this.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
-                        const firstname = context.getNodeParameter('firstname', itemIndex, null);
-                        const lastname = context.getNodeParameter('lastname', itemIndex, null);
-                        const email = context.getNodeParameter('email', itemIndex, null);
-                        const password = context.getNodeParameter('password', itemIndex, null);
+                        const firstname = this.getNodeParameter('firstname', itemIndex, null);
+                        const lastname = this.getNodeParameter('lastname', itemIndex, null);
+                        const email = this.getNodeParameter('email', itemIndex, null);
+                        const password = this.getNodeParameter('password', itemIndex, null);
                         if (firstname)
                             body.firstname = firstname;
                         if (lastname)
@@ -208,29 +236,35 @@ class Perfex {
                             body.email = email;
                         if (password)
                             body.password = password;
-                        const additionalFields = context.getNodeParameter('additionalFields', itemIndex, {});
+                        const additionalFields = this.getNodeParameter('additionalFields', itemIndex, {});
                         Object.assign(body, additionalFields);
                     }
                     else if (operation === 'delete') {
                         method = 'DELETE';
-                        const contactId = context.getNodeParameter('contactId', itemIndex);
+                        const contactId = this.getNodeParameter('contactId', itemIndex);
                         endpoint = `/contacts/${contactId}`;
                     }
                 }
-                responseData = await context.helpers.httpRequest({
+                responseData = await this.helpers.httpRequest({
                     method,
                     url: endpoint,
                     body,
                     qs,
                 });
-                if (responseData.error || (responseData.success === false)) {
-                    throw new NodeOperationError(context.getNode(), responseData.message || 'Perfex API Error', { itemIndex });
+                if (Array.isArray(responseData)) {
+                    throw new n8n_workflow_1.NodeOperationError(this.getNode(), 'Unexpected array response from Perfex API', { itemIndex });
                 }
-                const executionData = context.helpers.constructExecutionMetaData(context.helpers.returnJsonArray(responseData), { itemData: { item: itemIndex } });
+                if (responseData && typeof responseData === 'object') {
+                    if ('error' in responseData || (responseData.success === false)) {
+                        const errorMessage = ((_a = responseData.message) === null || _a === void 0 ? void 0 : _a.toString()) || 'Perfex API Error';
+                        throw new n8n_workflow_1.NodeOperationError(this.getNode(), errorMessage, { itemIndex });
+                    }
+                }
+                const executionData = this.helpers.constructExecutionMetaData(this.helpers.returnJsonArray(responseData), { itemData: { item: itemIndex } });
                 returnData.push(...executionData);
             }
             catch (error) {
-                if (context.continueOnFail()) {
+                if (this.continueOnFail()) {
                     returnData.push({
                         json: {
                             error: error instanceof Error ? error.message : 'Unknown error occurred',
@@ -245,5 +279,5 @@ class Perfex {
         return [returnData];
     }
 }
-module.exports = { perfexNode: new Perfex() };
+exports.nodeClass = Perfex;
 //# sourceMappingURL=Perfex.node.js.map

@@ -1,6 +1,8 @@
 "use strict";
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
-const leadOperations = [
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.leadFields = exports.leadOperations = void 0;
+exports.leadOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -13,28 +15,10 @@ const leadOperations = [
         },
         options: [
             {
-                name: 'List',
-                value: 'list',
-                description: 'List all leads',
-                action: 'List all leads',
-            },
-            {
-                name: 'Get',
-                value: 'get',
-                description: 'Get a lead by ID',
-                action: 'Get a lead by ID',
-            },
-            {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a new lead',
-                action: 'Create a new lead',
-            },
-            {
-                name: 'Update',
-                value: 'update',
-                description: 'Update a lead',
-                action: 'Update a lead',
+                description: 'Create a lead',
+                action: 'Create a lead',
             },
             {
                 name: 'Delete',
@@ -42,11 +26,29 @@ const leadOperations = [
                 description: 'Delete a lead',
                 action: 'Delete a lead',
             },
+            {
+                name: 'Get',
+                value: 'get',
+                description: 'Get a lead',
+                action: 'Get a lead',
+            },
+            {
+                name: 'List',
+                value: 'list',
+                description: 'List leads',
+                action: 'List leads',
+            },
+            {
+                name: 'Update',
+                value: 'update',
+                description: 'Update a lead',
+                action: 'Update a lead',
+            },
         ],
         default: 'list',
     },
 ];
-const leadFields = [
+exports.leadFields = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
@@ -104,35 +106,6 @@ const leadFields = [
         description: 'The status of the lead',
     },
     {
-        displayName: 'Filters',
-        name: 'filters',
-        type: 'collection',
-        placeholder: 'Add Filter',
-        default: {},
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['list'],
-            },
-        },
-        options: [
-            {
-                displayName: 'Status',
-                name: 'status',
-                type: 'number',
-                default: '',
-                description: 'Filter by status',
-            },
-            {
-                displayName: 'Source',
-                name: 'source',
-                type: 'number',
-                default: '',
-                description: 'Filter by source',
-            },
-        ],
-    },
-    {
         displayName: 'Additional Fields',
         name: 'additionalFields',
         type: 'collection',
@@ -145,6 +118,13 @@ const leadFields = [
             },
         },
         options: [
+            {
+                displayName: 'Company',
+                name: 'company',
+                type: 'string',
+                default: '',
+                description: 'The company of the lead',
+            },
             {
                 displayName: 'Email',
                 name: 'email',
@@ -160,11 +140,11 @@ const leadFields = [
                 description: 'The phone number of the lead',
             },
             {
-                displayName: 'Company',
-                name: 'company',
+                displayName: 'Website',
+                name: 'website',
                 type: 'string',
                 default: '',
-                description: 'The company of the lead',
+                description: 'The website of the lead',
             },
             {
                 displayName: 'Address',
@@ -197,7 +177,7 @@ const leadFields = [
             {
                 displayName: 'Country',
                 name: 'country',
-                type: 'number',
+                type: 'string',
                 default: '',
                 description: 'The country of the lead',
             },
@@ -210,6 +190,34 @@ const leadFields = [
             },
         ],
     },
+    {
+        displayName: 'Filters',
+        name: 'filters',
+        type: 'collection',
+        placeholder: 'Add Filter',
+        default: {},
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['list'],
+            },
+        },
+        options: [
+            {
+                displayName: 'Status',
+                name: 'status',
+                type: 'number',
+                default: '',
+                description: 'Filter leads by status',
+            },
+            {
+                displayName: 'Source',
+                name: 'source',
+                type: 'number',
+                default: '',
+                description: 'Filter leads by source',
+            },
+        ],
+    },
 ];
-module.exports = { leadOperations, leadFields };
 //# sourceMappingURL=LeadDescription.js.map

@@ -1,6 +1,6 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
 
-const contactOperations = [
+export const contactOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -13,28 +13,10 @@ const contactOperations = [
         },
         options: [
             {
-                name: 'List',
-                value: 'list',
-                description: 'Get all contacts',
-                action: 'Get all contacts',
-            },
-            {
-                name: 'Get',
-                value: 'get',
-                description: 'Get a contact by ID',
-                action: 'Get a contact by ID',
-            },
-            {
                 name: 'Create',
                 value: 'create',
-                description: 'Create a new contact',
-                action: 'Create a new contact',
-            },
-            {
-                name: 'Update',
-                value: 'update',
-                description: 'Update a contact',
-                action: 'Update a contact',
+                description: 'Create a contact',
+                action: 'Create a contact',
             },
             {
                 name: 'Delete',
@@ -42,26 +24,30 @@ const contactOperations = [
                 description: 'Delete a contact',
                 action: 'Delete a contact',
             },
+            {
+                name: 'Get',
+                value: 'get',
+                description: 'Get a contact',
+                action: 'Get a contact',
+            },
+            {
+                name: 'List',
+                value: 'list',
+                description: 'List contacts',
+                action: 'List contacts',
+            },
+            {
+                name: 'Update',
+                value: 'update',
+                description: 'Update a contact',
+                action: 'Update a contact',
+            },
         ],
         default: 'list',
     },
 ];
 
-const contactFields = [
-    {
-        displayName: 'Customer ID',
-        name: 'customerId',
-        type: 'number',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['list', 'create'],
-            },
-        },
-        default: '',
-        description: 'The ID of the customer',
-    },
+export const contactFields = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
@@ -77,6 +63,20 @@ const contactFields = [
         description: 'The ID of the contact',
     },
     {
+        displayName: 'Customer ID',
+        name: 'customerId',
+        type: 'number',
+        required: true,
+        displayOptions: {
+            show: {
+                resource: ['contact'],
+                operation: ['create', 'list'],
+            },
+        },
+        default: '',
+        description: 'The ID of the customer',
+    },
+    {
         displayName: 'First Name',
         name: 'firstname',
         type: 'string',
@@ -130,63 +130,7 @@ const contactFields = [
             },
         },
         default: '',
-        description: 'The password for the contact',
-    },
-    {
-        displayName: 'First Name',
-        name: 'firstname',
-        type: 'string',
-        required: false,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: null,
-        description: 'The first name of the contact',
-    },
-    {
-        displayName: 'Last Name',
-        name: 'lastname',
-        type: 'string',
-        required: false,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: null,
-        description: 'The last name of the contact',
-    },
-    {
-        displayName: 'Email',
-        name: 'email',
-        type: 'string',
-        required: false,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: null,
-        description: 'The email of the contact',
-    },
-    {
-        displayName: 'Password',
-        name: 'password',
-        type: 'string',
-        required: false,
-        displayOptions: {
-            show: {
-                resource: ['contact'],
-                operation: ['update'],
-            },
-        },
-        default: null,
-        description: 'The password for the contact',
+        description: 'The password of the contact',
     },
     {
         displayName: 'Additional Fields',
@@ -202,7 +146,14 @@ const contactFields = [
         },
         options: [
             {
-                displayName: 'Phone',
+                displayName: 'Title',
+                name: 'title',
+                type: 'string',
+                default: '',
+                description: 'The title of the contact',
+            },
+            {
+                displayName: 'Phone Number',
                 name: 'phonenumber',
                 type: 'string',
                 default: '',
@@ -210,28 +161,26 @@ const contactFields = [
             },
             {
                 displayName: 'Position',
-                name: 'title',
+                name: 'position',
                 type: 'string',
                 default: '',
                 description: 'The position of the contact',
             },
             {
-                displayName: 'Direction',
-                name: 'direction',
-                type: 'string',
-                default: '',
-                description: 'The direction of the contact',
+                displayName: 'Is Primary',
+                name: 'is_primary',
+                type: 'boolean',
+                default: false,
+                description: 'Whether the contact is primary',
             },
             {
-                displayName: 'Profile Image',
-                name: 'profile_image',
-                type: 'string',
-                default: '',
-                description: 'The profile image URL of the contact',
+                displayName: 'Active',
+                name: 'active',
+                type: 'boolean',
+                default: true,
+                description: 'Whether the contact is active',
             },
         ],
     },
 ];
-
-module.exports = { contactOperations, contactFields };
 
