@@ -10,21 +10,21 @@
     "crm"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/baien/n8n-nodes-perfex-api",
+  "homepage": "https://github.com/Matheusbaiense/Node-Community-Perfex",
   "author": {
-    "name": "Baien",
-    "email": "baien@example.com"
+    "name": "matheusgrifohub",
+    "email": "baiensem@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baien/n8n-nodes-perfex-api.git"
+    "url": "git+https://github.com/Matheusbaiense/Node-Community-Perfex.git"
   },
   "engines": {
     "node": ">=18.10",
     "pnpm": ">=9.1"
   },
   "packageManager": "pnpm@9.1.4",
-  "main": "dist/nodes/Perfex/Perfex.node.js",
+  "main": "dist/nodes/Perfex.node.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "tsc && gulp build:icons",
@@ -43,7 +43,7 @@
       "dist/credentials/PerfexApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Perfex/Perfex.node.js"
+      "dist/nodes/Perfex.node.js"
     ]
   },
   "devDependencies": {
