@@ -1,10 +1,11 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 
-const customerOperations = [
+export const customerOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+        noDataExpression: true,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -12,34 +13,34 @@ const customerOperations = [
         },
         options: [
             {
-                displayName: 'Create',
-                name: 'create',
-                type: 'string',
+                name: 'Create',
+                value: 'create',
                 description: 'Create a new customer',
+                action: 'Create a customer',
             },
             {
-                displayName: 'Delete',
-                name: 'delete',
-                type: 'string',
+                name: 'Delete',
+                value: 'delete',
                 description: 'Delete a customer',
+                action: 'Delete a customer',
             },
             {
-                displayName: 'Get',
-                name: 'get',
-                type: 'string',
+                name: 'Get',
+                value: 'get',
                 description: 'Get a customer',
+                action: 'Get a customer',
             },
             {
-                displayName: 'Get All',
-                name: 'getAll',
-                type: 'string',
-                description: 'Get all customers',
+                name: 'Get Many',
+                value: 'getAll',
+                description: 'Get many customers',
+                action: 'Get many customers',
             },
             {
-                displayName: 'Update',
-                name: 'update',
-                type: 'string',
+                name: 'Update',
+                value: 'update',
                 description: 'Update a customer',
+                action: 'Update a customer',
             },
         ],
         default: 'create',
@@ -50,7 +51,7 @@ const customerOperations = [
  * Customer fields for Perfex CRM
  * @description Field definitions for customer operations in Perfex CRM
  */
-const customerFields = [
+export const customerFields = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */
@@ -129,7 +130,6 @@ const customerFields = [
             },
         },
         default: '',
-        description: 'The country',
     },
     {
         displayName: 'City',
@@ -142,7 +142,6 @@ const customerFields = [
             },
         },
         default: '',
-        description: 'The city',
     },
     {
         displayName: 'Zip',
@@ -168,7 +167,6 @@ const customerFields = [
             },
         },
         default: '',
-        description: 'The state',
     },
     {
         displayName: 'Address',
@@ -181,7 +179,6 @@ const customerFields = [
             },
         },
         default: '',
-        description: 'The address',
     },
     {
         displayName: 'Website',
@@ -207,7 +204,6 @@ const customerFields = [
             },
         },
         default: '',
-        description: 'The description',
     },
     {
         displayName: 'Assigned',
@@ -307,10 +303,5 @@ const customerFields = [
     /* -------------------------------------------------------------------------- */
     // Uses Customer ID (defined above)
 ];
-
-module.exports = {
-    customerOperations,
-    customerFields,
-};
 
 

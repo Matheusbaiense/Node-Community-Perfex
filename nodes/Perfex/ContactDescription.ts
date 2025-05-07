@@ -1,14 +1,17 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
 
+import { INodeProperties, NodePropertyTypes } from 'n8n-workflow';
+
 /**
  * Contact operations for Perfex CRM
  * @description Available operations for managing contacts in Perfex CRM
  */
-const contactOperations = [
+const contactOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
-        type: 'options',
+        type: 'options' as NodePropertyTypes,
+        noDataExpression: true,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -16,34 +19,34 @@ const contactOperations = [
         },
         options: [
             {
-                displayName: 'Create',
-                name: 'create',
-                type: 'string',
+                name: 'Create',
+                value: 'create',
                 description: 'Create a new contact',
+                action: 'Create a contact',
             },
             {
-                displayName: 'Delete',
-                name: 'delete',
-                type: 'string',
+                name: 'Delete',
+                value: 'delete',
                 description: 'Delete a contact',
+                action: 'Delete a contact',
             },
             {
-                displayName: 'Get',
-                name: 'get',
-                type: 'string',
+                name: 'Get',
+                value: 'get',
                 description: 'Get a contact',
+                action: 'Get a contact',
             },
             {
-                displayName: 'Get All',
-                name: 'getAll',
-                type: 'string',
-                description: 'Get all contacts',
+                name: 'Get Many',
+                value: 'getAll',
+                description: 'Get many contacts',
+                action: 'Get many contacts',
             },
             {
-                displayName: 'Update',
-                name: 'update',
-                type: 'string',
+                name: 'Update',
+                value: 'update',
                 description: 'Update a contact',
+                action: 'Update a contact',
             },
         ],
         default: 'create',
@@ -54,11 +57,11 @@ const contactOperations = [
  * Contact fields for Perfex CRM
  * @description Field definitions for contact operations in Perfex CRM
  */
-const contactFields = [
+const contactFields: INodeProperties[] = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -72,7 +75,7 @@ const contactFields = [
     {
         displayName: 'Customer ID',
         name: 'customerId',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -86,7 +89,7 @@ const contactFields = [
     {
         displayName: 'First Name',
         name: 'firstname',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -100,7 +103,7 @@ const contactFields = [
     {
         displayName: 'Last Name',
         name: 'lastname',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -114,7 +117,8 @@ const contactFields = [
     {
         displayName: 'Email',
         name: 'email',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
+        placeholder: 'name@email.com',
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -128,7 +132,7 @@ const contactFields = [
     {
         displayName: 'Phone',
         name: 'phonenumber',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -141,7 +145,7 @@ const contactFields = [
     {
         displayName: 'Title',
         name: 'title',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -154,7 +158,7 @@ const contactFields = [
     {
         displayName: 'Direction',
         name: 'direction',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -167,7 +171,7 @@ const contactFields = [
     {
         displayName: 'Password',
         name: 'password',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         typeOptions: {
             password: true,
         },
@@ -183,7 +187,7 @@ const contactFields = [
     {
         displayName: 'Is Primary',
         name: 'is_primary',
-        type: 'boolean',
+        type: 'boolean' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -196,7 +200,7 @@ const contactFields = [
     {
         displayName: 'Active',
         name: 'active',
-        type: 'boolean',
+        type: 'boolean' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['contact'],
@@ -208,8 +212,5 @@ const contactFields = [
     },
 ];
 
-module.exports = {
-    contactOperations,
-    contactFields,
-};
+module.exports = { contactOperations, contactFields };
 

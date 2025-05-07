@@ -1,10 +1,13 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
 
-const leadOperations = [
+import { INodeProperties, NodePropertyTypes } from 'n8n-workflow';
+
+const leadOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
-        type: 'options',
+        type: 'options' as NodePropertyTypes,
+        noDataExpression: true,
         displayOptions: {
             show: {
                 resource: ['lead'],
@@ -12,34 +15,34 @@ const leadOperations = [
         },
         options: [
             {
-                displayName: 'Create',
-                name: 'create',
-                type: 'string',
+                name: 'Create',
+                value: 'create',
                 description: 'Create a new lead',
+                action: 'Create a lead',
             },
             {
-                displayName: 'Delete',
-                name: 'delete',
-                type: 'string',
+                name: 'Delete',
+                value: 'delete',
                 description: 'Delete a lead',
+                action: 'Delete a lead',
             },
             {
-                displayName: 'Get',
-                name: 'get',
-                type: 'string',
+                name: 'Get',
+                value: 'get',
                 description: 'Get a lead',
+                action: 'Get a lead',
             },
             {
-                displayName: 'Get All',
-                name: 'getAll',
-                type: 'string',
+                name: 'Get All',
+                value: 'getAll',
                 description: 'Get all leads',
+                action: 'Get all leads',
             },
             {
-                displayName: 'Update',
-                name: 'update',
-                type: 'string',
+                name: 'Update',
+                value: 'update',
                 description: 'Update a lead',
+                action: 'Update a lead',
             },
         ],
         default: 'create',
@@ -50,15 +53,15 @@ const leadOperations = [
  * Lead fields for Perfex CRM
  * @description Field definitions for lead operations in Perfex CRM
  */
-const leadFields = [
+const leadFields: INodeProperties[] = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['get', 'update', 'delete'],
+                operation: ['delete', 'get', 'update'],
             },
         },
         default: '',
@@ -66,13 +69,27 @@ const leadFields = [
         description: 'The ID of the lead',
     },
     {
-        displayName: 'Name',
-        name: 'name',
-        type: 'string',
+        displayName: 'Company',
+        name: 'company',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['create', 'update'],
+                operation: ['create'],
+            },
+        },
+        default: '',
+        required: true,
+        description: 'The company name',
+    },
+    {
+        displayName: 'Name',
+        name: 'name',
+        type: 'string' as NodePropertyTypes,
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create'],
             },
         },
         default: '',
@@ -82,11 +99,11 @@ const leadFields = [
     {
         displayName: 'Email',
         name: 'email',
-        type: 'string',
+        type: 'string' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['create', 'update'],
+                operation: ['create'],
             },
         },
         default: '',
@@ -94,165 +111,74 @@ const leadFields = [
         description: 'The email of the lead',
     },
     {
-        displayName: 'Company',
-        name: 'company',
-        type: 'string',
+        displayName: 'Additional Fields',
+        name: 'additionalFields',
+        type: 'collection' as NodePropertyTypes,
+        placeholder: 'Add Field',
+        default: {},
         displayOptions: {
             show: {
                 resource: ['lead'],
                 operation: ['create', 'update'],
             },
         },
-        default: '',
-        description: 'The company of the lead',
+        options: [
+            {
+                displayName: 'Phone',
+                name: 'phone',
+                type: 'string' as NodePropertyTypes,
+                default: '',
+                description: 'The phone number of the lead',
+            },
+            {
+                displayName: 'Position',
+                name: 'position',
+                type: 'string' as NodePropertyTypes,
+                default: '',
+                description: 'The position of the lead',
+            },
+            {
+                displayName: 'Website',
+                name: 'website',
+                type: 'string' as NodePropertyTypes,
+                default: '',
+                description: 'The website of the lead',
+            },
+        ],
     },
     {
-        displayName: 'Phone',
-        name: 'phonenumber',
-        type: 'string',
+        displayName: 'Return All',
+        name: 'returnAll',
+        type: 'boolean' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['create', 'update'],
+                operation: ['getAll'],
             },
         },
-        default: '',
-        description: 'The phone number of the lead',
+        default: false,
+        description: 'Whether to return all results or only up to a given limit',
     },
     {
-        displayName: 'Website',
-        name: 'website',
-        type: 'string',
+        displayName: 'Limit',
+        name: 'limit',
+        type: 'number' as NodePropertyTypes,
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['create', 'update'],
+                operation: ['getAll'],
+                returnAll: [false],
             },
         },
-        default: '',
-        description: 'The website of the lead',
-    },
-    {
-        displayName: 'Address',
-        name: 'address',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
+        typeOptions: {
+            minValue: 1,
+            maxValue: 100,
         },
-        default: '',
-        description: 'The address of the lead',
-    },
-    {
-        displayName: 'City',
-        name: 'city',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The city of the lead',
-    },
-    {
-        displayName: 'State',
-        name: 'state',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The state of the lead',
-    },
-    {
-        displayName: 'Country',
-        name: 'country',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The country of the lead',
-    },
-    {
-        displayName: 'Zip',
-        name: 'zip',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The zip code of the lead',
-    },
-    {
-        displayName: 'Description',
-        name: 'description',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The description of the lead',
-    },
-    {
-        displayName: 'Status',
-        name: 'status',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The status of the lead',
-    },
-    {
-        displayName: 'Source',
-        name: 'source',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The source of the lead',
-    },
-    {
-        displayName: 'Assigned',
-        name: 'assigned',
-        type: 'string',
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create', 'update'],
-            },
-        },
-        default: '',
-        description: 'The assigned user ID of the lead',
+        default: 50,
+        description: 'Max number of results to return',
     },
 ];
 
-module.exports = {
-    leadOperations,
-    leadFields,
-};
+module.exports = { leadOperations, leadFields };
+
 

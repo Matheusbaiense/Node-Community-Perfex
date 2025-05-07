@@ -7,13 +7,16 @@
         "strict": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "outDir": "dist",
-        "rootDir": ".",
+        "outDir": "./dist",
+        "rootDir": "./",
         "declaration": true,
         "typeRoots": ["./node_modules/@types", "./types"],
         "types": ["node"],
-        "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"]
+        "lib": ["es2019"],
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true
     },
-    "include": ["nodes/**/*", "credentials/**/*", "types/**/*"],
+    "include": ["nodes/**/*", "credentials/**/*"],
     "exclude": ["node_modules/**/*", "dist/**/*"]
 }

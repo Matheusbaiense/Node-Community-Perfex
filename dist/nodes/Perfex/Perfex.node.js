@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Perfex = void 0;
-const LeadDescription_1 = require("./LeadDescription");
-const CustomerDescription_1 = require("./CustomerDescription");
-const ContactDescription_1 = require("./ContactDescription");
+const { leadOperations, leadFields } = require('./LeadDescription');
+const { customerOperations, customerFields } = require('./CustomerDescription');
+const { contactOperations, contactFields } = require('./ContactDescription');
 class Perfex {
     constructor() {
         this.description = {
@@ -54,12 +54,12 @@ class Perfex {
                     ],
                     default: 'lead',
                 },
-                ...LeadDescription_1.leadOperations,
-                ...LeadDescription_1.leadFields,
-                ...CustomerDescription_1.customerOperations,
-                ...CustomerDescription_1.customerFields,
-                ...ContactDescription_1.contactOperations,
-                ...ContactDescription_1.contactFields,
+                ...leadOperations,
+                ...leadFields,
+                ...customerOperations,
+                ...customerFields,
+                ...contactOperations,
+                ...contactFields,
             ],
         };
     }
@@ -73,184 +73,173 @@ class Perfex {
             try {
                 if (resource === 'lead') {
                     if (operation === 'create') {
-                        const body = {};
+                        const company = this.getNodeParameter('company', i);
+                        const name = this.getNodeParameter('name', i);
+                        const email = this.getNodeParameter('email', i);
                         const additionalFields = this.getNodeParameter('additionalFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, additionalFields, customFields);
+                        const body = {
+                            company,
+                            name,
+                            email,
+                            ...additionalFields,
+                        };
                         responseData = await this.helpers.request({
                             method: 'POST',
                             url: '/api/leads',
                             body,
                         });
                     }
-                    if (operation === 'get') {
-                        const leadId = this.getNodeParameter('leadId', i);
-                        responseData = await this.helpers.request({
-                            method: 'GET',
-                            url: `/api/leads/${leadId}`,
-                        });
-                    }
-                    if (operation === 'getAll') {
-                        const returnAll = this.getNodeParameter('returnAll', i);
-                        const options = this.getNodeParameter('options', i);
-                        const qs = {};
-                        Object.assign(qs, options);
-                        if (returnAll) {
-                            responseData = await this.helpers.requestAll({
-                                method: 'GET',
-                                url: '/api/leads',
-                                qs,
-                            });
-                        }
-                        else {
-                            const limit = this.getNodeParameter('limit', i);
-                            qs.limit = limit;
-                            responseData = await this.helpers.request({
-                                method: 'GET',
-                                url: '/api/leads',
-                                qs,
-                            });
-                        }
-                    }
-                    if (operation === 'update') {
-                        const leadId = this.getNodeParameter('leadId', i);
-                        const body = {};
-                        const updateFields = this.getNodeParameter('updateFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, updateFields, customFields);
-                        responseData = await this.helpers.request({
-                            method: 'PUT',
-                            url: `/api/leads/${leadId}`,
-                            body,
-                        });
-                    }
-                    if (operation === 'delete') {
+                    else if (operation === 'delete') {
                         const leadId = this.getNodeParameter('leadId', i);
                         responseData = await this.helpers.request({
                             method: 'DELETE',
                             url: `/api/leads/${leadId}`,
                         });
                     }
+                    else if (operation === 'get') {
+                        const leadId = this.getNodeParameter('leadId', i);
+                        responseData = await this.helpers.request({
+                            method: 'GET',
+                            url: `/api/leads/${leadId}`,
+                        });
+                    }
+                    else if (operation === 'getAll') {
+                        const returnAll = this.getNodeParameter('returnAll', i);
+                        const limit = this.getNodeParameter('limit', i);
+                        const qs = {};
+                        if (returnAll === false) {
+                            qs.limit = limit;
+                        }
+                        responseData = await this.helpers.request({
+                            method: 'GET',
+                            url: '/api/leads',
+                            qs,
+                        });
+                    }
+                    else if (operation === 'update') {
+                        const leadId = this.getNodeParameter('leadId', i);
+                        const updateFields = this.getNodeParameter('updateFields', i);
+                        const body = {
+                            ...updateFields,
+                        };
+                        responseData = await this.helpers.request({
+                            method: 'PUT',
+                            url: `/api/leads/${leadId}`,
+                            body,
+                        });
+                    }
                 }
-                if (resource === 'customer') {
+                else if (resource === 'customer') {
                     if (operation === 'create') {
-                        const body = {};
+                        const company = this.getNodeParameter('company', i);
+                        const vat = this.getNodeParameter('vat', i);
                         const additionalFields = this.getNodeParameter('additionalFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, additionalFields, customFields);
+                        const body = {
+                            company,
+                            vat,
+                            ...additionalFields,
+                        };
                         responseData = await this.helpers.request({
                             method: 'POST',
-                            url: '/api/clients',
+                            url: '/api/customers',
                             body,
                         });
                     }
-                    if (operation === 'get') {
-                        const customerId = this.getNodeParameter('customerId', i);
-                        responseData = await this.helpers.request({
-                            method: 'GET',
-                            url: `/api/clients/${customerId}`,
-                        });
-                    }
-                    if (operation === 'getAll') {
-                        const returnAll = this.getNodeParameter('returnAll', i);
-                        const options = this.getNodeParameter('options', i);
-                        const qs = {};
-                        Object.assign(qs, options);
-                        if (returnAll) {
-                            responseData = await this.helpers.requestAll({
-                                method: 'GET',
-                                url: '/api/clients',
-                                qs,
-                            });
-                        }
-                        else {
-                            const limit = this.getNodeParameter('limit', i);
-                            qs.limit = limit;
-                            responseData = await this.helpers.request({
-                                method: 'GET',
-                                url: '/api/clients',
-                                qs,
-                            });
-                        }
-                    }
-                    if (operation === 'update') {
-                        const customerId = this.getNodeParameter('customerId', i);
-                        const body = {};
-                        const updateFields = this.getNodeParameter('updateFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, updateFields, customFields);
-                        responseData = await this.helpers.request({
-                            method: 'PUT',
-                            url: `/api/clients/${customerId}`,
-                            body,
-                        });
-                    }
-                    if (operation === 'delete') {
+                    else if (operation === 'delete') {
                         const customerId = this.getNodeParameter('customerId', i);
                         responseData = await this.helpers.request({
                             method: 'DELETE',
-                            url: `/api/clients/${customerId}`,
+                            url: `/api/customers/${customerId}`,
+                        });
+                    }
+                    else if (operation === 'get') {
+                        const customerId = this.getNodeParameter('customerId', i);
+                        responseData = await this.helpers.request({
+                            method: 'GET',
+                            url: `/api/customers/${customerId}`,
+                        });
+                    }
+                    else if (operation === 'getAll') {
+                        const returnAll = this.getNodeParameter('returnAll', i);
+                        const limit = this.getNodeParameter('limit', i);
+                        const qs = {};
+                        if (returnAll === false) {
+                            qs.limit = limit;
+                        }
+                        responseData = await this.helpers.request({
+                            method: 'GET',
+                            url: '/api/customers',
+                            qs,
+                        });
+                    }
+                    else if (operation === 'update') {
+                        const customerId = this.getNodeParameter('customerId', i);
+                        const updateFields = this.getNodeParameter('updateFields', i);
+                        const body = {
+                            ...updateFields,
+                        };
+                        responseData = await this.helpers.request({
+                            method: 'PUT',
+                            url: `/api/customers/${customerId}`,
+                            body,
                         });
                     }
                 }
-                if (resource === 'contact') {
+                else if (resource === 'contact') {
                     if (operation === 'create') {
-                        const body = {};
+                        const firstname = this.getNodeParameter('firstname', i);
+                        const lastname = this.getNodeParameter('lastname', i);
+                        const email = this.getNodeParameter('email', i);
                         const additionalFields = this.getNodeParameter('additionalFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, additionalFields, customFields);
+                        const body = {
+                            firstname,
+                            lastname,
+                            email,
+                            ...additionalFields,
+                        };
                         responseData = await this.helpers.request({
                             method: 'POST',
                             url: '/api/contacts',
                             body,
                         });
                     }
-                    if (operation === 'get') {
+                    else if (operation === 'delete') {
+                        const contactId = this.getNodeParameter('contactId', i);
+                        responseData = await this.helpers.request({
+                            method: 'DELETE',
+                            url: `/api/contacts/${contactId}`,
+                        });
+                    }
+                    else if (operation === 'get') {
                         const contactId = this.getNodeParameter('contactId', i);
                         responseData = await this.helpers.request({
                             method: 'GET',
                             url: `/api/contacts/${contactId}`,
                         });
                     }
-                    if (operation === 'getAll') {
+                    else if (operation === 'getAll') {
                         const returnAll = this.getNodeParameter('returnAll', i);
-                        const options = this.getNodeParameter('options', i);
+                        const limit = this.getNodeParameter('limit', i);
                         const qs = {};
-                        Object.assign(qs, options);
-                        if (returnAll) {
-                            responseData = await this.helpers.requestAll({
-                                method: 'GET',
-                                url: '/api/contacts',
-                                qs,
-                            });
-                        }
-                        else {
-                            const limit = this.getNodeParameter('limit', i);
+                        if (returnAll === false) {
                             qs.limit = limit;
-                            responseData = await this.helpers.request({
-                                method: 'GET',
-                                url: '/api/contacts',
-                                qs,
-                            });
                         }
+                        responseData = await this.helpers.request({
+                            method: 'GET',
+                            url: '/api/contacts',
+                            qs,
+                        });
                     }
-                    if (operation === 'update') {
+                    else if (operation === 'update') {
                         const contactId = this.getNodeParameter('contactId', i);
-                        const body = {};
                         const updateFields = this.getNodeParameter('updateFields', i);
-                        const customFields = this.getNodeParameter('customFields', i);
-                        Object.assign(body, updateFields, customFields);
+                        const body = {
+                            ...updateFields,
+                        };
                         responseData = await this.helpers.request({
                             method: 'PUT',
                             url: `/api/contacts/${contactId}`,
                             body,
-                        });
-                    }
-                    if (operation === 'delete') {
-                        const contactId = this.getNodeParameter('contactId', i);
-                        responseData = await this.helpers.request({
-                            method: 'DELETE',
-                            url: `/api/contacts/${contactId}`,
                         });
                     }
                 }
@@ -277,4 +266,5 @@ class Perfex {
     }
 }
 exports.Perfex = Perfex;
+module.exports = { perfexNode: new Perfex() };
 //# sourceMappingURL=Perfex.node.js.map

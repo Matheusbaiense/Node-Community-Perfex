@@ -15,7 +15,6 @@ class PerfexApi implements ICredentialType {
             name: 'baseUrl',
             type: 'string',
             default: '',
-            placeholder: 'https://your-perfex-domain.com',
             description: 'The base URL of your Perfex CRM installation (without /api)',
             required: true,
         },

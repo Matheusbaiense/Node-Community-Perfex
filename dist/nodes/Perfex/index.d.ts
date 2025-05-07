@@ -1,3 +1,3 @@
-export * from './LeadDescription';
-export * from './CustomerDescription';
-export * from './ContactDescription';
+declare const LeadDescription: any;
+declare const CustomerDescription: any;
+declare const ContactDescription: any;
