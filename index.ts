@@ -1,7 +1,7 @@
-import { perfexNode } from './nodes/Perfex/Perfex.node';
-import { PerfexApi } from './credentials/PerfexApi.credentials';
+const { perfexNode } = require('./nodes/Perfex/Perfex.node');
+const { PerfexApi } = require('./credentials/PerfexApi.credentials');
 
 module.exports = {
-    nodeTypes: [perfexNode],
-    credentialTypes: [new PerfexApi()],
+	nodes: [perfexNode],
+	credentials: [PerfexApi],
 }; 

@@ -1,19 +1,21 @@
 declare module 'n8n-workflow' {
     export interface IExecuteFunctions {
-        getInputData(): any[];
-        getNodeParameter(parameterName: string, itemIndex: number, fallbackValue?: any): any;
-        continueOnFail(): boolean;
-        getNode(): any;
+        getInputData(): INodeExecutionData[];
+        getNodeParameter(parameterName: string, itemIndex: number): any;
         helpers: {
-            httpRequest(options: any): Promise<any>;
-            constructExecutionMetaData(items: any[], options: any): any[];
-            returnJsonArray(items: any): any[];
+            request(options: any): Promise<any>;
+            requestAll(options: any): Promise<any[]>;
         };
+        continueOnFail(): boolean;
+    }
+
+    export interface INodeExecutionData {
+        json: any;
     }
 
     export interface INodeType {
         description: INodeTypeDescription;
-        execute(this: IExecuteFunctions): Promise<any[][]>;
+        execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]>;
     }
 
     export interface INodeTypeDescription {
@@ -33,21 +35,41 @@ declare module 'n8n-workflow' {
             name: string;
             required: boolean;
         }>;
-        properties: any[];
+        requestDefaults: {
+            baseURL: string;
+            headers: {
+                [key: string]: string;
+            };
+        };
+        properties: INodeProperties[];
     }
 
-    export interface INodeExecutionData {
-        json: any;
-        pairedItem?: {
-            item: number;
+    export interface INodeProperties {
+        displayName: string;
+        name: string;
+        type: string;
+        required?: boolean;
+        default?: any;
+        description?: string;
+        displayOptions?: {
+            show: {
+                [key: string]: any[];
+            };
+        };
+        options?: INodeProperties[];
+        typeOptions?: {
+            [key: string]: any;
         };
     }
 
-    export interface IDataObject {
-        [key: string]: any;
+    export interface ICredentialType {
+        name: string;
+        displayName: string;
+        documentationUrl: string;
+        properties: INodeProperties[];
     }
 
-    export class NodeOperationError extends Error {
-        constructor(node: any, message: string, options?: { itemIndex?: number });
-    }
+    export type JsonObject = {
+        [key: string]: any;
+    };
 } 

@@ -1,16 +1,17 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import {
+import type {
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
 	JsonObject,
 } from 'n8n-workflow';
-import { leadOperations, leadFields } from './LeadDescription';
-import { customerOperations, customerFields } from './CustomerDescription';
-import { contactOperations, contactFields } from './ContactDescription';
 
-export class Perfex implements INodeType {
+const LeadDescription = require('./LeadDescription');
+const CustomerDescription = require('./CustomerDescription');
+const ContactDescription = require('./ContactDescription');
+
+class Perfex implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Perfex',
 		name: 'perfex',
@@ -59,12 +60,12 @@ export class Perfex implements INodeType {
 				],
 				default: 'lead',
 			},
-			...leadOperations,
-			...leadFields,
-			...customerOperations,
-			...customerFields,
-			...contactOperations,
-			...contactFields,
+			...LeadDescription.leadOperations,
+			...LeadDescription.leadFields,
+			...CustomerDescription.customerOperations,
+			...CustomerDescription.customerFields,
+			...ContactDescription.contactOperations,
+			...ContactDescription.contactFields,
 		],
 	};
 
@@ -297,3 +298,5 @@ export class Perfex implements INodeType {
 		return [returnData];
 	}
 }
+
+module.exports = { perfexNode: new Perfex() };

@@ -5,7 +5,7 @@ import type { ICredentialType, INodeProperties } from 'n8n-workflow';
  * Credentials for Perfex CRM API
  * @description Credentials for authenticating with the Perfex CRM API
  */
-export class PerfexApi implements ICredentialType {
+class PerfexApi implements ICredentialType {
     name = 'perfexApi';
     displayName = 'Perfex API';
     documentationUrl = 'https://docs.perfexcrm.com/api/';
@@ -32,4 +32,6 @@ export class PerfexApi implements ICredentialType {
         },
     ];
 }
+
+module.exports = { PerfexApi };
 

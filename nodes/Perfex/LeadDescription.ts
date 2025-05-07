@@ -1,17 +1,10 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
 
-import type { INodeProperties } from 'n8n-workflow';
-
-/**
- * Lead operations for Perfex CRM
- * @description Available operations for managing leads in Perfex CRM
- */
-export const leadOperations: INodeProperties[] = [
+const leadOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
-        noDataExpression: true,
         displayOptions: {
             show: {
                 resource: ['lead'],
@@ -19,37 +12,37 @@ export const leadOperations: INodeProperties[] = [
         },
         options: [
             {
-                name: 'Create',
-                value: 'create',
+                displayName: 'Create',
+                name: 'create',
+                type: 'string',
                 description: 'Create a new lead',
-                action: 'Create a lead',
             },
             {
-                name: 'Delete',
-                value: 'delete',
+                displayName: 'Delete',
+                name: 'delete',
+                type: 'string',
                 description: 'Delete a lead',
-                action: 'Delete a lead',
             },
             {
-                name: 'Get',
-                value: 'get',
+                displayName: 'Get',
+                name: 'get',
+                type: 'string',
                 description: 'Get a lead',
-                action: 'Get a lead',
             },
             {
-                name: 'List',
-                value: 'list',
-                description: 'List all leads',
-                action: 'List all leads',
+                displayName: 'Get All',
+                name: 'getAll',
+                type: 'string',
+                description: 'Get all leads',
             },
             {
-                name: 'Update',
-                value: 'update',
+                displayName: 'Update',
+                name: 'update',
+                type: 'string',
                 description: 'Update a lead',
-                action: 'Update a lead',
             },
         ],
-        default: 'list',
+        default: 'create',
     },
 ];
 
@@ -57,12 +50,11 @@ export const leadOperations: INodeProperties[] = [
  * Lead fields for Perfex CRM
  * @description Field definitions for lead operations in Perfex CRM
  */
-export const leadFields: INodeProperties[] = [
+const leadFields = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
         type: 'string',
-        required: true,
         displayOptions: {
             show: {
                 resource: ['lead'],
@@ -70,159 +62,197 @@ export const leadFields: INodeProperties[] = [
             },
         },
         default: '',
+        required: true,
         description: 'The ID of the lead',
     },
     {
         displayName: 'Name',
         name: 'name',
         type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The name of the lead',
-    },
-    {
-        displayName: 'Source',
-        name: 'source',
-        type: 'number',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create'],
-            },
-        },
-        default: 0,
-        description: 'The source of the lead',
-    },
-    {
-        displayName: 'Status',
-        name: 'status',
-        type: 'number',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['lead'],
-                operation: ['create'],
-            },
-        },
-        default: 0,
-        description: 'The status of the lead',
-    },
-    {
-        displayName: 'Additional Fields',
-        name: 'additionalFields',
-        type: 'collection',
-        placeholder: 'Add Field',
-        default: {},
         displayOptions: {
             show: {
                 resource: ['lead'],
                 operation: ['create', 'update'],
             },
         },
-        options: [
-            {
-                displayName: 'Company',
-                name: 'company',
-                type: 'string',
-                default: '',
-                description: 'The company name',
-            },
-            {
-                displayName: 'Email',
-                name: 'email',
-                type: 'string',
-																placeholder: 'name@email.com',
-                default: '',
-                description: 'The email address',
-            },
-            {
-                displayName: 'Phone',
-                name: 'phonenumber',
-                type: 'string',
-                default: '',
-                description: 'The phone number',
-            },
-            {
-                displayName: 'Website',
-                name: 'website',
-                type: 'string',
-                default: '',
-                description: 'The website URL',
-            },
-            {
-                displayName: 'Address',
-                name: 'address',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'City',
-                name: 'city',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'State',
-                name: 'state',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Zip',
-                name: 'zip',
-                type: 'string',
-                default: '',
-                description: 'The zip code',
-            },
-            {
-                displayName: 'Country',
-                name: 'country',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Description',
-                name: 'description',
-                type: 'string',
-                default: '',
-            },
-        ],
+        default: '',
+        required: true,
+        description: 'The name of the lead',
     },
     {
-        displayName: 'Filters',
-        name: 'filters',
-        type: 'collection',
-        placeholder: 'Add Filter',
-        default: {},
+        displayName: 'Email',
+        name: 'email',
+        type: 'string',
         displayOptions: {
             show: {
                 resource: ['lead'],
-                operation: ['list'],
+                operation: ['create', 'update'],
             },
         },
-        options: [
-            {
-                displayName: 'Status',
-                name: 'status',
-                type: 'number',
-                default: '',
-                description: 'Filter by status',
+        default: '',
+        required: true,
+        description: 'The email of the lead',
+    },
+    {
+        displayName: 'Company',
+        name: 'company',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
             },
-            {
-                displayName: 'Source',
-                name: 'source',
-                type: 'number',
-                default: '',
-                description: 'Filter by source',
+        },
+        default: '',
+        description: 'The company of the lead',
+    },
+    {
+        displayName: 'Phone',
+        name: 'phonenumber',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
             },
-        ],
+        },
+        default: '',
+        description: 'The phone number of the lead',
+    },
+    {
+        displayName: 'Website',
+        name: 'website',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The website of the lead',
+    },
+    {
+        displayName: 'Address',
+        name: 'address',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The address of the lead',
+    },
+    {
+        displayName: 'City',
+        name: 'city',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The city of the lead',
+    },
+    {
+        displayName: 'State',
+        name: 'state',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The state of the lead',
+    },
+    {
+        displayName: 'Country',
+        name: 'country',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The country of the lead',
+    },
+    {
+        displayName: 'Zip',
+        name: 'zip',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The zip code of the lead',
+    },
+    {
+        displayName: 'Description',
+        name: 'description',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The description of the lead',
+    },
+    {
+        displayName: 'Status',
+        name: 'status',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The status of the lead',
+    },
+    {
+        displayName: 'Source',
+        name: 'source',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The source of the lead',
+    },
+    {
+        displayName: 'Assigned',
+        name: 'assigned',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['lead'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The assigned user ID of the lead',
     },
 ];
+
+module.exports = {
+    leadOperations,
+    leadFields,
+};
 

@@ -1,3 +1,9 @@
-export * from './LeadDescription';
-export * from './CustomerDescription';
-export * from './ContactDescription'; 
+const LeadDescription = require('./LeadDescription');
+const CustomerDescription = require('./CustomerDescription');
+const ContactDescription = require('./ContactDescription');
+
+module.exports = {
+    ...LeadDescription,
+    ...CustomerDescription,
+    ...ContactDescription
+}; 

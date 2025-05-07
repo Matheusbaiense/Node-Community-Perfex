@@ -1,17 +1,10 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 
-import type { INodeProperties } from 'n8n-workflow';
-
-/**
- * Customer operations for Perfex CRM
- * @description Available operations for managing customers in Perfex CRM
- */
-export const customerOperations: INodeProperties[] = [
+const customerOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
-        noDataExpression: true,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -19,37 +12,37 @@ export const customerOperations: INodeProperties[] = [
         },
         options: [
             {
-                name: 'Create',
-                value: 'create',
+                displayName: 'Create',
+                name: 'create',
+                type: 'string',
                 description: 'Create a new customer',
-                action: 'Create a customer',
             },
             {
-                name: 'Delete',
-                value: 'delete',
+                displayName: 'Delete',
+                name: 'delete',
+                type: 'string',
                 description: 'Delete a customer',
-                action: 'Delete a customer',
             },
             {
-                name: 'Get',
-                value: 'get',
+                displayName: 'Get',
+                name: 'get',
+                type: 'string',
                 description: 'Get a customer',
-                action: 'Get a customer',
             },
             {
-                name: 'List',
-                value: 'list',
-                description: 'List all customers',
-                action: 'List all customers',
+                displayName: 'Get All',
+                name: 'getAll',
+                type: 'string',
+                description: 'Get all customers',
             },
             {
-                name: 'Update',
-                value: 'update',
+                displayName: 'Update',
+                name: 'update',
+                type: 'string',
                 description: 'Update a customer',
-                action: 'Update a customer',
             },
         ],
-        default: 'list',
+        default: 'create',
     },
 ];
 
@@ -57,7 +50,7 @@ export const customerOperations: INodeProperties[] = [
  * Customer fields for Perfex CRM
  * @description Field definitions for customer operations in Perfex CRM
  */
-export const customerFields: INodeProperties[] = [
+const customerFields = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */
@@ -71,7 +64,6 @@ export const customerFields: INodeProperties[] = [
         displayName: 'Customer ID',
         name: 'customerId',
         type: 'string',
-        required: true,
         displayOptions: {
             show: {
                 resource: ['customer'],
@@ -79,6 +71,7 @@ export const customerFields: INodeProperties[] = [
             },
         },
         default: '',
+        required: true,
         description: 'The ID of the customer',
     },
 
@@ -89,162 +82,223 @@ export const customerFields: INodeProperties[] = [
         displayName: 'Company',
         name: 'company',
         type: 'string',
-        required: true,
-        displayOptions: {
-            show: {
-                resource: ['customer'],
-                operation: ['create'],
-            },
-        },
-        default: '',
-        description: 'The company name',
-    },
-    {
-        displayName: 'Additional Fields',
-        name: 'additionalFields',
-        type: 'collection',
-        placeholder: 'Add Field',
-        default: {},
         displayOptions: {
             show: {
                 resource: ['customer'],
                 operation: ['create', 'update'],
             },
         },
-        options: [
-            {
-                displayName: 'VAT',
-                name: 'vat',
-                type: 'string',
-                default: '',
-                description: 'The VAT number',
-            },
-            {
-                displayName: 'Phone Number',
-                name: 'phonenumber',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Website',
-                name: 'website',
-                type: 'string',
-                default: '',
-                description: 'The website URL',
-            },
-            {
-                displayName: 'Default Currency',
-                name: 'default_currency',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Address',
-                name: 'address',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'City',
-                name: 'city',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'State',
-                name: 'state',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Zip',
-                name: 'zip',
-                type: 'string',
-                default: '',
-                description: 'The zip code',
-            },
-            {
-                displayName: 'Country',
-                name: 'country',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Default Language',
-                name: 'default_language',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Billing Street',
-                name: 'billing_street',
-                type: 'string',
-                default: '',
-                description: 'The billing street address',
-            },
-            {
-                displayName: 'Billing City',
-                name: 'billing_city',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Billing State',
-                name: 'billing_state',
-                type: 'string',
-                default: '',
-            },
-            {
-                displayName: 'Billing Zip',
-                name: 'billing_zip',
-                type: 'string',
-                default: '',
-                description: 'The billing zip code',
-            },
-            {
-                displayName: 'Billing Country',
-                name: 'billing_country',
-                type: 'string',
-                default: '',
-            },
-        ],
+        default: '',
+        required: true,
+        description: 'The company name',
     },
     {
-        displayName: 'Filters',
-        name: 'filters',
-        type: 'collection',
-        placeholder: 'Add Filter',
-        default: {},
+        displayName: 'VAT',
+        name: 'vat',
+        type: 'string',
         displayOptions: {
             show: {
                 resource: ['customer'],
-                operation: ['list'],
+                operation: ['create', 'update'],
             },
         },
-        options: [
-            {
-                displayName: 'Company',
-                name: 'company',
-                type: 'string',
-                default: '',
-                description: 'Filter by company name',
+        default: '',
+        description: 'The VAT number',
+    },
+    {
+        displayName: 'Phone',
+        name: 'phonenumber',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
             },
-            {
-                displayName: 'Email',
-                name: 'email',
-                type: 'string',
-																placeholder: 'name@email.com',
-                default: '',
-                description: 'Filter by email',
+        },
+        default: '',
+        description: 'The phone number',
+    },
+    {
+        displayName: 'Country',
+        name: 'country',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
             },
-            {
-                displayName: 'Phone',
-                name: 'phonenumber',
-                type: 'string',
-                default: '',
-                description: 'Filter by phone number',
+        },
+        default: '',
+        description: 'The country',
+    },
+    {
+        displayName: 'City',
+        name: 'city',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
             },
-        ],
+        },
+        default: '',
+        description: 'The city',
+    },
+    {
+        displayName: 'Zip',
+        name: 'zip',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The zip code',
+    },
+    {
+        displayName: 'State',
+        name: 'state',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The state',
+    },
+    {
+        displayName: 'Address',
+        name: 'address',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The address',
+    },
+    {
+        displayName: 'Website',
+        name: 'website',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The website URL',
+    },
+    {
+        displayName: 'Description',
+        name: 'description',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The description',
+    },
+    {
+        displayName: 'Assigned',
+        name: 'assigned',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The ID of the staff member assigned to the customer',
+    },
+    {
+        displayName: 'Tags',
+        name: 'tags',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'Comma-separated list of tags',
+    },
+    {
+        displayName: 'Custom Field Name',
+        name: 'customFieldName',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The name of the custom field',
+    },
+    {
+        displayName: 'Custom Field Value',
+        name: 'customFieldValue',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['create', 'update'],
+            },
+        },
+        default: '',
+        description: 'The value of the custom field',
+    },
+    {
+        displayName: 'Company Filter',
+        name: 'companyFilter',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['getAll'],
+            },
+        },
+        default: '',
+        description: 'Filter by company name',
+    },
+    {
+        displayName: 'Email Filter',
+        name: 'emailFilter',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['getAll'],
+            },
+        },
+        default: '',
+        description: 'Filter by email',
+    },
+    {
+        displayName: 'Phone Filter',
+        name: 'phoneFilter',
+        type: 'string',
+        displayOptions: {
+            show: {
+                resource: ['customer'],
+                operation: ['getAll'],
+            },
+        },
+        default: '',
+        description: 'Filter by phone number',
     },
     // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
 
@@ -253,4 +307,10 @@ export const customerFields: INodeProperties[] = [
     /* -------------------------------------------------------------------------- */
     // Uses Customer ID (defined above)
 ];
+
+module.exports = {
+    customerOperations,
+    customerFields,
+};
+
 
