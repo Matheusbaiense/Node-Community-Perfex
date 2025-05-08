@@ -32,7 +32,7 @@ const leadOperations = [
                 action: 'Get a lead',
             },
             {
-                name: 'Get All',
+                name: 'Get Many',
                 value: 'getAll',
                 description: 'Get all leads',
                 action: 'Get all leads',

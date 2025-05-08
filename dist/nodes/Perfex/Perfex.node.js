@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Perfex = void 0;
+// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
+const { IExecuteFunctions } = require('n8n-core');
+const { INodeExecutionData, INodeType, INodeTypeDescription, NodePropertyTypes, IDataObject, } = require('n8n-workflow');
 const { leadOperations, leadFields } = require('./LeadDescription');
 const { customerOperations, customerFields } = require('./CustomerDescription');
 const { contactOperations, contactFields } = require('./ContactDescription');
@@ -108,7 +108,7 @@ class Perfex {
                         const limit = this.getNodeParameter('limit', i);
                         const qs = {};
                         if (returnAll === false) {
-                            qs.limit = limit;
+                            Object.assign(qs, { limit });
                         }
                         responseData = await this.helpers.request({
                             method: 'GET',
@@ -164,7 +164,7 @@ class Perfex {
                         const limit = this.getNodeParameter('limit', i);
                         const qs = {};
                         if (returnAll === false) {
-                            qs.limit = limit;
+                            Object.assign(qs, { limit });
                         }
                         responseData = await this.helpers.request({
                             method: 'GET',
@@ -222,7 +222,7 @@ class Perfex {
                         const limit = this.getNodeParameter('limit', i);
                         const qs = {};
                         if (returnAll === false) {
-                            qs.limit = limit;
+                            Object.assign(qs, { limit });
                         }
                         responseData = await this.helpers.request({
                             method: 'GET',
@@ -244,19 +244,23 @@ class Perfex {
                     }
                 }
                 if (Array.isArray(responseData)) {
-                    returnData.push(...responseData);
+                    returnData.push(...responseData.map(item => ({ json: item })));
                 }
-                else {
-                    returnData.push(responseData);
+                else if (responseData) {
+                    returnData.push({ json: responseData });
                 }
             }
             catch (error) {
                 if (this.continueOnFail()) {
-                    returnData.push({
-                        json: {
-                            error: error instanceof Error ? error.message : 'Unknown error occurred',
-                        },
-                    });
+                    const errorData = { error: '', stack: '' };
+                    if (error instanceof Error) {
+                        errorData.error = error.message;
+                        errorData.stack = error.stack;
+                    }
+                    else {
+                        errorData.error = JSON.stringify(error);
+                    }
+                    returnData.push({ json: errorData, error });
                     continue;
                 }
                 throw error;
@@ -265,6 +269,7 @@ class Perfex {
         return [returnData];
     }
 }
-exports.Perfex = Perfex;
-module.exports = { perfexNode: new Perfex() };
+module.exports = {
+    perfexNode: new Perfex()
+};
 //# sourceMappingURL=Perfex.node.js.map
