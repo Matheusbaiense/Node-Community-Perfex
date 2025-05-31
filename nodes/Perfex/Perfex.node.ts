@@ -1,5 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import { IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription, IDataObject } from 'n8n-workflow';
+import { IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription, IDataObject, NodeApiError, NodeOperationError } from 'n8n-workflow';
 import { leadOperations, leadFields } from './LeadDescription';
 import { customerOperations, customerFields } from './CustomerDescription';
 import { contactOperations, contactFields } from './ContactDescription';
@@ -261,14 +261,17 @@ export class Perfex implements INodeType {
 				}
 			} catch (error) {
 				if (this.continueOnFail()) {
-					const errorData = { error: '', stack: '' };
+					const errorData: IDataObject = { error: '', stack: '' };
 					if (error instanceof Error) {
 						errorData.error = error.message;
-						errorData.stack = error.stack;
+						errorData.stack = error.stack || '';
 					} else {
 						errorData.error = JSON.stringify(error);
 					}
-					returnData.push({ json: errorData, error });
+					const nodeError = error instanceof NodeApiError || error instanceof NodeOperationError 
+						? error 
+						: new NodeOperationError(this.getNode(), errorData.error as string);
+					returnData.push({ json: errorData, error: nodeError });
 					continue;
 				}
 				throw error;

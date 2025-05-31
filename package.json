@@ -22,17 +22,27 @@
   "types": "dist/index.d.ts",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && gulp build:icons",
+    "build": "rimraf dist && tsc && gulp build:icons",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials",
     "lintfix": "eslint nodes credentials --fix",
     "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials",
-    "clean": "rimraf dist",
-    "prebuild": "npm run clean"
+    "clean": "rimraf dist *.tgz"
   },
   "files": [
-    "dist"
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/credentials/PerfexApi.credentials.js",
+    "dist/credentials/PerfexApi.credentials.d.ts",
+    "dist/nodes/Perfex/Perfex.node.js",
+    "dist/nodes/Perfex/Perfex.node.d.ts",
+    "dist/nodes/Perfex/LeadDescription.js",
+    "dist/nodes/Perfex/LeadDescription.d.ts",
+    "dist/nodes/Perfex/CustomerDescription.js",
+    "dist/nodes/Perfex/CustomerDescription.d.ts",
+    "dist/nodes/Perfex/ContactDescription.js",
+    "dist/nodes/Perfex/ContactDescription.d.ts"
   ],
   "n8n": {
     "n8nNodesApiVersion": 1,

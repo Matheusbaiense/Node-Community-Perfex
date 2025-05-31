@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Perfex = void 0;
+const n8n_workflow_1 = require("n8n-workflow");
 const LeadDescription_1 = require("./LeadDescription");
 const CustomerDescription_1 = require("./CustomerDescription");
 const ContactDescription_1 = require("./ContactDescription");
@@ -255,12 +256,15 @@ class Perfex {
                     const errorData = { error: '', stack: '' };
                     if (error instanceof Error) {
                         errorData.error = error.message;
-                        errorData.stack = error.stack;
+                        errorData.stack = error.stack || '';
                     }
                     else {
                         errorData.error = JSON.stringify(error);
                     }
-                    returnData.push({ json: errorData, error });
+                    const nodeError = error instanceof n8n_workflow_1.NodeApiError || error instanceof n8n_workflow_1.NodeOperationError
+                        ? error
+                        : new n8n_workflow_1.NodeOperationError(this.getNode(), errorData.error);
+                    returnData.push({ json: errorData, error: nodeError });
                     continue;
                 }
                 throw error;
@@ -270,4 +274,3 @@ class Perfex {
     }
 }
 exports.Perfex = Perfex;
-//# sourceMappingURL=Perfex.node.js.map

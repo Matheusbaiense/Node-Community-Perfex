@@ -1,5 +1,4 @@
 "use strict";
-// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.customerFields = exports.customerOperations = void 0;
 exports.customerOperations = [
@@ -48,19 +47,7 @@ exports.customerOperations = [
         default: 'create',
     },
 ];
-/**
- * Customer fields for Perfex CRM
- * @description Field definitions for customer operations in Perfex CRM
- */
 exports.customerFields = [
-    /* -------------------------------------------------------------------------- */
-    /*                                customer:list                               */
-    /* -------------------------------------------------------------------------- */
-    // Perfex API for listing clients doesn't seem to have specific filters in basic docs
-    // Add if specific filters are found
-    /* -------------------------------------------------------------------------- */
-    /*                                customer:get                                */
-    /* -------------------------------------------------------------------------- */
     {
         displayName: 'Customer ID',
         name: 'customerId',
@@ -75,9 +62,6 @@ exports.customerFields = [
         required: true,
         description: 'The ID of the customer',
     },
-    /* -------------------------------------------------------------------------- */
-    /*                                customer:create                             */
-    /* -------------------------------------------------------------------------- */
     {
         displayName: 'Company',
         name: 'company',
@@ -295,10 +279,4 @@ exports.customerFields = [
         default: '',
         description: 'Filter by phone number',
     },
-    // Add other optional fields based on Perfex API docs (e.g., billing/shipping address details)
-    /* -------------------------------------------------------------------------- */
-    /*                                customer:delete                             */
-    /* -------------------------------------------------------------------------- */
-    // Uses Customer ID (defined above)
 ];
-//# sourceMappingURL=CustomerDescription.js.map
