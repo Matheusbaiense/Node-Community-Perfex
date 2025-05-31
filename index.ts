@@ -8,8 +8,8 @@ export {
 	PerfexApi 
 };
 
-// Adicionar exportação padrão para compatibilidade com CommonJS
-export default {
+// Exportar como módulo CommonJS para compatibilidade com n8n
+module.exports = {
 	Perfex,
 	PerfexApi
 }; 

@@ -1,12 +1,5 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-import { IExecuteFunctions } from 'n8n-workflow';
-import {
-	INodeExecutionData,
-	INodeType,
-	INodeTypeDescription,
-	NodePropertyTypes,
-	IDataObject,
-} from 'n8n-workflow';
+import { IExecuteFunctions, INodeExecutionData, INodeType, INodeTypeDescription, IDataObject } from 'n8n-workflow';
 import { leadOperations, leadFields } from './LeadDescription';
 import { customerOperations, customerFields } from './CustomerDescription';
 import { contactOperations, contactFields } from './ContactDescription';
