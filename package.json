@@ -42,14 +42,14 @@
     ]
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.17.57",
+    "@types/express": "4.17.22",
+    "@types/node": "20.17.57",
     "@types/request-promise-native": "^1.0.18",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.0",
     "gulp": "^5.0.0",
     "n8n-core": "^1.30.0",
-    "n8n-workflow": "^1.30.0",
+    "n8n-workflow": "1.82.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },
