@@ -285,6 +285,4 @@ class Perfex {
 	}
 }
 
-module.exports = {
-	perfexNode: new Perfex()
-};
+module.exports = { Perfex };
