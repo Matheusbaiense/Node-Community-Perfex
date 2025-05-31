@@ -27,7 +27,9 @@
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials",
     "lintfix": "eslint nodes credentials --fix",
-    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials"
+    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean"
   },
   "files": [
     "dist"
@@ -51,7 +53,8 @@
     "n8n-workflow": "^1.30.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3",
-    "@types/node": "^20.11.24"
+    "@types/node": "^20.11.24",
+    "rimraf": "^5.0.5"
   },
   "peerDependencies": {
     "n8n-workflow": "^1.30.0"
