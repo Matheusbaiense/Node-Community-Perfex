@@ -6,7 +6,7 @@ import { INodeProperties, NodePropertyTypes } from 'n8n-workflow';
  * Contact operations for Perfex CRM
  * @description Available operations for managing contacts in Perfex CRM
  */
-const contactOperations: INodeProperties[] = [
+export const contactOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -57,7 +57,7 @@ const contactOperations: INodeProperties[] = [
  * Contact fields for Perfex CRM
  * @description Field definitions for contact operations in Perfex CRM
  */
-const contactFields: INodeProperties[] = [
+export const contactFields: INodeProperties[] = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
@@ -211,6 +211,4 @@ const contactFields: INodeProperties[] = [
         description: 'Whether the contact is active',
     },
 ];
-
-module.exports = { contactOperations, contactFields };
 

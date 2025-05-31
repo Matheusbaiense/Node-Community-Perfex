@@ -1,7 +1,8 @@
 "use strict";
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/LeadDescription.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-const leadOperations = [
+exports.leadFields = exports.leadOperations = void 0;
+exports.leadOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -51,7 +52,7 @@ const leadOperations = [
  * Lead fields for Perfex CRM
  * @description Field definitions for lead operations in Perfex CRM
  */
-const leadFields = [
+exports.leadFields = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
@@ -176,5 +177,4 @@ const leadFields = [
         description: 'Max number of results to return',
     },
 ];
-module.exports = { leadOperations, leadFields };
 //# sourceMappingURL=LeadDescription.js.map

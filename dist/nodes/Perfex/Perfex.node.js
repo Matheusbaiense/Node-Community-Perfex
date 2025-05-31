@@ -1,9 +1,9 @@
-// /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const { IExecuteFunctions } = require('n8n-core');
-const { INodeExecutionData, INodeType, INodeTypeDescription, NodePropertyTypes, IDataObject, } = require('n8n-workflow');
-const { leadOperations, leadFields } = require('./LeadDescription');
-const { customerOperations, customerFields } = require('./CustomerDescription');
-const { contactOperations, contactFields } = require('./ContactDescription');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Perfex = void 0;
+const LeadDescription_1 = require("./LeadDescription");
+const CustomerDescription_1 = require("./CustomerDescription");
+const ContactDescription_1 = require("./ContactDescription");
 class Perfex {
     constructor() {
         this.description = {
@@ -54,12 +54,12 @@ class Perfex {
                     ],
                     default: 'lead',
                 },
-                ...leadOperations,
-                ...leadFields,
-                ...customerOperations,
-                ...customerFields,
-                ...contactOperations,
-                ...contactFields,
+                ...LeadDescription_1.leadOperations,
+                ...LeadDescription_1.leadFields,
+                ...CustomerDescription_1.customerOperations,
+                ...CustomerDescription_1.customerFields,
+                ...ContactDescription_1.contactOperations,
+                ...ContactDescription_1.contactFields,
             ],
         };
     }
@@ -269,5 +269,5 @@ class Perfex {
         return [returnData];
     }
 }
-module.exports = { Perfex };
+exports.Perfex = Perfex;
 //# sourceMappingURL=Perfex.node.js.map

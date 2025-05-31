@@ -1,2 +1,3 @@
-declare const PerfexModule: any;
-declare const PerfexApiModule: any;
+import { Perfex } from './nodes/Perfex/Perfex.node';
+import { PerfexApi } from './credentials/PerfexApi.credentials';
+export { Perfex, PerfexApi, };

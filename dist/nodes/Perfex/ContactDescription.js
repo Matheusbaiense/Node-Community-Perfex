@@ -1,11 +1,12 @@
 "use strict";
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/ContactDescription.ts
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.contactFields = exports.contactOperations = void 0;
 /**
  * Contact operations for Perfex CRM
  * @description Available operations for managing contacts in Perfex CRM
  */
-const contactOperations = [
+exports.contactOperations = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -55,7 +56,7 @@ const contactOperations = [
  * Contact fields for Perfex CRM
  * @description Field definitions for contact operations in Perfex CRM
  */
-const contactFields = [
+exports.contactFields = [
     {
         displayName: 'Contact ID',
         name: 'contactId',
@@ -209,5 +210,4 @@ const contactFields = [
         description: 'Whether the contact is active',
     },
 ];
-module.exports = { contactOperations, contactFields };
 //# sourceMappingURL=ContactDescription.js.map

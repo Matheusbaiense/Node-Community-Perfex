@@ -1,6 +1,8 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/CustomerDescription.ts
 
-export const customerOperations = [
+import { INodeProperties, NodePropertyTypes } from 'n8n-workflow';
+
+export const customerOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -51,7 +53,7 @@ export const customerOperations = [
  * Customer fields for Perfex CRM
  * @description Field definitions for customer operations in Perfex CRM
  */
-export const customerFields = [
+export const customerFields: INodeProperties[] = [
     /* -------------------------------------------------------------------------- */
     /*                                customer:list                               */
     /* -------------------------------------------------------------------------- */

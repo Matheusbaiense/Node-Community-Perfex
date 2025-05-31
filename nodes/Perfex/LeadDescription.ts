@@ -2,7 +2,7 @@
 
 import { INodeProperties, NodePropertyTypes } from 'n8n-workflow';
 
-const leadOperations: INodeProperties[] = [
+export const leadOperations: INodeProperties[] = [
     {
         displayName: 'Operation',
         name: 'operation',
@@ -53,7 +53,7 @@ const leadOperations: INodeProperties[] = [
  * Lead fields for Perfex CRM
  * @description Field definitions for lead operations in Perfex CRM
  */
-const leadFields: INodeProperties[] = [
+export const leadFields: INodeProperties[] = [
     {
         displayName: 'Lead ID',
         name: 'leadId',
@@ -178,7 +178,5 @@ const leadFields: INodeProperties[] = [
         description: 'Max number of results to return',
     },
 ];
-
-module.exports = { leadOperations, leadFields };
 
 

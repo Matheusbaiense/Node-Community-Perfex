@@ -1,18 +1,18 @@
 // /home/ubuntu/n8n-nodes-perfex/nodes/Perfex/Perfex.node.ts
-const { IExecuteFunctions } = require('n8n-core');
-const {
+import { IExecuteFunctions } from 'n8n-workflow';
+import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
 	NodePropertyTypes,
 	IDataObject,
-} = require('n8n-workflow');
-const { leadOperations, leadFields } = require('./LeadDescription');
-const { customerOperations, customerFields } = require('./CustomerDescription');
-const { contactOperations, contactFields } = require('./ContactDescription');
+} from 'n8n-workflow';
+import { leadOperations, leadFields } from './LeadDescription';
+import { customerOperations, customerFields } from './CustomerDescription';
+import { contactOperations, contactFields } from './ContactDescription';
 
-class Perfex {
-	description = {
+export class Perfex implements INodeType {
+	description: INodeTypeDescription = {
 		displayName: 'Perfex',
 		name: 'perfex',
 		icon: 'file:perfex.svg',
@@ -69,9 +69,9 @@ class Perfex {
 		],
 	};
 
-	async execute(this: any) {
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
-		const returnData = [];
+		const returnData: INodeExecutionData[] = [];
 		const resource = this.getNodeParameter('resource', 0);
 		const operation = this.getNodeParameter('operation', 0);
 		let responseData;
@@ -83,9 +83,9 @@ class Perfex {
 						const company = this.getNodeParameter('company', i);
 						const name = this.getNodeParameter('name', i);
 						const email = this.getNodeParameter('email', i);
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							company,
 							name,
 							email,
@@ -114,7 +114,7 @@ class Perfex {
 					} else if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i);
 						const limit = this.getNodeParameter('limit', i);
-						const qs = {};
+						const qs: IDataObject = {};
 
 						if (returnAll === false) {
 							Object.assign(qs, { limit });
@@ -127,9 +127,9 @@ class Perfex {
 						});
 					} else if (operation === 'update') {
 						const leadId = this.getNodeParameter('leadId', i);
-						const updateFields = this.getNodeParameter('updateFields', i);
+						const updateFields = this.getNodeParameter('updateFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							...updateFields,
 						};
 
@@ -143,9 +143,9 @@ class Perfex {
 					if (operation === 'create') {
 						const company = this.getNodeParameter('company', i);
 						const vat = this.getNodeParameter('vat', i);
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							company,
 							vat,
 							...additionalFields,
@@ -173,7 +173,7 @@ class Perfex {
 					} else if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i);
 						const limit = this.getNodeParameter('limit', i);
-						const qs = {};
+						const qs: IDataObject = {};
 
 						if (returnAll === false) {
 							Object.assign(qs, { limit });
@@ -186,9 +186,9 @@ class Perfex {
 						});
 					} else if (operation === 'update') {
 						const customerId = this.getNodeParameter('customerId', i);
-						const updateFields = this.getNodeParameter('updateFields', i);
+						const updateFields = this.getNodeParameter('updateFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							...updateFields,
 						};
 
@@ -203,9 +203,9 @@ class Perfex {
 						const firstname = this.getNodeParameter('firstname', i);
 						const lastname = this.getNodeParameter('lastname', i);
 						const email = this.getNodeParameter('email', i);
-						const additionalFields = this.getNodeParameter('additionalFields', i);
+						const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							firstname,
 							lastname,
 							email,
@@ -234,7 +234,7 @@ class Perfex {
 					} else if (operation === 'getAll') {
 						const returnAll = this.getNodeParameter('returnAll', i);
 						const limit = this.getNodeParameter('limit', i);
-						const qs = {};
+						const qs: IDataObject = {};
 
 						if (returnAll === false) {
 							Object.assign(qs, { limit });
@@ -247,9 +247,9 @@ class Perfex {
 						});
 					} else if (operation === 'update') {
 						const contactId = this.getNodeParameter('contactId', i);
-						const updateFields = this.getNodeParameter('updateFields', i);
+						const updateFields = this.getNodeParameter('updateFields', i) as IDataObject;
 
-						const body = {
+						const body: IDataObject = {
 							...updateFields,
 						};
 
@@ -284,5 +284,3 @@ class Perfex {
 		return [returnData];
 	}
 }
-
-module.exports = { Perfex };
