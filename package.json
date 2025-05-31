@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-perfex-api",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "description": "n8n community node for Perfex CRM",
   "keywords": [
     "n8n-community-node-package",
@@ -9,14 +9,14 @@
     "crm"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/baien/n8n-nodes-perfex",
+  "homepage": "https://github.com/Matheusbaiense/Node-Community-Perfex",
   "author": {
-    "name": "Your Name",
-    "email": "your@email.com"
+    "name": "Matheus Baiense",
+    "email": "matheusbaiense@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baien/n8n-nodes-perfex.git"
+    "url": "git+https://github.com/Matheusbaiense/Node-Community-Perfex.git"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,13 +48,13 @@
     "@typescript-eslint/parser": "5.62.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.0",
     "gulp": "^5.0.0",
-    "n8n-core": "^1.30.0",
+    "n8n-core": "^1.94.0",
     "n8n-workflow": "1.82.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "n8n-workflow": "^1.30.0"
+    "n8n-workflow": "^1.82.0"
   },
   "engines": {
     "node": ">=16.0.0"
