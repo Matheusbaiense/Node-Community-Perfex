@@ -269,7 +269,5 @@ class Perfex {
         return [returnData];
     }
 }
-module.exports = {
-    perfexNode: new Perfex()
-};
+module.exports = { Perfex };
 //# sourceMappingURL=Perfex.node.js.map
